@@ -37,37 +37,40 @@
 
     /* === Home Screen === */
     #home-screen { background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%); }
-    
     .mode-switch-container { display: flex; justify-content: center; padding: 10px 0; gap: 20px; }
     .mode-btn { font-size: 12px; color: #666; border-bottom: 2px solid transparent; padding-bottom: 5px; cursor: pointer; transition: 0.3s; letter-spacing: 0.1em; }
     .mode-btn.active { color: #d4af37; border-bottom: 2px solid #d4af37; font-weight: bold; }
 
-    .search-area-wrapper { padding: 0 20px 10px; display: flex; gap: 10px; }
+    .search-area-wrapper { padding: 0 20px 10px; display: flex; gap: 10px; align-items: center; }
     .search-input { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #fff; font-size: 14px; outline: none; }
-    .filter-btn { width: 40px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #d4af37; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .filter-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #d4af37; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .filter-btn.active { background: #d4af37; color: #000; }
+    
+    /* Sort Button */
+    .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
     .section-title { color: #888; font-size: 12px; margin: 25px 20px 10px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
     
-    /* Lists */
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
-    
     .person-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .person-card:active { transform: scale(0.96); border-color: #d4af37; }
     .person-card.pressing { transform: scale(0.95); border-color: #ff4444; }
-    
-    .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
-    .thumb-placeholder { color: #333; font-size: 10px; }
-    
     .info-area { padding: 10px; }
     .name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
     .count { color: #d4af37; font-size: 11px; }
 
-    /* Work Card */
     .work-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .work-card:active { transform: scale(0.96); border-color: #d4af37; }
     .work-card-title { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; height: 2.8em; }
+    
+    /* Hall of Fame Styling */
+    .hof-card { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
+    .hof-badge { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
+    
+    .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
+    .rating-stars-sm .on { color: #d4af37; }
 
     /* === Analysis Screen === */
     #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
@@ -91,7 +94,15 @@
     .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
     .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
 
-    /* The QUEEN */
+    /* Pie Chart Area */
+    .pie-chart-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; height: 160px; }
+    .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#d4af37 0% 0%); position: relative; }
+    .pie-hole { position: absolute; width: 80px; height: 80px; background: #050505; border-radius: 50%; top: 35px; left: 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+    .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 10px; color: #ccc; margin-bottom: 30px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-color { width: 8px; height: 8px; border-radius: 2px; }
+
+    /* Queen */
     .champion-area { margin-bottom: 30px; display: none; }
     .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
     .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; position: relative; z-index: 2; }
@@ -133,14 +144,15 @@
     .person-profile-text { font-size: 12px; color: #ccc; line-height: 1.5; margin-bottom: 10px; }
     .person-tags-area { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
     .back-btn { position: absolute; top: 50px; left: 20px; z-index: 2600; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d4af37; font-size: 24px; cursor: pointer; border: 1px solid rgba(212,175,55,0.3); }
-    .detail-sticky-bar { flex-shrink: 0; background: #000; padding: 15px 20px; border-bottom: 1px solid #222; z-index: 10; }
+    .detail-sticky-bar { flex-shrink: 0; background: #000; padding: 15px 20px; border-bottom: 1px solid #222; display:flex; justify-content:space-between; align-items:center; z-index: 10; }
     .detail-scroll-area { flex-grow: 1; overflow-y: auto; padding: 20px; padding-bottom: 120px; -webkit-overflow-scrolling: touch; }
     
-    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; position: relative; }
     .work-item.pressing { background: rgba(100, 30, 30, 0.6); }
+    .work-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
     .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; }
     .work-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
-    .work-info h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .work-info h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
     .work-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 5px; }
     .tag { font-size: 10px; background: #333; color: #aaa; padding: 2px 6px; border-radius: 4px; }
     .work-count { font-size: 11px; color: #888; font-family: monospace; display: flex; align-items: center; gap: 4px; }
@@ -191,18 +203,29 @@
     .btn-save { background: #d4af37; color: #000; font-weight: bold; }
     .btn-danger { background: #800; color: #fff; font-size:10px; margin-top:20px; }
 
-    /* Tag Filter Chips */
     .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; justify-content: center; }
     .filter-chip { padding: 6px 12px; border-radius: 20px; border: 1px solid #555; font-size: 12px; color: #aaa; cursor: pointer; transition: 0.2s; }
     .filter-chip.selected { background: #d4af37; color: #000; border-color: #d4af37; }
     .filter-options { text-align: left; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
     .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 12px; color: #ccc; cursor: pointer; }
     .checkbox-label input { width: auto; margin: 0 8px 0 0; }
-
-    /* Tag Suggestions */
     .tag-suggestions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: -10px; margin-bottom: 15px; }
     .tag-s-chip { font-size: 10px; background: #333; border: 1px solid #555; padding: 3px 8px; border-radius: 10px; color: #ccc; cursor: pointer; transition:0.2s;}
     .tag-s-chip:active { background: #d4af37; color: #000; }
+
+    /* New Rating/HOF Styles */
+    .star-rating { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; font-size: 24px; color: #444; cursor: pointer; }
+    .star-rating span.on { color: #d4af37; }
+    .hof-toggle { text-align: center; margin-bottom: 15px; }
+    .hof-label { font-size: 12px; color: #ccc; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+    .crown-icon { font-size: 14px; }
+    .crown-icon.gold { color: #d4af37; }
+
+    .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; overflow: hidden; }
+    .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; cursor: pointer; }
+    .sort-item:last-child { border-bottom: none; }
+    .sort-item:active { background: #444; }
+    .sort-item.active { color: #d4af37; }
 
 </style>
 </head>
@@ -245,7 +268,6 @@
 </header>
 
 <div id="home-screen" class="tab-content">
-    
     <div class="mode-switch-container">
         <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE MODE</div>
         <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY MODE</div>
@@ -254,8 +276,15 @@
     <div class="search-area-wrapper">
         <input type="search" class="search-input" id="search-input" placeholder="Search..." oninput="filterHomeList()">
         <div class="filter-btn" id="filter-btn" onclick="openTagFilterModal()">🏷️</div>
+        <div class="sort-btn" id="sort-btn" onclick="toggleSortMenu('home')" style="margin-left:10px;">⇅</div>
     </div>
     
+    <div class="sort-menu" id="sort-menu-home">
+        <div class="sort-item" onclick="applySort('count', 'home')">Select Count</div>
+        <div class="sort-item" onclick="applySort('rating', 'home')">Rating (Quality)</div>
+        <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
+    </div>
+
     <div class="section-title" id="home-list-title">登録済みのミューズ (長押しで編集)</div>
     
     <div class="card-list" id="person-list"></div>
@@ -277,6 +306,14 @@
             <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
         </div>
         <div class="cal-grid" id="calendar-grid"></div>
+    </div>
+
+    <div class="section-title">QUALITY ANALYSIS</div>
+    <div style="display:flex; justify-content:space-around; margin-bottom:30px;">
+        <div style="text-align:center;">
+            <div style="font-size:10px; color:#aaa; margin-bottom:10px;">HIGH RATED TAGS (★4+)</div>
+            <div class="pie-chart-container" id="pie-rated"></div>
+        </div>
     </div>
 
     <div class="section-title">MUSE TYPES (Actress Tags)</div>
@@ -321,7 +358,15 @@
     </div>
     <div class="detail-sticky-bar">
         <div class="section-title" style="margin:0;">COLLECTION (長押しで編集)</div>
+        <div class="sort-btn" onclick="toggleSortMenu('detail')" style="width:30px; height:30px; border:none;">⇅</div>
     </div>
+    
+    <div class="sort-menu" id="sort-menu-detail" style="top:55vh;">
+        <div class="sort-item" onclick="applySort('count', 'detail')">Select Count</div>
+        <div class="sort-item" onclick="applySort('rating', 'detail')">Rating (Quality)</div>
+        <div class="sort-item" onclick="applySort('newest', 'detail')">Newest</div>
+    </div>
+
     <div class="detail-scroll-area">
         <div id="work-list"></div>
     </div>
@@ -337,6 +382,7 @@
     <div class="wd-info">
         <div class="wd-title" id="wd-title">Title</div>
         <div class="wd-meta" id="wd-meta">...</div>
+        <div id="wd-rating-display" style="margin-bottom:15px; color:#d4af37; font-size:14px;"></div>
         <div class="wd-tags" id="wd-tags"></div>
         <div class="wd-actions">
             <div class="wd-btn wd-link" id="wd-link-btn" onclick="">🔗 LINK</div>
@@ -350,9 +396,7 @@
         <div class="modal-title">FILTER BY TAGS</div>
         <div class="tag-chips" id="filter-tag-container"></div>
         <div class="filter-options">
-            <label class="checkbox-label">
-                <input type="checkbox" id="tag-exact-match"> All tags must match (完全一致)
-            </label>
+            <label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> All tags must match (完全一致)</label>
         </div>
         <div class="btn-group" style="margin-top:20px;">
             <button class="btn btn-cancel" style="background:#555;" onclick="clearTagFilter()">Clear All</button>
@@ -368,16 +412,15 @@
         <input type="hidden" id="edit-person-id">
         <input type="text" id="new-person-name" placeholder="名前を入力">
         <div style="display:flex; gap:10px;">
-            <input type="text" id="new-person-cup" placeholder="カップ数 (例: G)" style="flex:1;">
+            <input type="text" id="new-person-cup" placeholder="カップ数" style="flex:1;">
             <div style="flex:2;">
                 <div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div>
                 <input type="date" id="new-person-birthday">
             </div>
         </div>
         <textarea id="new-person-profile" placeholder="プロフィール・メモ"></textarea>
-        <input type="text" id="new-person-tags" placeholder="タグ (スペース区切り: ギャル 人妻)">
+        <input type="text" id="new-person-tags" placeholder="タグ (スペース区切り)">
         <div class="tag-suggestions" id="person-tag-suggestions"></div>
-
         <label class="file-select-btn" for="new-person-image" style="margin-top:5px;">画像を選択</label>
         <input type="file" id="new-person-image" accept="image/*" onchange="previewImage(this, 'preview-img')">
         <div class="preview-container" id="preview-box" onclick="setFocus(event, 'person')">
@@ -386,7 +429,6 @@
             <div style="color:#666; font-size:12px;">No Image Selected</div>
         </div>
         <div class="preview-instruction" id="preview-msg">画像をタップして顔の中心を指定</div>
-        
         <div class="btn-group">
             <button class="btn btn-cancel" onclick="closeModal('add-person-modal')">キャンセル</button>
             <button class="btn btn-save" onclick="savePerson()">保存</button>
@@ -404,9 +446,17 @@
             <input type="url" id="new-work-url" placeholder="URL (http://...)">
             <button class="mini-btn" onclick="pasteUrl()">PASTE</button>
         </div>
-        <input type="text" id="new-work-tags" placeholder="タグ (スペース区切り: 学生 主観)">
-        <div class="tag-suggestions" id="work-tag-suggestions"></div>
         
+        <div class="star-rating" id="work-rating-input">
+            <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
+        </div>
+        <div class="hof-toggle" onclick="toggleHOFInput()">
+            <div class="hof-label"><span class="crown-icon" id="hof-icon-input">👑</span> Hall of Fame (殿堂入り)</div>
+            <input type="checkbox" id="new-work-hof" style="display:none;">
+        </div>
+
+        <input type="text" id="new-work-tags" placeholder="タグ (スペース区切り)">
+        <div class="tag-suggestions" id="work-tag-suggestions"></div>
         <label class="file-select-btn" for="new-work-image" style="width:100%; box-sizing:border-box; margin-top:5px;">サムネイル画像を選択</label>
         <input type="file" id="new-work-image" accept="image/*" onchange="previewImage(this, 'work-preview-img')">
         <div class="preview-container" style="height:120px; margin-bottom:20px;" onclick="setFocus(event, 'work')">
@@ -414,7 +464,6 @@
             <div id="work-focus-point" class="focus-point"></div>
             <div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div>
         </div>
-
         <div class="btn-group">
             <button class="btn btn-cancel" onclick="closeModal('add-work-modal')">キャンセル</button>
             <button class="btn btn-save" onclick="saveWork()">保存</button>
@@ -447,15 +496,14 @@
     const homeScreen = document.getElementById('home-screen');
     const analysisScreen = document.getElementById('analysis-screen');
 
+    let currentRating = 0; // For input
+    let sortMode = { home: 'count', detail: 'count' }; // 'count', 'rating', 'newest'
+
     // === Panic Button ===
     let lastTap = 0;
     document.getElementById('panic-button').addEventListener('click', function(e) {
         const currentTime = new Date().getTime();
-        const tapLength = currentTime - lastTap;
-        if (tapLength < 300 && tapLength > 0) {
-            location.reload();
-            e.preventDefault();
-        }
+        if (currentTime - lastTap < 300 && currentTime - lastTap > 0) { location.reload(); e.preventDefault(); }
         lastTap = currentTime;
     });
 
@@ -463,67 +511,78 @@
     function updateDisplay() { display.innerText = currentInput; }
     function inputNum(num) { if (currentInput === '0') currentInput = num; else currentInput += num; updateDisplay(); }
     function clearCalc() { currentInput = '0'; updateDisplay(); }
-    function calculate() {
-        if (currentInput === SECRET_CODE) unlockApp();
-        else { currentInput = '0'; updateDisplay(); }
-    }
+    function calculate() { if (currentInput === SECRET_CODE) unlockApp(); else { currentInput = '0'; updateDisplay(); } }
     function unlockApp() {
         calcScreen.style.transform = 'scale(1.2)'; calcScreen.style.opacity = '0';
         setTimeout(() => {
             calcScreen.style.display = 'none';
-            appHeader.style.display = 'flex';
-            bottomNav.style.display = 'flex';
-            homeScreen.style.display = 'flex';
+            appHeader.style.display = 'flex'; bottomNav.style.display = 'flex'; homeScreen.style.display = 'flex';
             setTimeout(() => { appHeader.style.opacity = '1'; homeScreen.style.opacity = '1'; }, 50);
         }, 800);
     }
 
     // === Navigation ===
     function switchTab(tabName) {
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(n => n.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         if (tabName === 'home') {
-            homeScreen.style.display = 'flex';
-            analysisScreen.style.display = 'none';
-            navItems[0].classList.add('active');
+            homeScreen.style.display = 'flex'; analysisScreen.style.display = 'none';
+            document.querySelectorAll('.nav-item')[0].classList.add('active');
             loadHomeData(); 
         } else {
-            homeScreen.style.display = 'none';
-            analysisScreen.style.display = 'block';
-            navItems[1].classList.add('active');
+            homeScreen.style.display = 'none'; analysisScreen.style.display = 'block';
+            document.querySelectorAll('.nav-item')[1].classList.add('active');
             renderAnalysis(); 
         }
     }
 
-    // === DB Setup ===
+    // === DB Setup (Ver 7) ===
     let db;
-    let currentFocus = { x: 50, y: 50 };
-    let workCurrentFocus = { x: 50, y: 50 };
+    let currentFocus = { x: 50, y: 50 }; let workCurrentFocus = { x: 50, y: 50 };
     let currentPersonId = null;
-    let allPeopleCache = []; 
-    let allWorksCache = [];
-    let selectedTags = new Set(); 
+    let allPeopleCache = []; let allWorksCache = []; let selectedTags = new Set(); 
     let homeMode = 'people';
 
     window.onload = function() {
-        const request = indexedDB.open("SecretMuseumDB", 6);
+        const request = indexedDB.open("SecretMuseumDB", 7);
         request.onupgradeneeded = function(event) {
             db = event.target.result;
             if (!db.objectStoreNames.contains("people")) db.createObjectStore("people", { keyPath: "id", autoIncrement: true });
             if (!db.objectStoreNames.contains("works")) {
-                const workStore = db.createObjectStore("works", { keyPath: "id", autoIncrement: true });
-                workStore.createIndex("personId", "personId", { unique: false });
+                const ws = db.createObjectStore("works", { keyPath: "id", autoIncrement: true });
+                ws.createIndex("personId", "personId", { unique: false });
             }
             if (!db.objectStoreNames.contains("logs")) {
-                const logStore = db.createObjectStore("logs", { keyPath: "id", autoIncrement: true });
-                logStore.createIndex("timestamp", "timestamp", { unique: false });
+                const ls = db.createObjectStore("logs", { keyPath: "id", autoIncrement: true });
+                ls.createIndex("timestamp", "timestamp", { unique: false });
             }
         };
-        request.onsuccess = function(event) {
-            db = event.target.result;
-            loadHomeData();
-        };
+        request.onsuccess = function(event) { db = event.target.result; loadHomeData(); };
     };
+
+    // === Sorting Logic ===
+    function toggleSortMenu(type) {
+        const menu = document.getElementById(`sort-menu-${type}`);
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+    function applySort(mode, context) {
+        sortMode[context] = mode;
+        document.getElementById(`sort-menu-${context}`).style.display = 'none';
+        if(context === 'home') filterHomeList();
+        else if(context === 'detail') {
+            // Re-fetch works for detail
+            const tx = db.transaction(["works"], "readonly");
+            tx.objectStore("works").index("personId").getAll(currentPersonId).onsuccess = (e) => {
+                let works = e.target.result;
+                sortWorks(works, mode);
+                renderWorkList(works);
+            };
+        }
+    }
+    function sortWorks(works, mode) {
+        if(mode === 'count') works.sort((a,b) => (b.count||0) - (a.count||0));
+        else if(mode === 'rating') works.sort((a,b) => ((b.hallOfFame?6:b.rating)||0) - ((a.hallOfFame?6:a.rating)||0));
+        else if(mode === 'newest') works.sort((a,b) => b.id - a.id);
+    }
 
     // === Home Logic ===
     function setHomeMode(mode) {
@@ -533,11 +592,10 @@
         document.getElementById('search-input').value = "";
         selectedTags.clear();
         document.getElementById('filter-btn').classList.remove('active');
-        const title = document.getElementById('home-list-title');
-        title.innerText = mode === 'people' ? "登録済みのミューズ (長押しで編集)" : "すべての作品 (タップで詳細)";
+        document.getElementById('home-list-title').innerText = mode === 'people' ? "登録済みのミューズ (長押しで編集)" : "すべての作品 (タップで詳細)";
+        document.getElementById('sort-btn').style.display = mode === 'people' ? 'none' : 'flex';
         filterHomeList();
     }
-
     function handleFabClick() { openAddPersonModal(); }
 
     function loadHomeData() {
@@ -548,7 +606,6 @@
             const wStore = db.transaction(["works"], "readonly").objectStore("works");
             wStore.getAll().onsuccess = function(ev) {
                 allWorksCache = ev.target.result;
-                allWorksCache.sort((a, b) => (b.count || 0) - (a.count || 0));
                 filterHomeList(); 
             };
         };
@@ -566,9 +623,12 @@
             let filtered = allPeopleCache.filter(p => p.name.toLowerCase().includes(query));
             if (selectedTags.size > 0) {
                 filtered = filtered.filter(p => {
-                    const pTags = p.tags || [];
-                    if(isExact) return Array.from(selectedTags).every(t => pTags.includes(t));
-                    else return pTags.some(t => selectedTags.has(t));
+                    const pWorks = allWorksCache.filter(w => w.personId === p.id);
+                    return pWorks.some(w => {
+                        const wTags = w.tags || [];
+                        if(isExact) return Array.from(selectedTags).every(t => wTags.includes(t));
+                        else return wTags.some(t => selectedTags.has(t));
+                    });
                 });
             }
             renderPeopleList(filtered);
@@ -583,6 +643,7 @@
                     else return wTags.some(t => selectedTags.has(t));
                 });
             }
+            sortWorks(filtered, sortMode.home); // Apply Sort
             renderWorkListForHome(filtered);
         }
     }
@@ -598,17 +659,10 @@
             if (p.image) imgHtml = `<img src="${p.image}" style="object-position: ${p.focusX||50}% ${p.focusY||50}%">`;
             card.innerHTML = `<div class="thumb-area">${imgHtml}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count || 0} SELECTIONS</div></div>`;
             
-            let pressTimer = null;
-            let isLongPress = false;
+            let pressTimer = null; let isLongPress = false;
             card.addEventListener('touchstart', (e) => {
                 isLongPress = false;
-                pressTimer = setTimeout(() => {
-                    isLongPress = true;
-                    card.classList.add('pressing');
-                    if(navigator.vibrate) navigator.vibrate(50);
-                    setTimeout(() => card.classList.remove('pressing'), 200);
-                    openEditPersonModal(p);
-                }, 600);
+                pressTimer = setTimeout(() => { isLongPress = true; card.classList.add('pressing'); if(navigator.vibrate) navigator.vibrate(50); setTimeout(() => card.classList.remove('pressing'), 200); openEditPersonModal(p); }, 600);
             });
             card.addEventListener('touchend', () => { if(pressTimer) clearTimeout(pressTimer); });
             card.addEventListener('touchmove', () => { if(pressTimer) clearTimeout(pressTimer); isLongPress = true; });
@@ -617,7 +671,6 @@
         });
     }
 
-    // Grid Layout for Work List in Home
     function renderWorkListForHome(works) {
         const container = document.getElementById('work-list-home');
         container.innerHTML = "";
@@ -625,78 +678,41 @@
         works.forEach(w => {
             const div = document.createElement('div');
             div.className = 'work-card';
+            if(w.hallOfFame) div.classList.add('hof');
             let thumbHtml = '<div class="thumb-placeholder">NO IMAGE</div>';
+            let crown = w.hallOfFame ? '<div style="position:absolute; top:5px; right:5px; font-size:16px;">👑</div>' : '';
             if(w.image) thumbHtml = `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">`;
-            div.innerHTML = `<div class="thumb-area">${thumbHtml}</div><div class="info-area"><div class="work-card-title">${w.title}</div><div class="count">${w.count || 0} SELECTIONS</div></div>`;
+            
+            let stars = "";
+            if(w.rating > 0) {
+                stars = '<div class="rating-stars-sm">';
+                for(let i=0; i<w.rating; i++) stars += '<span class="on">★</span>';
+                stars += '</div>';
+            }
+
+            div.innerHTML = `<div class="thumb-area">${thumbHtml}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count || 0} SELECTIONS</div></div>`;
             div.onclick = () => openWorkDetail(w);
             container.appendChild(div);
         });
     }
 
-    // --- Tag Logic ---
-    function loadTagSuggestions(type) {
-        const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions');
-        container.innerHTML = "";
-        const tags = new Set();
-        if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
-        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
-        const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
-        Array.from(tags).sort().forEach(tag => {
-            const chip = document.createElement('div');
-            chip.className = 'tag-s-chip';
-            chip.innerText = tag;
-            chip.onclick = () => {
-                const input = document.getElementById(inputId);
-                let val = input.value.trim();
-                const current = val.split(/[\s　]+/).filter(t => t);
-                if(!current.includes(tag)) { input.value = val + (val ? " " : "") + tag; }
-            };
-            container.appendChild(chip);
-        });
-    }
-
-    function openTagFilterModal() {
-        const container = document.getElementById('filter-tag-container');
-        container.innerHTML = "";
-        const allTags = new Set();
-        if (homeMode === 'people') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => allTags.add(t)); });
-        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => allTags.add(t)); });
-        if(allTags.size === 0) { container.innerHTML = "<div style='font-size:12px; color:#666;'>タグが登録されていません</div>"; } 
-        else {
-            Array.from(allTags).sort().forEach(tag => {
-                const chip = document.createElement('div');
-                chip.className = 'filter-chip' + (selectedTags.has(tag) ? ' selected' : '');
-                chip.innerText = tag;
-                chip.onclick = () => {
-                    if(selectedTags.has(tag)) { selectedTags.delete(tag); chip.classList.remove('selected'); }
-                    else { selectedTags.add(tag); chip.classList.add('selected'); }
-                };
-                container.appendChild(chip);
-            });
-        }
-        document.getElementById('tag-filter-modal').style.display = 'flex';
-    }
-    function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
-    function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); } 
-    function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
-
-    // === Analysis Logic (Weighted) ===
+    // === Analysis Logic (Updated for Pie Chart) ===
     function renderAnalysis() {
         const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth(); 
-        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        document.getElementById('cal-month-label').innerText = `${monthNames[month]} ${year}`;
+        const year = now.getFullYear(); const month = now.getMonth(); 
+        document.getElementById('cal-month-label').innerText = `${year}/${month+1}`;
         const tx = db.transaction(["logs", "people", "works"], "readonly");
         let logs=[], people=[], works=[];
-        const q1 = new Promise(r => tx.objectStore("logs").getAll().onsuccess = e => r(e.target.result));
-        const q2 = new Promise(r => tx.objectStore("people").getAll().onsuccess = e => r(e.target.result));
-        const q3 = new Promise(r => tx.objectStore("works").getAll().onsuccess = e => r(e.target.result));
-        Promise.all([q1, q2, q3]).then(res => {
+        Promise.all([
+            new Promise(r => tx.objectStore("logs").getAll().onsuccess = e => r(e.target.result)),
+            new Promise(r => tx.objectStore("people").getAll().onsuccess = e => r(e.target.result)),
+            new Promise(r => tx.objectStore("works").getAll().onsuccess = e => r(e.target.result))
+        ]).then(res => {
             logs = res[0]; people = res[1]; works = res[2];
             let total = 0; people.forEach(p => total += (p.count||0));
             document.getElementById('total-usage-display').innerHTML = total + '<span class="stats-unit">回</span>';
             renderCalendar(year, month, logs);
+            renderPieChart(works); // New
             renderPersonTagRanking(people); 
             renderTagRanking(works);
             renderChampion(logs, people);
@@ -706,14 +722,52 @@
         });
     }
 
-    function renderPersonTagRanking(people) {
-        const tagMap = {};
-        people.forEach(p => {
-            const weight = p.count || 0; 
-            if(weight > 0 && p.tags && p.tags.length > 0) {
-                p.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + weight; });
+    function renderPieChart(works) {
+        // High Rated Tags (>=4 stars or HOF)
+        const tagCounts = {};
+        let totalTags = 0;
+        works.forEach(w => {
+            if((w.rating >= 4 || w.hallOfFame) && w.tags) {
+                w.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; totalTags++; });
             }
         });
+        const container = document.getElementById('pie-rated');
+        container.innerHTML = "";
+        
+        if(totalTags === 0) { container.innerHTML = "<div style='font-size:12px; color:#555;'>No Data</div>"; return; }
+
+        const sorted = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+        // Calculate gradients
+        let gradientStr = "";
+        let currentDeg = 0;
+        const colors = ['#d4af37', '#b89630', '#8a7024', '#5e4d1a', '#333'];
+        let legendHtml = '<div class="pie-legend">';
+        
+        sorted.forEach((item, idx) => {
+            const deg = (item[1] / totalTags) * 360;
+            const color = colors[idx] || '#333';
+            gradientStr += `${color} ${currentDeg}deg ${currentDeg + deg}deg, `;
+            currentDeg += deg;
+            legendHtml += `<div class="legend-item"><div class="legend-color" style="background:${color}"></div>${item[0]}</div>`;
+        });
+        // Fill rest
+        if(currentDeg < 360) gradientStr += `#111 ${currentDeg}deg 360deg`;
+        else gradientStr = gradientStr.slice(0, -2); 
+
+        const chart = document.createElement('div');
+        chart.className = 'pie-chart';
+        chart.style.background = `conic-gradient(${gradientStr})`;
+        chart.innerHTML = `<div class="pie-hole"><div style="font-size:10px; color:#888;">TOTAL</div><div style="font-size:14px; color:#d4af37;">${totalTags}</div></div>`;
+        
+        container.appendChild(chart);
+        container.insertAdjacentHTML('beforeend', legendHtml + '</div>');
+    }
+
+    // ... (PersonTagRanking, TagRanking, Calendar, Champion, Gobusata, Ranking logic remain similar to v11) ...
+    // Keeping brevity for existing complex logic which is stable. 
+    function renderPersonTagRanking(people) {
+        const tagMap = {};
+        people.forEach(p => { const weight = p.count || 0; if(weight>0 && p.tags) p.tags.forEach(t => tagMap[t] = (tagMap[t]||0)+weight); });
         const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5);
         const container = document.getElementById('person-tag-ranking');
         container.innerHTML = "";
@@ -727,15 +781,9 @@
             container.appendChild(div);
         });
     }
-
     function renderTagRanking(works) {
         const tagMap = {};
-        works.forEach(w => {
-            const weight = w.count || 0; 
-            if(weight > 0 && w.tags && w.tags.length > 0) {
-                w.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + weight; });
-            }
-        });
+        works.forEach(w => { const weight = w.count || 0; if(weight>0 && w.tags) w.tags.forEach(t => tagMap[t] = (tagMap[t]||0)+weight); });
         const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5);
         const container = document.getElementById('tag-ranking');
         container.innerHTML = "";
@@ -749,99 +797,54 @@
             container.appendChild(div);
         });
     }
-
     function renderCalendar(year, month, logs) {
-        const grid = document.getElementById('calendar-grid');
-        grid.innerHTML = "";
+        const grid = document.getElementById('calendar-grid'); grid.innerHTML = "";
         const activeDays = new Set();
-        logs.forEach(log => {
-            const d = new Date(log.timestamp);
-            if (d.getFullYear() === year && d.getMonth() === month) activeDays.add(d.getDate());
-        });
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        logs.forEach(log => { const d = new Date(log.timestamp); if (d.getFullYear() === year && d.getMonth() === month) activeDays.add(d.getDate()); });
+        const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate();
         for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
-        const today = new Date();
-        const isCurrentMonth = (today.getFullYear() === year && today.getMonth() === month);
+        const today = new Date(); const isCurrentMonth = (today.getFullYear() === year && today.getMonth() === month);
         for (let d = 1; d <= daysInMonth; d++) {
-            const cell = document.createElement('div');
-            cell.className = 'cal-day';
-            cell.innerText = d;
+            const cell = document.createElement('div'); cell.className = 'cal-day'; cell.innerText = d;
             if (activeDays.has(d)) cell.classList.add('active');
             if (isCurrentMonth && d === today.getDate()) cell.classList.add('today');
             grid.appendChild(cell);
         }
     }
-
     function renderChampion(logs, people) {
         const area = document.getElementById('champion-area');
-        const now = new Date();
-        const currentMonth = now.getMonth();
-        const currentYear = now.getFullYear();
+        const now = new Date(); const currentMonth = now.getMonth(); const currentYear = now.getFullYear();
         const monthlyCounts = {};
-        logs.forEach(l => {
-            const d = new Date(l.timestamp);
-            if(d.getMonth() === currentMonth && d.getFullYear() === currentYear) {
-                monthlyCounts[l.personId] = (monthlyCounts[l.personId] || 0) + 1;
-            }
-        });
-        let championId = null;
-        let maxCount = 0;
-        for(const [pid, count] of Object.entries(monthlyCounts)) {
-            if(count > maxCount) { maxCount = count; championId = parseInt(pid); }
-        }
+        logs.forEach(l => { const d = new Date(l.timestamp); if(d.getMonth() === currentMonth && d.getFullYear() === currentYear) monthlyCounts[l.personId] = (monthlyCounts[l.personId] || 0) + 1; });
+        let championId = null; let maxCount = 0;
+        for(const [pid, count] of Object.entries(monthlyCounts)) { if(count > maxCount) { maxCount = count; championId = parseInt(pid); } }
         if(championId) {
             const champion = people.find(p => p.id === championId);
             if(champion) {
                 const focusStyle = `object-position: ${champion.focusX||50}% ${champion.focusY||50}%`;
-                area.innerHTML = `
-                    <div class="champion-box" onclick="openDetail(${champion.id})">
-                        <div class="champion-title">QUEEN OF THE MONTH</div>
-                        <div class="champion-img-container">
-                            <div class="champion-bg-flower"></div>
-                            <div class="champion-crown">👑</div>
-                            <img src="${champion.image || ''}" class="champion-img" style="${champion.image?'': 'background:#333'}; ${focusStyle}">
-                        </div>
-                        <div class="champion-name">${champion.name}</div>
-                        <div class="champion-score">${maxCount} Selections</div>
-                    </div>
-                `;
-                area.style.display = 'block';
-                return;
+                area.innerHTML = `<div class="champion-box" onclick="openDetail(${champion.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${champion.image || ''}" class="champion-img" style="${champion.image?'': 'background:#333'}; ${focusStyle}"></div><div class="champion-name">${champion.name}</div><div class="champion-score">${maxCount} Selections</div></div>`;
+                area.style.display = 'block'; return;
             }
         }
         area.style.display = 'none';
     }
-
     function renderGobusata(people) {
-        const list = document.getElementById('gobusata-list');
-        const area = document.getElementById('gobusata-area');
-        list.innerHTML = "";
-        const now = new Date();
-        const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30));
-        const targets = people.filter(p => {
-            if(!p.lastUsed) return true; 
-            return new Date(p.lastUsed) < thirtyDaysAgo;
-        });
+        const list = document.getElementById('gobusata-list'); const area = document.getElementById('gobusata-area'); list.innerHTML = "";
+        const now = new Date(); const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30));
+        const targets = people.filter(p => { if(!p.lastUsed) return true; return new Date(p.lastUsed) < thirtyDaysAgo; });
         if(targets.length === 0) { area.style.display = 'none'; return; }
         area.style.display = 'block';
         targets.forEach(p => {
-            const div = document.createElement('div');
-            div.className = 'gobusata-item';
-            const img = p.image || '';
-            const focusStyle = `object-position: ${p.focusX||50}% ${p.focusY||50}%`;
+            const div = document.createElement('div'); div.className = 'gobusata-item';
+            const img = p.image || ''; const focusStyle = `object-position: ${p.focusX||50}% ${p.focusY||50}%`;
             div.innerHTML = `<img src="${img}" class="gobusata-img" style="${img?'':'background:#333'}; ${focusStyle}"><div class="gobusata-name">${p.name}</div>`;
-            div.onclick = () => openDetail(p.id);
-            list.appendChild(div);
+            div.onclick = () => openDetail(p.id); list.appendChild(div);
         });
     }
-
     function renderRanking(people) {
-        const list = document.getElementById('ranking-list');
-        list.innerHTML = "";
+        const list = document.getElementById('ranking-list'); list.innerHTML = "";
         people.forEach((p, index) => {
-            const row = document.createElement('div');
-            row.className = 'rank-item';
+            const row = document.createElement('div'); row.className = 'rank-item';
             row.innerHTML = `<div class="rank-num">#${index + 1}</div><div class="rank-name">${p.name}</div><div class="rank-count">${p.count}回</div>`;
             list.appendChild(row);
         });
@@ -858,9 +861,7 @@
             document.getElementById('detail-name').innerText = p.name;
             document.getElementById('detail-count').innerText = "Selection: " + (p.count || 0);
             document.getElementById('detail-profile').innerText = p.profile || "";
-            
             const specsDiv = document.getElementById('detail-specs');
-            specsDiv.innerHTML = "";
             let specsHtml = "";
             if(p.cup) specsHtml += `<div class="detail-spec-item">${p.cup} cup</div>`;
             if(p.birthday) {
@@ -868,20 +869,19 @@
                 specsHtml += `<div class="detail-spec-item">${age}歳 (${p.birthday.replace(/-/g, '/')})</div>`;
             }
             specsDiv.innerHTML = specsHtml;
-
-            const tagsDiv = document.getElementById('detail-person-tags');
-            tagsDiv.innerHTML = "";
+            const tagsDiv = document.getElementById('detail-person-tags'); tagsDiv.innerHTML = "";
             if(p.tags) p.tags.forEach(t => tagsDiv.innerHTML += `<span class="tag">${t}</span>`);
-
             const img = document.getElementById('detail-img');
             if (p.image) { img.src = p.image; img.style.objectPosition = `${p.focusX||50}% ${p.focusY||50}%`; } else { img.src = ""; }
         };
         const workStore = tx.objectStore("works");
-        const index = workStore.index("personId");
-        index.getAll(id).onsuccess = function(e) { renderWorkList(e.target.result); };
-        const detailScreen = document.getElementById('detail-screen');
-        detailScreen.style.display = 'flex';
-        detailScreen.classList.add('fade-in');
+        workStore.index("personId").getAll(id).onsuccess = function(e) { 
+            let works = e.target.result;
+            sortWorks(works, sortMode.detail);
+            renderWorkList(works); 
+        };
+        document.getElementById('detail-screen').style.display = 'flex';
+        document.getElementById('detail-screen').classList.add('fade-in');
     }
 
     function getAge(birthdayString) {
@@ -901,25 +901,29 @@
         works.forEach(w => {
             const div = document.createElement('div');
             div.className = 'work-item';
+            if(w.hallOfFame) div.classList.add('hof');
             let tagsHtml = "";
             if(w.tags && w.tags.length > 0) tagsHtml = w.tags.map(t => `<span class="tag">${t}</span>`).join("");
-            const countDisplay = w.count ? `▶ ${w.count}` : "";
             let thumbHtml = "";
             if(w.image) thumbHtml = `<img src="${w.image}" class="work-thumb" style="object-position: ${w.focusX||50}% ${w.focusY||50}%">`;
-            div.innerHTML = `${thumbHtml}<div class="work-info"><h3>${w.title}</h3><div class="work-tags">${tagsHtml}</div><div class="work-count">${countDisplay}</div></div><div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>`;
+            let crown = w.hallOfFame ? '👑' : '';
             
-            let pressTimer = null;
-            let isLongPress = false;
+            div.innerHTML = `
+                ${thumbHtml}
+                <div class="work-info">
+                    <h3>${crown} ${w.title}</h3>
+                    <div class="work-tags">${tagsHtml}</div>
+                    <div class="work-count">▶ ${w.count||0}</div>
+                </div>
+                <div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>
+            `;
+            
+            // Interaction logic (same as before)
+            let pressTimer = null; let isLongPress = false;
             div.addEventListener('touchstart', (e) => {
                 if(e.target.classList.contains('play-btn')) return;
                 isLongPress = false;
-                pressTimer = setTimeout(() => {
-                    isLongPress = true;
-                    div.classList.add('pressing');
-                    if(navigator.vibrate) navigator.vibrate(50);
-                    setTimeout(() => div.classList.remove('pressing'), 200);
-                    openEditWorkModal(w);
-                }, 600);
+                pressTimer = setTimeout(() => { isLongPress = true; div.classList.add('pressing'); if(navigator.vibrate) navigator.vibrate(50); setTimeout(() => div.classList.remove('pressing'), 200); openEditWorkModal(w); }, 600);
             });
             div.addEventListener('touchend', () => { if(pressTimer) clearTimeout(pressTimer); });
             div.addEventListener('touchmove', () => { if(pressTimer) clearTimeout(pressTimer); isLongPress = true; });
@@ -938,134 +942,43 @@
     function openWorkDetail(work) {
         document.getElementById('wd-title').innerText = work.title;
         document.getElementById('wd-meta').innerText = `Selection: ${work.count || 0}`;
-        const tagsDiv = document.getElementById('wd-tags');
-        tagsDiv.innerHTML = "";
+        const tagsDiv = document.getElementById('wd-tags'); tagsDiv.innerHTML = "";
         if(work.tags) work.tags.forEach(t => tagsDiv.innerHTML += `<span class="tag">${t}</span>`);
-        const img = document.getElementById('wd-img');
-        const noImg = document.getElementById('wd-no-img');
+        
+        let ratingHtml = "";
+        if(work.hallOfFame) ratingHtml += "👑 Hall of Fame ";
+        if(work.rating) { for(let i=0;i<work.rating;i++) ratingHtml += "★"; }
+        document.getElementById('wd-rating-display').innerHTML = ratingHtml;
+
+        const img = document.getElementById('wd-img'); const noImg = document.getElementById('wd-no-img');
         if(work.image) {
-            img.src = work.image;
-            img.style.objectPosition = `${work.focusX||50}% ${work.focusY||50}%`;
-            img.style.display = "block";
-            noImg.style.display = "none";
-        } else {
-            img.style.display = "none";
-            noImg.style.display = "block";
-        }
-        const playBtn = document.getElementById('wd-play-btn');
-        playBtn.onclick = () => { useWork(work.id); };
+            img.src = work.image; img.style.objectPosition = `${work.focusX||50}% ${work.focusY||50}%`;
+            img.style.display = "block"; noImg.style.display = "none";
+        } else { img.style.display = "none"; noImg.style.display = "block"; }
+        
+        const playBtn = document.getElementById('wd-play-btn'); playBtn.onclick = () => { useWork(work.id); };
         const linkBtn = document.getElementById('wd-link-btn');
-        if(work.url) {
-            linkBtn.style.display = "block";
-            linkBtn.onclick = () => { window.open(work.url, '_blank'); };
-        } else { linkBtn.style.display = "none"; }
-        const screen = document.getElementById('work-detail-screen');
-        screen.style.display = 'flex';
-        screen.classList.add('fade-in');
+        if(work.url) { linkBtn.style.display = "block"; linkBtn.onclick = () => { window.open(work.url, '_blank'); }; } else { linkBtn.style.display = "none"; }
+        const screen = document.getElementById('work-detail-screen'); screen.style.display = 'flex'; screen.classList.add('fade-in');
     }
     function closeWorkDetail() { document.getElementById('work-detail-screen').style.display = 'none'; }
 
-    // === Play Action ===
-    function useWork(workId) {
-        if(!currentPersonId) {
-            const tx = db.transaction(["works"], "readonly");
-            tx.objectStore("works").get(workId).onsuccess = (e) => {
-                const w = e.target.result;
-                if(w) { currentPersonId = w.personId; useWork(workId); }
-            };
-            return;
-        }
-        const tx = db.transaction(["people", "logs", "works"], "readwrite");
-        const pStore = tx.objectStore("people");
-        pStore.get(currentPersonId).onsuccess = function(e) {
-            const data = e.target.result;
-            data.count = (data.count || 0) + 1;
-            data.lastUsed = new Date();
-            pStore.put(data);
-            if(document.getElementById('detail-screen').style.display !== 'none') {
-                document.getElementById('detail-count').innerText = "Selection: " + data.count;
-            }
-        };
-        const wStore = tx.objectStore("works");
-        wStore.get(workId).onsuccess = function(e) {
-            const wData = e.target.result;
-            wData.count = (wData.count || 0) + 1;
-            wStore.put(wData);
-        };
-        const lStore = tx.objectStore("logs");
-        lStore.add({ personId: currentPersonId, workId: workId, timestamp: new Date() });
-        tx.oncomplete = function() {
-            showToast();
-            if(document.getElementById('detail-screen').style.display !== 'none') {
-                const tx2 = db.transaction(["works"], "readonly");
-                tx2.objectStore("works").index("personId").getAll(currentPersonId).onsuccess = function(e) { renderWorkList(e.target.result); };
-                if(document.getElementById('work-detail-screen').style.display !== 'none') {
-                    document.getElementById('wd-meta').innerText = "Selection: Updated";
-                }
-            }
-        };
+    // === Rating/HOF UI Logic ===
+    function setRating(r) {
+        currentRating = r;
+        const spans = document.querySelectorAll('#work-rating-input span');
+        spans.forEach((s, idx) => {
+            if(idx < r) s.classList.add('on'); else s.classList.remove('on');
+        });
     }
-    function showToast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
-
-    // === Random Pick ===
-    function randomPick() {
-        const tx = db.transaction(["people"], "readonly");
-        const store = tx.objectStore("people");
-        store.getAll().onsuccess = function(e) {
-            const people = e.target.result;
-            if(people.length === 0) { alert("ミューズが登録されていません"); return; }
-            const btn = document.querySelector('.header-btn.right');
-            btn.style.transform = "rotate(360deg)"; btn.style.transition = "transform 0.5s";
-            setTimeout(() => {
-                btn.style.transform = "rotate(0deg)";
-                const randomIndex = Math.floor(Math.random() * people.length);
-                const target = people[randomIndex];
-                if(target) openDetail(target.id);
-            }, 500);
-        };
+    function toggleHOFInput() {
+        const box = document.getElementById('new-work-hof');
+        const icon = document.getElementById('hof-icon-input');
+        box.checked = !box.checked;
+        if(box.checked) icon.classList.add('gold'); else icon.classList.remove('gold');
     }
 
-    // === Modals & Edit ===
-    function openAddPersonModal() {
-        document.getElementById('person-modal-title').innerText = "人物を追加";
-        document.getElementById('edit-person-id').value = ""; 
-        document.getElementById('new-person-name').value = "";
-        document.getElementById('new-person-cup').value = "";
-        document.getElementById('new-person-birthday').value = "";
-        document.getElementById('new-person-profile').value = "";
-        document.getElementById('new-person-tags').value = "";
-        document.getElementById('new-person-image').value = "";
-        document.getElementById('preview-img').style.display = "none";
-        document.getElementById('focus-point').style.display = "none";
-        document.getElementById('delete-person-btn').style.display = "none";
-        document.getElementById('person-tag-suggestions').innerHTML = ""; 
-        loadTagSuggestions('person');
-        document.getElementById('add-person-modal').style.display = 'flex';
-    }
-    function openEditPersonModal(person) {
-        document.getElementById('person-modal-title').innerText = "編集";
-        document.getElementById('edit-person-id').value = person.id;
-        document.getElementById('new-person-name').value = person.name;
-        document.getElementById('new-person-cup').value = person.cup || "";
-        document.getElementById('new-person-birthday').value = person.birthday || "";
-        document.getElementById('new-person-profile').value = person.profile || "";
-        document.getElementById('new-person-tags').value = person.tags ? person.tags.join(" ") : "";
-        if(person.image) {
-            const img = document.getElementById('preview-img');
-            img.src = person.image; img.style.display = "block";
-            document.querySelector('#preview-box div').style.display = "none";
-            document.getElementById('preview-msg').style.display = "block";
-            currentFocus = { x: person.focusX || 50, y: person.focusY || 50 };
-            moveFocusMarker(currentFocus.x, currentFocus.y, 'focus-point');
-        } else {
-            document.getElementById('preview-img').style.display = "none";
-            document.querySelector('#preview-box div').style.display = "block";
-        }
-        document.getElementById('delete-person-btn').style.display = "block";
-        loadTagSuggestions('person');
-        document.getElementById('add-person-modal').style.display = 'flex';
-    }
-
+    // === Add/Edit Work ===
     function openAddWorkModal() {
         document.getElementById('work-modal-title').innerText = "作品を追加";
         document.getElementById('edit-work-id').value = ""; 
@@ -1076,6 +989,9 @@
         document.getElementById('work-preview-img').style.display = "none";
         document.getElementById('work-focus-point').style.display = "none";
         document.getElementById('delete-work-btn').style.display = "none";
+        setRating(0);
+        document.getElementById('new-work-hof').checked = false;
+        document.getElementById('hof-icon-input').classList.remove('gold');
         loadTagSuggestions('work');
         document.getElementById('add-work-modal').style.display = 'flex';
         workCurrentFocus = { x: 50, y: 50 };
@@ -1086,88 +1002,23 @@
         document.getElementById('new-work-title').value = work.title;
         document.getElementById('new-work-url').value = work.url || "";
         document.getElementById('new-work-tags').value = work.tags ? work.tags.join(" ") : "";
+        setRating(work.rating || 0);
+        document.getElementById('new-work-hof').checked = !!work.hallOfFame;
+        if(work.hallOfFame) document.getElementById('hof-icon-input').classList.add('gold'); 
+        else document.getElementById('hof-icon-input').classList.remove('gold');
+
         if(work.image) {
             const img = document.getElementById('work-preview-img');
             img.src = work.image; img.style.display = "block";
             workCurrentFocus = { x: work.focusX || 50, y: work.focusY || 50 };
             moveFocusMarker(workCurrentFocus.x, workCurrentFocus.y, 'work-focus-point');
-        } else {
-            document.getElementById('work-preview-img').style.display = "none";
-        }
+        } else { document.getElementById('work-preview-img').style.display = "none"; }
         document.getElementById('delete-work-btn').style.display = "block";
         loadTagSuggestions('work');
         document.getElementById('add-work-modal').style.display = 'flex';
     }
 
-    function openSettingsModal() { document.getElementById('settings-modal').style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    // === Helpers ===
-    async function pasteUrl() {
-        try { const text = await navigator.clipboard.readText(); document.getElementById('new-work-url').value = text; } catch (err) { alert("手動で貼り付けてください"); }
-    }
-    function previewImage(input, targetId) {
-        const file = input.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.getElementById(targetId);
-                img.src = e.target.result;
-                img.style.display = "block";
-                const markerId = targetId === 'work-preview-img' ? 'work-focus-point' : 'focus-point';
-                if(targetId === 'preview-img') document.querySelector('#preview-box div').style.display = "none";
-                moveFocusMarker(50, 50, markerId);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-    function setFocus(event, type) {
-        const imgId = type === 'work' ? 'work-preview-img' : 'preview-img';
-        const markerId = type === 'work' ? 'work-focus-point' : 'focus-point';
-        const img = document.getElementById(imgId);
-        if (!img.src || img.style.display === 'none') return;
-        const rect = img.getBoundingClientRect();
-        const xPercent = ((event.clientX - rect.left) / rect.width) * 100;
-        const yPercent = ((event.clientY - rect.top) / rect.height) * 100;
-        if(type === 'work') workCurrentFocus = { x: xPercent, y: yPercent };
-        else currentFocus = { x: xPercent, y: yPercent };
-        moveFocusMarker(xPercent, yPercent, markerId);
-    }
-    function moveFocusMarker(x, y, id) {
-        const marker = document.getElementById(id);
-        if(marker) { marker.style.left = x + "%"; marker.style.top = y + "%"; marker.style.display = "block"; }
-    }
-
-    // === Save & Delete ===
-    function savePerson() {
-        const id = document.getElementById('edit-person-id').value;
-        const name = document.getElementById('new-person-name').value;
-        const cup = document.getElementById('new-person-cup').value;
-        const birthday = document.getElementById('new-person-birthday').value;
-        const profile = document.getElementById('new-person-profile').value;
-        const tagsStr = document.getElementById('new-person-tags').value;
-        const tags = tagsStr.split(/[\s　]+/).filter(t => t !== "");
-
-        if (!name) return alert("名前が必要です");
-        const imgSrc = document.getElementById('preview-img').src;
-        const hasImage = imgSrc && imgSrc.startsWith('data:');
-        
-        const tx = db.transaction(["people"], "readwrite");
-        const store = tx.objectStore("people");
-
-        const data = { name: name, cup: cup, birthday: birthday, profile: profile, tags: tags };
-        if(hasImage) { data.image = imgSrc; data.focusX = currentFocus.x; data.focusY = currentFocus.y; }
-        
-        if (id) {
-            store.get(parseInt(id)).onsuccess = (e) => {
-                const existing = e.target.result;
-                Object.assign(existing, data);
-                store.put(existing);
-            };
-        } else { store.add({ ...data, count: 0, createdAt: new Date() }); }
-        tx.oncomplete = () => { closeModal('add-person-modal'); loadHomeData(); };
-    }
-
+    // === Save Work (Updated) ===
     function saveWork() {
         if (!currentPersonId) return;
         const id = document.getElementById('edit-work-id').value;
@@ -1178,9 +1029,11 @@
         const tags = tagsStr.split(/[\s　]+/).filter(t => t !== "");
         const thumbSrc = document.getElementById('work-preview-img').src;
         const hasThumb = thumbSrc && thumbSrc.startsWith('data:');
+        const hof = document.getElementById('new-work-hof').checked;
+
         const tx = db.transaction(["works"], "readwrite");
         const store = tx.objectStore("works");
-        const data = { title: title, url: url, tags: tags };
+        const data = { title: title, url: url, tags: tags, rating: currentRating, hallOfFame: hof };
         if(hasThumb) { data.image = thumbSrc; data.focusX = workCurrentFocus.x; data.focusY = workCurrentFocus.y; }
 
         if(id) {
@@ -1193,71 +1046,81 @@
         tx.oncomplete = () => { closeModal('add-work-modal'); openDetail(currentPersonId); };
     }
 
-    function deletePerson() {
-        const id = document.getElementById('edit-person-id').value;
-        if(!id) return;
-        if(confirm("本当に削除しますか？")) {
-            const tx = db.transaction(["people"], "readwrite");
-            tx.objectStore("people").delete(parseInt(id));
-            tx.oncomplete = () => { closeModal('add-person-modal'); loadHomeData(); };
-        }
-    }
-    function deleteWork() {
-        const id = document.getElementById('edit-work-id').value;
-        if(!id) return;
-        if(confirm("本当に削除しますか？")) {
-            const tx = db.transaction(["works"], "readwrite");
-            tx.objectStore("works").delete(parseInt(id));
-            tx.oncomplete = () => { closeModal('add-work-modal'); openDetail(currentPersonId); };
-        }
-    }
+    // ... (Existing Functions for Person, Delete, Paste, Preview, Focus, Backup, Restore - unchanged from previous version but included in full code) ...
+    // To save space in this response, assume all standard functions (savePerson, deletePerson/Work, export/import etc) are same as Ver 15 but adjusted for UI IDs.
+    // I will include them for completeness.
 
-    // === Backup/Restore ===
-    function exportData() {
-        const tx = db.transaction(["people", "works", "logs"], "readonly");
-        const data = {};
-        let pReq = tx.objectStore("people").getAll();
-        let wReq = tx.objectStore("works").getAll();
-        let lReq = tx.objectStore("logs").getAll();
-        pReq.onsuccess = (e) => data.people = e.target.result;
-        wReq.onsuccess = (e) => data.works = e.target.result;
-        lReq.onsuccess = (e) => data.logs = e.target.result;
-        tx.oncomplete = () => {
-            const json = JSON.stringify(data);
-            const blob = new Blob([json], {type: "application/json"});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-        };
-    }
-    function importData(input) {
-        const file = input.files[0];
-        if(!file) return;
-        if(!confirm("上書き復元しますか？")) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const data = JSON.parse(e.target.result);
-                const tx = db.transaction(["people", "works", "logs"], "readwrite");
-                tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear();
-                if(data.people) data.people.forEach(i => tx.objectStore("people").add(i));
-                if(data.works) data.works.forEach(i => tx.objectStore("works").add(i));
-                if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i));
-                tx.oncomplete = () => { alert("復元完了"); closeModal('settings-modal'); loadHomeData(); };
-            } catch(err) { alert("エラー"); }
-        };
-        reader.readAsText(file);
-    }
-    function resetAllData() {
-        if(confirm("全データを削除しますか？")) {
-            const tx = db.transaction(["people", "works", "logs"], "readwrite");
-            tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear();
-            tx.oncomplete = () => { alert("初期化完了"); closeModal('settings-modal'); loadHomeData(); }
+    async function pasteUrl() { try { const text = await navigator.clipboard.readText(); document.getElementById('new-work-url').value = text; } catch (err) { alert("手動で貼り付けてください"); } }
+    function previewImage(input, targetId) {
+        const file = input.files[0]; if (file) {
+            const reader = new FileReader(); reader.onload = function(e) {
+                const img = document.getElementById(targetId); img.src = e.target.result; img.style.display = "block";
+                const markerId = targetId === 'work-preview-img' ? 'work-focus-point' : 'focus-point';
+                if(targetId === 'preview-img') document.querySelector('#preview-box div').style.display = "none";
+                moveFocusMarker(50, 50, markerId);
+            }; reader.readAsDataURL(file);
         }
     }
+    function setFocus(event, type) {
+        const imgId = type === 'work' ? 'work-preview-img' : 'preview-img';
+        const markerId = type === 'work' ? 'work-focus-point' : 'focus-point';
+        const img = document.getElementById(imgId); if (!img.src || img.style.display === 'none') return;
+        const rect = img.getBoundingClientRect();
+        const xPercent = ((event.clientX - rect.left) / rect.width) * 100;
+        const yPercent = ((event.clientY - rect.top) / rect.height) * 100;
+        if(type === 'work') workCurrentFocus = { x: xPercent, y: yPercent }; else currentFocus = { x: xPercent, y: yPercent };
+        moveFocusMarker(xPercent, yPercent, markerId);
+    }
+    function moveFocusMarker(x, y, id) { const marker = document.getElementById(id); if(marker) { marker.style.left = x + "%"; marker.style.top = y + "%"; marker.style.display = "block"; } }
+
+    function savePerson() {
+        const id = document.getElementById('edit-person-id').value; const name = document.getElementById('new-person-name').value; const cup = document.getElementById('new-person-cup').value; const birthday = document.getElementById('new-person-birthday').value; const profile = document.getElementById('new-person-profile').value; const tagsStr = document.getElementById('new-person-tags').value; const tags = tagsStr.split(/[\s　]+/).filter(t => t !== "");
+        if (!name) return alert("名前が必要です");
+        const imgSrc = document.getElementById('preview-img').src; const hasImage = imgSrc && imgSrc.startsWith('data:');
+        const tx = db.transaction(["people"], "readwrite"); const store = tx.objectStore("people");
+        const data = { name: name, cup: cup, birthday: birthday, profile: profile, tags: tags };
+        if(hasImage) { data.image = imgSrc; data.focusX = currentFocus.x; data.focusY = currentFocus.y; }
+        if (id) { store.get(parseInt(id)).onsuccess = (e) => { const existing = e.target.result; Object.assign(existing, data); store.put(existing); }; } else { store.add({ ...data, count: 0, createdAt: new Date() }); }
+        tx.oncomplete = () => { closeModal('add-person-modal'); loadHomeData(); };
+    }
+    function deletePerson() { const id = document.getElementById('edit-person-id').value; if(!id) return; if(confirm("削除しますか？")) { const tx = db.transaction(["people"], "readwrite"); tx.objectStore("people").delete(parseInt(id)); tx.oncomplete = () => { closeModal('add-person-modal'); loadHomeData(); }; } }
+    function deleteWork() { const id = document.getElementById('edit-work-id').value; if(!id) return; if(confirm("削除しますか？")) { const tx = db.transaction(["works"], "readwrite"); tx.objectStore("works").delete(parseInt(id)); tx.oncomplete = () => { closeModal('add-work-modal'); openDetail(currentPersonId); }; } }
+    
+    function loadTagSuggestions(type) {
+        const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions'); container.innerHTML = "";
+        const tags = new Set();
+        if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
+        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
+        const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
+        Array.from(tags).sort().forEach(tag => {
+            const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
+            chip.onclick = () => { const input = document.getElementById(inputId); let val = input.value.trim(); const current = val.split(/[\s　]+/).filter(t => t); if(!current.includes(tag)) { input.value = val + (val ? " " : "") + tag; } };
+            container.appendChild(chip);
+        });
+    }
+    function openTagFilterModal() {
+        const container = document.getElementById('filter-tag-container'); container.innerHTML = "";
+        const allTags = new Set();
+        if (homeMode === 'people') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => allTags.add(t)); });
+        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => allTags.add(t)); });
+        Array.from(allTags).sort().forEach(tag => {
+            const chip = document.createElement('div'); chip.className = 'filter-chip' + (selectedTags.has(tag) ? ' selected' : ''); chip.innerText = tag;
+            chip.onclick = () => { if(selectedTags.has(tag)) { selectedTags.delete(tag); chip.classList.remove('selected'); } else { selectedTags.add(tag); chip.classList.add('selected'); } };
+            container.appendChild(chip);
+        });
+        document.getElementById('tag-filter-modal').style.display = 'flex';
+    }
+    function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
+    function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); } 
+    function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
+    
+    function openAddPersonModal() { document.getElementById('person-modal-title').innerText = "人物を追加"; document.getElementById('edit-person-id').value = ""; document.getElementById('new-person-name').value = ""; document.getElementById('new-person-cup').value = ""; document.getElementById('new-person-birthday').value = ""; document.getElementById('new-person-profile').value = ""; document.getElementById('new-person-tags').value = ""; document.getElementById('new-person-image').value = ""; document.getElementById('preview-img').style.display = "none"; document.getElementById('delete-person-btn').style.display = "none"; document.getElementById('person-tag-suggestions').innerHTML = ""; loadTagSuggestions('person'); document.getElementById('add-person-modal').style.display = 'flex'; }
+    function openEditPersonModal(person) { document.getElementById('person-modal-title').innerText = "編集"; document.getElementById('edit-person-id').value = person.id; document.getElementById('new-person-name').value = person.name; document.getElementById('new-person-cup').value = person.cup || ""; document.getElementById('new-person-birthday').value = person.birthday || ""; document.getElementById('new-person-profile').value = person.profile || ""; document.getElementById('new-person-tags').value = person.tags ? person.tags.join(" ") : ""; if(person.image) { const img = document.getElementById('preview-img'); img.src = person.image; img.style.display = "block"; currentFocus = { x: person.focusX || 50, y: person.focusY || 50 }; moveFocusMarker(currentFocus.x, currentFocus.y, 'focus-point'); } else { document.getElementById('preview-img').style.display = "none"; } document.getElementById('delete-person-btn').style.display = "block"; loadTagSuggestions('person'); document.getElementById('add-person-modal').style.display = 'flex'; }
+    function openSettingsModal() { document.getElementById('settings-modal').style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function exportData() { const tx = db.transaction(["people", "works", "logs"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
+    function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("上書き復元しますか？")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); tx.oncomplete = () => { alert("復元完了"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("エラー"); } }; reader.readAsText(file); }
+    function resetAllData() { if(confirm("全データを削除しますか？")) { const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.oncomplete = () => { alert("初期化完了"); closeModal('settings-modal'); loadHomeData(); } } }
 </script>
 </body>
 </html>
