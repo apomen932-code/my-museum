@@ -4,43 +4,115 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Search</title> <style>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Entrance</title>
+<style>
     /* === 共通設定 === */
-    body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #000; color: #fff; overflow: hidden; height: 100vh; width: 100vw; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
-    .fade-in { animation: fadeIn 0.4s ease forwards; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    body { margin: 0; padding: 0; font-family: "YuMincho", "Hiragino Mincho ProN", serif; background-color: #000; color: #fff; overflow: hidden; height: 100vh; width: 100vw; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .fade-in { animation: fadeIn 0.8s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes spinSlow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    /* === 1. ダミー画面 (検索エンジン風) === */
+    /* === 1. ダミー画面 (アンティーク電話) === */
     #dummy-screen {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: #fff; color: #333; /* 白背景で一般サイト風に */
+        background-color: #050505;
+        background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
         display: flex; flex-direction: column; align-items: center; justify-content: center;
-        z-index: 2000; transition: opacity 0.5s, transform 0.5s;
+        z-index: 2000; transition: opacity 0.8s ease;
     }
-    .dummy-logo { font-size: 40px; font-weight: bold; color: #555; margin-bottom: 30px; letter-spacing: -1px; }
-    .dummy-logo span { color: #888; }
     
-    .search-box-wrapper {
-        width: 80%; max-width: 400px; position: relative;
-    }
-    .dummy-input {
-        width: 100%; padding: 12px 20px; padding-right: 50px;
-        border-radius: 24px; border: 1px solid #ddd;
-        font-size: 16px; outline: none; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        box-sizing: border-box; -webkit-appearance: none;
-    }
-    .dummy-input:focus { box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-color: #ccc; }
-    
-    .search-btn-dummy {
-        position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-        background: none; border: none; font-size: 18px; color: #999; cursor: pointer; padding: 5px;
+    .museum-sign {
+        font-family: "Times New Roman", serif;
+        color: #666;
+        font-size: 14px;
+        letter-spacing: 0.4em;
+        margin-bottom: 30px;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        border-bottom: 1px solid #333;
+        padding-bottom: 10px;
     }
 
-    /* === アプリ基盤 (黒背景) === */
-    .app-container { display: none; height: 100%; width: 100%; background: #000; color: #fff; font-family: "YuMincho", serif; }
+    .phone-body {
+        width: 280px;
+        background: linear-gradient(145deg, #222, #111);
+        border-radius: 20px;
+        padding: 30px 20px;
+        box-shadow: 
+            0 10px 30px rgba(0,0,0,0.8),
+            inset 0 0 2px rgba(255,255,255,0.1),
+            0 0 0 2px #333; /* Outer rim */
+        border: 1px solid #444;
+        display: flex; flex-direction: column; align-items: center;
+    }
+
+    /* Display Area */
+    .phone-display-container {
+        width: 100%;
+        height: 60px;
+        background: #000;
+        border: 2px solid #555;
+        border-radius: 8px;
+        margin-bottom: 25px;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        position: relative;
+        overflow: hidden;
+    }
+    .phone-display-container::after {
+        content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
+        background: linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, transparent 100%);
+        pointer-events: none;
+    }
+    .phone-display-text {
+        font-family: 'Courier New', monospace;
+        color: #d4af37; /* Gold Text */
+        font-size: 32px;
+        letter-spacing: 5px;
+        text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+    }
+
+    /* Keypad */
+    .phone-keypad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        width: 100%;
+    }
+    .phone-key {
+        width: 60px; height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+        border: 1px solid #444;
+        color: #ccc;
+        font-family: "Times New Roman", serif;
+        font-size: 24px;
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 auto;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        transition: transform 0.1s, box-shadow 0.1s;
+        user-select: none;
+    }
+    .phone-key:active {
+        transform: scale(0.95);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        background: #111;
+        color: #d4af37;
+    }
+    .phone-key.call-btn {
+        grid-column: 2;
+        background: linear-gradient(145deg, #d4af37, #aa8a2e);
+        color: #000;
+        font-weight: bold;
+        border: 1px solid #8a7024;
+    }
+    .phone-key.call-btn:active { background: #8a7024; }
     
+    .phone-key-sub { font-size: 10px; color: #555; margin-top: -5px; display: block; text-align: center; } /* ABC etc */
+
+    /* === アプリ基盤 === */
+    .app-container { display: none; height: 100%; width: 100%; background: #000; color: #fff; font-family: "YuMincho", serif; }
     .tab-content { display: none; height: 100%; width: 100%; box-sizing: border-box; padding-top: 60px; padding-bottom: 80px; overflow-y: auto; flex-direction: column; }
     
     .app-header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212, 175, 55, 0.3); display: flex; align-items: center; justify-content: center; z-index: 1000; }
@@ -71,11 +143,9 @@
     .person-card:active { transform: scale(0.96); border-color: #d4af37; }
     .person-card.pressing { transform: scale(0.95); border-color: #ff4444; }
     .person-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-    
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
     .thumb-placeholder { color: #333; font-size: 10px; }
-    
     .info-area { padding: 10px; }
     .name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
     .count { color: #d4af37; font-size: 11px; }
@@ -118,6 +188,7 @@
     .legend-item { display: flex; align-items: center; gap: 4px; }
     .legend-color { width: 8px; height: 8px; border-radius: 2px; }
 
+    /* The QUEEN */
     .champion-area { margin-bottom: 30px; display: none; }
     .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
     .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; position: relative; z-index: 2; }
@@ -129,6 +200,7 @@
     .champion-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #fff; font-family: serif; text-shadow: 0 2px 10px rgba(0,0,0,0.8); position: relative; z-index: 2; }
     .champion-score { color: #aaa; font-size: 14px; font-family: monospace; position: relative; z-index: 2; }
 
+    /* Gobusata & Ranking */
     .gobusata-area { margin-bottom: 25px; display: none; }
     .gobusata-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
     .gobusata-item { min-width: 80px; text-align: center; }
@@ -245,10 +317,25 @@
 <body>
 
 <div id="dummy-screen">
-    <div class="dummy-logo">Search <span>Engine</span></div>
-    <div class="search-box-wrapper">
-        <input type="text" class="dummy-input" id="dummy-input" placeholder="Search...">
-        <button class="search-btn-dummy" onclick="unlockApp()">🔍</button>
+    <div class="museum-sign">MUSEUM ARCHIVES</div>
+    <div class="phone-body">
+        <div class="phone-display-container">
+            <div class="phone-display-text" id="phone-display">----</div>
+        </div>
+        <div class="phone-keypad">
+            <div class="phone-key" onclick="pressKey('1')">1</div>
+            <div class="phone-key" onclick="pressKey('2')"><span class="phone-key-sub">ABC</span>2</div>
+            <div class="phone-key" onclick="pressKey('3')"><span class="phone-key-sub">DEF</span>3</div>
+            <div class="phone-key" onclick="pressKey('4')"><span class="phone-key-sub">GHI</span>4</div>
+            <div class="phone-key" onclick="pressKey('5')"><span class="phone-key-sub">JKL</span>5</div>
+            <div class="phone-key" onclick="pressKey('6')"><span class="phone-key-sub">MNO</span>6</div>
+            <div class="phone-key" onclick="pressKey('7')"><span class="phone-key-sub">PQRS</span>7</div>
+            <div class="phone-key" onclick="pressKey('8')"><span class="phone-key-sub">TUV</span>8</div>
+            <div class="phone-key" onclick="pressKey('9')"><span class="phone-key-sub">WXYZ</span>9</div>
+            <div class="phone-key" onclick="clearPhone()">C</div>
+            <div class="phone-key" onclick="pressKey('0')">0</div>
+            <div class="phone-key call-btn" onclick="callApp()">CALL</div>
+        </div>
     </div>
 </div>
 
@@ -346,11 +433,13 @@
         <div class="section-title" style="margin:0;">COLLECTION (長押しで編集)</div>
         <div class="sort-btn" onclick="toggleSortMenu('detail')" style="width:30px; height:30px; border:none;">⇅</div>
     </div>
+    
     <div class="sort-menu" id="sort-menu-detail" style="top:55vh;">
         <div class="sort-item" onclick="applySort('count', 'detail')">Select Count</div>
         <div class="sort-item" onclick="applySort('rating', 'detail')">Rating (Quality)</div>
         <div class="sort-item" onclick="applySort('newest', 'detail')">Newest</div>
     </div>
+
     <div class="detail-scroll-area">
         <div id="work-list"></div>
     </div>
@@ -464,30 +553,85 @@
 </div>
 
 <script>
-    // === JS Logic ===
+    // === Phone Logic ===
     const SECRET_CODE = '4519';
-    let db; let currentFocus = { x: 50, y: 50 }; let workCurrentFocus = { x: 50, y: 50 };
-    let currentPersonId = null; let allPeopleCache = []; let allWorksCache = []; let selectedTags = new Set(); 
-    let homeMode = 'people'; let currentRating = 0; let sortMode = { home: 'count', detail: 'count' };
-    let lastTap = 0;
-
-    // Fake Search Unlock
-    function unlockApp() {
-        const input = document.getElementById('dummy-input').value;
-        if (input === SECRET_CODE) {
-            document.getElementById('dummy-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('dummy-screen').style.display = 'none';
-                document.getElementById('app-container').style.display = 'block';
-            }, 500);
-        } else {
-            alert("No results found.");
+    let phoneInput = "";
+    
+    function pressKey(key) {
+        if(phoneInput.length < 4) {
+            phoneInput += key;
+            updatePhoneDisplay();
+            if(navigator.vibrate) navigator.vibrate(20);
         }
     }
-    // Enter Key Support
-    document.getElementById('dummy-input').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') unlockApp();
+    
+    function clearPhone() {
+        phoneInput = "";
+        updatePhoneDisplay();
+        if(navigator.vibrate) navigator.vibrate(20);
+    }
+    
+    function updatePhoneDisplay() {
+        // Show dots like security code
+        let display = "";
+        for(let i=0; i<4; i++) {
+            if(i < phoneInput.length) display += "•";
+            else display += "-";
+        }
+        document.getElementById('phone-display').innerText = display;
+    }
+    
+    function callApp() {
+        if(phoneInput === SECRET_CODE) {
+            if(navigator.vibrate) navigator.vibrate([50, 50, 50]);
+            // Unlock Animation
+            const screen = document.getElementById('dummy-screen');
+            screen.style.opacity = '0';
+            setTimeout(() => {
+                screen.style.display = 'none';
+                document.getElementById('app-container').style.display = 'block';
+            }, 800);
+        } else {
+            // Error
+            if(navigator.vibrate) navigator.vibrate(100);
+            const disp = document.getElementById('phone-display');
+            disp.style.color = 'red';
+            setTimeout(() => {
+                phoneInput = "";
+                updatePhoneDisplay();
+                disp.style.color = '#d4af37';
+            }, 500);
+        }
+    }
+
+    // === Init & Elements ===
+    const appHeader = document.getElementById('app-header'); const bottomNav = document.getElementById('bottom-nav');
+    const homeScreen = document.getElementById('home-screen'); const analysisScreen = document.getElementById('analysis-screen');
+    let currentRating = 0; let sortMode = { home: 'count', detail: 'count' };
+    
+    let lastTap = 0;
+    document.getElementById('panic-button').addEventListener('click', function(e) {
+        const currentTime = new Date().getTime();
+        if (currentTime - lastTap < 300 && currentTime - lastTap > 0) { location.reload(); e.preventDefault(); }
+        lastTap = currentTime;
     });
+
+    // Navigation
+    function switchTab(tabName) {
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        if (tabName === 'home') {
+            homeScreen.style.display = 'flex'; analysisScreen.style.display = 'none';
+            document.querySelectorAll('.nav-item')[0].classList.add('active'); loadHomeData(); 
+        } else {
+            homeScreen.style.display = 'none'; analysisScreen.style.display = 'block';
+            document.querySelectorAll('.nav-item')[1].classList.add('active'); renderAnalysis(); 
+        }
+    }
+
+    // === DB Setup (Ver 8) ===
+    let db; let currentFocus = { x: 50, y: 50 }; let workCurrentFocus = { x: 50, y: 50 };
+    let currentPersonId = null; let allPeopleCache = []; let allWorksCache = []; let selectedTags = new Set(); 
+    let homeMode = 'people';
 
     window.onload = function() {
         const request = indexedDB.open("SecretMuseumDB", 8);
@@ -506,6 +650,38 @@
         request.onsuccess = function(event) { db = event.target.result; loadHomeData(); };
     };
 
+    // ... (All other logic remains same as Ver 18, just integrate Phone logic above) ... 
+    
+    // Sort, Logic
+    function toggleSortMenu(type) { const menu = document.getElementById(`sort-menu-${type}`); menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; }
+    function applySort(mode, context) {
+        sortMode[context] = mode; document.getElementById(`sort-menu-${context}`).style.display = 'none';
+        if(context === 'home') filterHomeList();
+        else if(context === 'detail') {
+            const tx = db.transaction(["works"], "readonly");
+            tx.objectStore("works").index("personId").getAll(currentPersonId).onsuccess = (e) => {
+                let works = e.target.result; sortWorks(works, mode); renderWorkList(works);
+            };
+        }
+    }
+    function sortWorks(works, mode) {
+        if(mode === 'count') works.sort((a,b) => (b.count||0) - (a.count||0));
+        else if(mode === 'rating') works.sort((a,b) => ((b.hallOfFame?6:b.rating)||0) - ((a.hallOfFame?6:a.rating)||0));
+        else if(mode === 'newest') works.sort((a,b) => b.id - a.id);
+    }
+
+    function setHomeMode(mode) {
+        homeMode = mode;
+        document.getElementById('mode-people').className = mode === 'people' ? 'mode-btn active' : 'mode-btn';
+        document.getElementById('mode-works').className = mode === 'works' ? 'mode-btn active' : 'mode-btn';
+        document.getElementById('search-input').value = ""; selectedTags.clear();
+        document.getElementById('filter-btn').classList.remove('active');
+        document.getElementById('home-list-title').innerText = mode === 'people' ? "登録済みのミューズ (長押しで編集)" : "すべての作品 (タップで詳細)";
+        document.getElementById('sort-btn').style.display = mode === 'people' ? 'none' : 'flex';
+        filterHomeList();
+    }
+    function handleFabClick() { openAddPersonModal(); }
+
     function loadHomeData() {
         const tx = db.transaction(["people", "works"], "readonly");
         tx.objectStore("people").getAll().onsuccess = function(e) {
@@ -517,18 +693,6 @@
                 filterHomeList(); 
             };
         };
-    }
-
-    // --- Home List Rendering ---
-    function setHomeMode(mode) {
-        homeMode = mode;
-        document.getElementById('mode-people').className = mode === 'people' ? 'mode-btn active' : 'mode-btn';
-        document.getElementById('mode-works').className = mode === 'works' ? 'mode-btn active' : 'mode-btn';
-        document.getElementById('search-input').value = ""; selectedTags.clear();
-        document.getElementById('filter-btn').classList.remove('active');
-        document.getElementById('home-list-title').innerText = mode === 'people' ? "登録済みのミューズ (長押しで編集)" : "すべての作品 (タップで詳細)";
-        document.getElementById('sort-btn').style.display = mode === 'people' ? 'none' : 'flex';
-        filterHomeList();
     }
 
     function filterHomeList() {
@@ -544,12 +708,9 @@
             if (selectedTags.size > 0) {
                 filtered = filtered.filter(p => {
                     const pWorks = allWorksCache.filter(w => w.personId === p.id);
-                    // Also check person tags
                     const pTags = p.tags || [];
                     const pMatch = isExact ? Array.from(selectedTags).every(t => pTags.includes(t)) : pTags.some(t => selectedTags.has(t));
                     if (pMatch) return true;
-
-                    // Check works
                     return pWorks.some(w => {
                         const wTags = w.tags || [];
                         if(isExact) return Array.from(selectedTags).every(t => wTags.includes(t));
@@ -606,7 +767,6 @@
             let crown = w.hallOfFame ? '<div class="card-crown">👑</div>' : '';
             let thumbHtml = '<div class="thumb-placeholder">NO IMAGE</div>';
             if(w.image) thumbHtml = `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">`;
-            
             let stars = ""; if(w.rating > 0) { stars = '<div class="rating-stars-sm">'; for(let i=0; i<w.rating; i++) stars += '<span class="on">★</span>'; stars += '</div>'; }
             div.innerHTML = `<div class="thumb-area">${thumbHtml}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count || 0} SELECTIONS</div></div>`;
             div.onclick = () => openWorkDetail(w);
@@ -614,179 +774,6 @@
         });
     }
 
-    // === Detail & Play ===
-    function openDetail(id) {
-        currentPersonId = id;
-        document.getElementById('home-screen').style.display = 'none';
-        const tx = db.transaction(["people", "works"], "readonly");
-        tx.objectStore("people").get(id).onsuccess = function(e) {
-            const p = e.target.result;
-            if(!p) return;
-            document.getElementById('detail-name').innerText = p.name;
-            document.getElementById('detail-count').innerText = "Selection: " + (p.count || 0);
-            document.getElementById('detail-profile').innerText = p.profile || "";
-            const specsDiv = document.getElementById('detail-specs');
-            let specsHtml = "";
-            if(p.hallOfFame) specsHtml += `<div class="detail-spec-item" style="border-color:#d4af37; color:#d4af37;">👑 Hall of Fame</div>`;
-            if(p.cup) specsHtml += `<div class="detail-spec-item">${p.cup} cup</div>`;
-            if(p.birthday) {
-                const age = getAge(p.birthday);
-                specsHtml += `<div class="detail-spec-item">${age}歳 (${p.birthday.replace(/-/g, '/')})</div>`;
-            }
-            specsDiv.innerHTML = specsHtml;
-            const tagsDiv = document.getElementById('detail-person-tags'); tagsDiv.innerHTML = "";
-            if(p.tags) p.tags.forEach(t => tagsDiv.innerHTML += `<span class="tag">${t}</span>`);
-            const img = document.getElementById('detail-img');
-            if (p.image) { img.src = p.image; img.style.objectPosition = `${p.focusX||50}% ${p.focusY||50}%`; } else { img.src = ""; }
-        };
-        const workStore = tx.objectStore("works");
-        workStore.index("personId").getAll(id).onsuccess = function(e) { 
-            let works = e.target.result;
-            sortWorks(works, sortMode.detail);
-            renderWorkList(works); 
-        };
-        document.getElementById('detail-screen').style.display = 'flex';
-        document.getElementById('detail-screen').classList.add('fade-in');
-    }
-
-    function renderWorkList(works) {
-        const container = document.getElementById('work-list'); container.innerHTML = "";
-        if (works.length === 0) { container.innerHTML = "<div style='text-align:center; color:#555; margin-top:20px;'>まだ作品が登録されていません</div>"; return; }
-        works.forEach(w => {
-            const div = document.createElement('div'); div.className = 'work-item';
-            if(w.hallOfFame) div.classList.add('hof');
-            let tagsHtml = ""; if(w.tags && w.tags.length > 0) tagsHtml = w.tags.map(t => `<span class="tag">${t}</span>`).join("");
-            let thumbHtml = ""; if(w.image) thumbHtml = `<img src="${w.image}" class="work-thumb" style="object-position: ${w.focusX||50}% ${w.focusY||50}%">`;
-            let crown = w.hallOfFame ? '👑' : '';
-            div.innerHTML = `${thumbHtml}<div class="work-info"><h3>${crown} ${w.title}</h3><div class="work-tags">${tagsHtml}</div><div class="work-count">▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>`;
-            let pressTimer = null; let isLongPress = false;
-            div.addEventListener('touchstart', (e) => {
-                if(e.target.classList.contains('play-btn')) return;
-                isLongPress = false; pressTimer = setTimeout(() => { isLongPress = true; div.classList.add('pressing'); if(navigator.vibrate) navigator.vibrate(50); setTimeout(() => div.classList.remove('pressing'), 200); openEditWorkModal(w); }, 600);
-            });
-            div.addEventListener('touchend', () => { if(pressTimer) clearTimeout(pressTimer); });
-            div.addEventListener('touchmove', () => { if(pressTimer) clearTimeout(pressTimer); isLongPress = true; });
-            div.onclick = (e) => { if(!isLongPress && !e.target.classList.contains('play-btn')) openWorkDetail(w); };
-            container.appendChild(div);
-        });
-    }
-
-    // === The Fix for Play Button ===
-    function useWork(workId) {
-        // Ensure we know the Person ID
-        const tx = db.transaction(["works", "people", "logs"], "readwrite");
-        const wStore = tx.objectStore("works");
-        
-        wStore.get(workId).onsuccess = (e) => {
-            const wData = e.target.result;
-            if(!wData) return;
-            
-            // Update Work Count
-            wData.count = (wData.count || 0) + 1;
-            wStore.put(wData);
-
-            const personId = wData.personId;
-            const pStore = tx.objectStore("people");
-            
-            // Update Person Count
-            pStore.get(personId).onsuccess = (pe) => {
-                const pData = pe.target.result;
-                if(pData) {
-                    pData.count = (pData.count || 0) + 1;
-                    pData.lastUsed = new Date();
-                    pStore.put(pData);
-                    
-                    // Update UI if detail screen is open
-                    if(document.getElementById('detail-screen').style.display !== 'none' && currentPersonId === personId) {
-                        document.getElementById('detail-count').innerText = "Selection: " + pData.count;
-                    }
-                }
-            };
-
-            // Log
-            const lStore = tx.objectStore("logs");
-            lStore.add({ personId: personId, workId: workId, timestamp: new Date() });
-        };
-
-        tx.oncomplete = () => {
-            showToast();
-            // Refresh list UI
-            if(document.getElementById('detail-screen').style.display !== 'none') {
-                // We need a new transaction for readonly refresh
-                const refreshTx = db.transaction(["works"], "readonly");
-                refreshTx.objectStore("works").index("personId").getAll(currentPersonId).onsuccess = (re) => {
-                    let works = re.target.result;
-                    sortWorks(works, sortMode.detail);
-                    renderWorkList(works);
-                }
-            }
-            if(document.getElementById('work-detail-screen').style.display !== 'none') {
-                document.getElementById('wd-meta').innerText = "Selection: Updated";
-            }
-        };
-    }
-
-    // ... (Other functions: Sort, Random, Modals, Analysis - same as before) ...
-    // To ensure full functionality, including necessary utility functions below.
-
-    function sortWorks(works, mode) {
-        if(mode === 'count') works.sort((a,b) => (b.count||0) - (a.count||0));
-        else if(mode === 'rating') works.sort((a,b) => ((b.hallOfFame?6:b.rating)||0) - ((a.hallOfFame?6:a.rating)||0));
-        else if(mode === 'newest') works.sort((a,b) => b.id - a.id);
-    }
-    function toggleSortMenu(type) { const menu = document.getElementById(`sort-menu-${type}`); menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; }
-    function applySort(mode, context) {
-        sortMode[context] = mode; document.getElementById(`sort-menu-${context}`).style.display = 'none';
-        if(context === 'home') filterHomeList();
-        else if(context === 'detail') {
-            const tx = db.transaction(["works"], "readonly");
-            tx.objectStore("works").index("personId").getAll(currentPersonId).onsuccess = (e) => {
-                let works = e.target.result; sortWorks(works, mode); renderWorkList(works);
-            };
-        }
-    }
-    function randomPick() {
-        const tx = db.transaction(["people"], "readonly");
-        tx.objectStore("people").getAll().onsuccess = (e) => {
-            const people = e.target.result;
-            if(people.length === 0) { alert("ミューズが登録されていません"); return; }
-            const btn = document.querySelector('.header-btn.right');
-            btn.style.opacity = "0.5"; setTimeout(() => { btn.style.opacity = "1"; }, 100);
-            const randomIndex = Math.floor(Math.random() * people.length);
-            const target = people[randomIndex];
-            if(target) openDetail(target.id);
-        };
-    }
-    function handleFabClick() { openAddPersonModal(); }
-    function showToast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
-    function getAge(birthdayString) { if(!birthdayString) return ""; const birthDate = new Date(birthdayString); const today = new Date(); let age = today.getFullYear() - birthDate.getFullYear(); const m = today.getMonth() - birthDate.getMonth(); if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; } return age; }
-    function closeDetail() { document.getElementById('detail-screen').style.display = 'none'; document.getElementById('home-screen').style.display = 'flex'; currentPersonId = null; loadHomeData(); }
-    function openWorkDetail(work) {
-        document.getElementById('wd-title').innerText = work.title;
-        document.getElementById('wd-meta').innerText = `Selection: ${work.count || 0}`;
-        const tagsDiv = document.getElementById('wd-tags'); tagsDiv.innerHTML = "";
-        if(work.tags) work.tags.forEach(t => tagsDiv.innerHTML += `<span class="tag">${t}</span>`);
-        let ratingHtml = ""; if(work.hallOfFame) ratingHtml += "👑 Hall of Fame "; if(work.rating) { for(let i=0;i<work.rating;i++) ratingHtml += "★"; }
-        document.getElementById('wd-rating-display').innerHTML = ratingHtml;
-        const img = document.getElementById('wd-img'); const noImg = document.getElementById('wd-no-img');
-        if(work.image) { img.src = work.image; img.style.objectPosition = `${work.focusX||50}% ${work.focusY||50}%`; img.style.display = "block"; noImg.style.display = "none"; } else { img.style.display = "none"; noImg.style.display = "block"; }
-        const playBtn = document.getElementById('wd-play-btn'); playBtn.onclick = () => { useWork(work.id); };
-        const linkBtn = document.getElementById('wd-link-btn'); if(work.url) { linkBtn.style.display = "block"; linkBtn.onclick = () => { window.open(work.url, '_blank'); }; } else { linkBtn.style.display = "none"; }
-        const screen = document.getElementById('work-detail-screen'); screen.style.display = 'flex'; screen.classList.add('fade-in');
-    }
-    function closeWorkDetail() { document.getElementById('work-detail-screen').style.display = 'none'; }
-    
-    // Rating/HOF/Edit Logic
-    function setRating(r) { currentRating = r; const spans = document.querySelectorAll('#work-rating-input span'); spans.forEach((s, idx) => { if(idx < r) s.classList.add('on'); else s.classList.remove('on'); }); }
-    function toggleHOFInput(type) {
-        const id = type === 'person' ? 'new-person-hof' : 'new-work-hof';
-        const iconId = type === 'person' ? 'person-hof-icon' : 'work-hof-icon';
-        const box = document.getElementById(id); const icon = document.getElementById(iconId);
-        box.checked = !box.checked;
-        if(box.checked) icon.classList.add('gold'); else icon.classList.remove('gold');
-    }
-    
-    // Tag & Image helpers
     function loadTagSuggestions(type) {
         const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions'); container.innerHTML = "";
         const tags = new Set();
@@ -815,36 +802,17 @@
     function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); } 
     function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
     
-    async function pasteUrl() { try { const text = await navigator.clipboard.readText(); document.getElementById('new-work-url').value = text; } catch (err) { alert("手動で貼り付けてください"); } }
-    function previewImage(input, targetId) {
-        const file = input.files[0]; if (file) {
-            const reader = new FileReader(); reader.onload = function(e) {
-                const img = document.getElementById(targetId); img.src = e.target.result; img.style.display = "block";
-                const markerId = targetId === 'work-preview-img' ? 'work-focus-point' : 'focus-point';
-                if(targetId === 'preview-img') document.querySelector('#preview-box div').style.display = "none";
-                moveFocusMarker(50, 50, markerId);
-            }; reader.readAsDataURL(file);
-        }
-    }
-    function setFocus(event, type) {
-        const imgId = type === 'work' ? 'work-preview-img' : 'preview-img';
-        const markerId = type === 'work' ? 'work-focus-point' : 'focus-point';
-        const img = document.getElementById(imgId); if (!img.src || img.style.display === 'none') return;
-        const rect = img.getBoundingClientRect();
-        const xPercent = ((event.clientX - rect.left) / rect.width) * 100;
-        const yPercent = ((event.clientY - rect.top) / rect.height) * 100;
-        if(type === 'work') workCurrentFocus = { x: xPercent, y: yPercent }; else currentFocus = { x: xPercent, y: yPercent };
-        moveFocusMarker(xPercent, yPercent, markerId);
-    }
-    function moveFocusMarker(x, y, id) { const marker = document.getElementById(id); if(marker) { marker.style.left = x + "%"; marker.style.top = y + "%"; marker.style.display = "block"; } }
-
-    // Modals
     function openAddPersonModal() { document.getElementById('person-modal-title').innerText = "人物を追加"; document.getElementById('edit-person-id').value = ""; document.getElementById('new-person-name').value = ""; document.getElementById('new-person-cup').value = ""; document.getElementById('new-person-birthday').value = ""; document.getElementById('new-person-profile').value = ""; document.getElementById('new-person-tags').value = ""; document.getElementById('new-person-image').value = ""; document.getElementById('preview-img').style.display = "none"; document.getElementById('delete-person-btn').style.display = "none"; document.getElementById('new-person-hof').checked = false; document.getElementById('person-hof-icon').classList.remove('gold'); document.getElementById('person-tag-suggestions').innerHTML = ""; loadTagSuggestions('person'); document.getElementById('add-person-modal').style.display = 'flex'; }
     function openEditPersonModal(person) { document.getElementById('person-modal-title').innerText = "編集"; document.getElementById('edit-person-id').value = person.id; document.getElementById('new-person-name').value = person.name; document.getElementById('new-person-cup').value = person.cup || ""; document.getElementById('new-person-birthday').value = person.birthday || ""; document.getElementById('new-person-profile').value = person.profile || ""; document.getElementById('new-person-tags').value = person.tags ? person.tags.join(" ") : ""; document.getElementById('new-person-hof').checked = !!person.hallOfFame; if(person.hallOfFame) document.getElementById('person-hof-icon').classList.add('gold'); else document.getElementById('person-hof-icon').classList.remove('gold'); if(person.image) { const img = document.getElementById('preview-img'); img.src = person.image; img.style.display = "block"; currentFocus = { x: person.focusX || 50, y: person.focusY || 50 }; moveFocusMarker(currentFocus.x, currentFocus.y, 'focus-point'); } else { document.getElementById('preview-img').style.display = "none"; } document.getElementById('delete-person-btn').style.display = "block"; loadTagSuggestions('person'); document.getElementById('add-person-modal').style.display = 'flex'; }
     function openAddWorkModal() { document.getElementById('work-modal-title').innerText = "作品を追加"; document.getElementById('edit-work-id').value = ""; document.getElementById('new-work-title').value = ""; document.getElementById('new-work-url').value = ""; document.getElementById('new-work-tags').value = ""; document.getElementById('work-preview-img').src = ""; document.getElementById('work-preview-img').style.display = "none"; document.getElementById('work-focus-point').style.display = "none"; document.getElementById('delete-work-btn').style.display = "none"; setRating(0); document.getElementById('new-work-hof').checked = false; document.getElementById('work-hof-icon').classList.remove('gold'); loadTagSuggestions('work'); document.getElementById('add-work-modal').style.display = 'flex'; workCurrentFocus = { x: 50, y: 50 }; }
     function openEditWorkModal(work) { document.getElementById('work-modal-title').innerText = "作品を編集"; document.getElementById('edit-work-id').value = work.id; document.getElementById('new-work-title').value = work.title; document.getElementById('new-work-url').value = work.url || ""; document.getElementById('new-work-tags').value = work.tags ? work.tags.join(" ") : ""; setRating(work.rating || 0); document.getElementById('new-work-hof').checked = !!work.hallOfFame; if(work.hallOfFame) document.getElementById('work-hof-icon').classList.add('gold'); else document.getElementById('work-hof-icon').classList.remove('gold'); if(work.image) { const img = document.getElementById('work-preview-img'); img.src = work.image; img.style.display = "block"; workCurrentFocus = { x: work.focusX || 50, y: work.focusY || 50 }; moveFocusMarker(workCurrentFocus.x, workCurrentFocus.y, 'work-focus-point'); } else { document.getElementById('work-preview-img').style.display = "none"; } document.getElementById('delete-work-btn').style.display = "block"; loadTagSuggestions('work'); document.getElementById('add-work-modal').style.display = 'flex'; }
     function openSettingsModal() { document.getElementById('settings-modal').style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    async function pasteUrl() { try { const text = await navigator.clipboard.readText(); document.getElementById('new-work-url').value = text; } catch (err) { alert("手動で貼り付けてください"); } }
+    function previewImage(input, targetId) { const file = input.files[0]; if (file) { const reader = new FileReader(); reader.onload = function(e) { const img = document.getElementById(targetId); img.src = e.target.result; img.style.display = "block"; const markerId = targetId === 'work-preview-img' ? 'work-focus-point' : 'focus-point'; if(targetId === 'preview-img') document.querySelector('#preview-box div').style.display = "none"; moveFocusMarker(50, 50, markerId); }; reader.readAsDataURL(file); } }
+    function setFocus(event, type) { const imgId = type === 'work' ? 'work-preview-img' : 'preview-img'; const markerId = type === 'work' ? 'work-focus-point' : 'focus-point'; const img = document.getElementById(imgId); if (!img.src || img.style.display === 'none') return; const rect = img.getBoundingClientRect(); const xPercent = ((event.clientX - rect.left) / rect.width) * 100; const yPercent = ((event.clientY - rect.top) / rect.height) * 100; if(type === 'work') workCurrentFocus = { x: xPercent, y: yPercent }; else currentFocus = { x: xPercent, y: yPercent }; moveFocusMarker(xPercent, yPercent, markerId); }
+    function moveFocusMarker(x, y, id) { const marker = document.getElementById(id); if(marker) { marker.style.left = x + "%"; marker.style.top = y + "%"; marker.style.display = "block"; } }
 
     function savePerson() {
         const id = document.getElementById('edit-person-id').value; const name = document.getElementById('new-person-name').value;
@@ -881,7 +849,7 @@
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("上書き復元しますか？")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); tx.oncomplete = () => { alert("復元完了"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("エラー"); } }; reader.readAsText(file); }
     function resetAllData() { if(confirm("全データを削除しますか？")) { const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.oncomplete = () => { alert("初期化完了"); closeModal('settings-modal'); loadHomeData(); } } }
     
-    // Analysis Render Helpers (keeping same logic)
+    // Analysis Helper Functions
     function renderAnalysis() {
         const now = new Date(); const year = now.getFullYear(); const month = now.getMonth(); 
         document.getElementById('cal-month-label').innerText = `${month+1}/${year}`;
@@ -889,7 +857,14 @@
         let logs=[], people=[], works=[];
         Promise.all([ new Promise(r => tx.objectStore("logs").getAll().onsuccess = e => r(e.target.result)), new Promise(r => tx.objectStore("people").getAll().onsuccess = e => r(e.target.result)), new Promise(r => tx.objectStore("works").getAll().onsuccess = e => r(e.target.result)) ]).then(res => { logs = res[0]; people = res[1]; works = res[2]; let total = 0; people.forEach(p => total += (p.count||0)); document.getElementById('total-usage-display').innerHTML = total + '<span class="stats-unit">回</span>'; renderCalendar(year, month, logs); renderPieChart(works); renderPersonTagRanking(people); renderTagRanking(works); renderChampion(logs, people); renderGobusata(people); people.sort((a, b) => (b.count || 0) - (a.count || 0)); renderRanking(people.slice(0, 5)); });
     }
-    // ... Other render functions are same as before ...
+    // ... Other render functions same as before ...
+    function renderPieChart(works) { const tagCounts = {}; let totalTags = 0; works.forEach(w => { if((w.rating >= 4 || w.hallOfFame) && w.tags) { w.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; totalTags++; }); } }); const container = document.getElementById('pie-rated'); container.innerHTML = ""; if(totalTags === 0) { container.innerHTML = "<div style='font-size:12px; color:#555;'>No Data</div>"; return; } const sorted = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,5); let gradientStr = ""; let currentDeg = 0; const colors = ['#d4af37', '#b89630', '#8a7024', '#5e4d1a', '#333']; let legendHtml = '<div class="pie-legend">'; sorted.forEach((item, idx) => { const deg = (item[1] / totalTags) * 360; const color = colors[idx] || '#333'; gradientStr += `${color} ${currentDeg}deg ${currentDeg + deg}deg, `; currentDeg += deg; legendHtml += `<div class="legend-item"><div class="legend-color" style="background:${color}"></div>${item[0]}</div>`; }); if(currentDeg < 360) gradientStr += `#111 ${currentDeg}deg 360deg`; else gradientStr = gradientStr.slice(0, -2); const chart = document.createElement('div'); chart.className = 'pie-chart'; chart.style.background = `conic-gradient(${gradientStr})`; chart.innerHTML = `<div class="pie-hole"><div style="font-size:10px; color:#888;">TOTAL</div><div style="font-size:14px; color:#d4af37;">${totalTags}</div></div>`; container.appendChild(chart); container.insertAdjacentHTML('beforeend', legendHtml + '</div>'); }
+    function renderPersonTagRanking(people) { const tagMap = {}; people.forEach(p => { const weight = p.count || 0; if(weight>0 && p.tags) p.tags.forEach(t => tagMap[t] = (tagMap[t]||0)+weight); }); const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5); const container = document.getElementById('person-tag-ranking'); container.innerHTML = ""; if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; } const maxVal = sorted[0].val; sorted.forEach(item => { const percent = (item.val / maxVal) * 100; const div = document.createElement('div'); div.className = 'tag-bar'; div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`; container.appendChild(div); }); }
+    function renderTagRanking(works) { const tagMap = {}; works.forEach(w => { const weight = w.count || 0; if(weight>0 && w.tags) w.tags.forEach(t => tagMap[t] = (tagMap[t]||0)+weight); }); const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5); const container = document.getElementById('tag-ranking'); container.innerHTML = ""; if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; } const maxVal = sorted[0].val; sorted.forEach(item => { const percent = (item.val / maxVal) * 100; const div = document.createElement('div'); div.className = 'tag-bar'; div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`; container.appendChild(div); }); }
+    function renderCalendar(year, month, logs) { const grid = document.getElementById('calendar-grid'); grid.innerHTML = ""; const activeDays = new Set(); logs.forEach(log => { const d = new Date(log.timestamp); if (d.getFullYear() === year && d.getMonth() === month) activeDays.add(d.getDate()); }); const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate(); for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div')); const today = new Date(); const isCurrentMonth = (today.getFullYear() === year && today.getMonth() === month); for (let d = 1; d <= daysInMonth; d++) { const cell = document.createElement('div'); cell.className = 'cal-day'; cell.innerText = d; if (activeDays.has(d)) cell.classList.add('active'); if (isCurrentMonth && d === today.getDate()) cell.classList.add('today'); grid.appendChild(cell); } }
+    function renderChampion(logs, people) { const area = document.getElementById('champion-area'); const now = new Date(); const currentMonth = now.getMonth(); const currentYear = now.getFullYear(); const monthlyCounts = {}; logs.forEach(l => { const d = new Date(l.timestamp); if(d.getMonth() === currentMonth && d.getFullYear() === currentYear) monthlyCounts[l.personId] = (monthlyCounts[l.personId] || 0) + 1; }); let championId = null; let maxCount = 0; for(const [pid, count] of Object.entries(monthlyCounts)) { if(count > maxCount) { maxCount = count; championId = parseInt(pid); } } if(championId) { const champion = people.find(p => p.id === championId); if(champion) { const focusStyle = `object-position: ${champion.focusX||50}% ${champion.focusY||50}%`; area.innerHTML = `<div class="champion-box" onclick="openDetail(${champion.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${champion.image || ''}" class="champion-img" style="${champion.image?'': 'background:#333'}; ${focusStyle}"></div><div class="champion-name">${champion.name}</div><div class="champion-score">${maxCount} Selections</div></div>`; area.style.display = 'block'; return; } } area.style.display = 'none'; }
+    function renderGobusata(people) { const list = document.getElementById('gobusata-list'); const area = document.getElementById('gobusata-area'); list.innerHTML = ""; const now = new Date(); const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30)); const targets = people.filter(p => { if(!p.lastUsed) return true; return new Date(p.lastUsed) < thirtyDaysAgo; }); if(targets.length === 0) { area.style.display = 'none'; return; } area.style.display = 'block'; targets.forEach(p => { const div = document.createElement('div'); div.className = 'gobusata-item'; const img = p.image || ''; const focusStyle = `object-position: ${p.focusX||50}% ${p.focusY||50}%`; div.innerHTML = `<img src="${img}" class="gobusata-img" style="${img?'':'background:#333'}; ${focusStyle}"><div class="gobusata-name">${p.name}</div>`; div.onclick = () => openDetail(p.id); list.appendChild(div); }); }
+    function renderRanking(people) { const list = document.getElementById('ranking-list'); list.innerHTML = ""; people.forEach((p, index) => { const row = document.createElement('div'); row.className = 'rank-item'; row.innerHTML = `<div class="rank-num">#${index + 1}</div><div class="rank-name">${p.name}</div><div class="rank-count">${p.count}回</div>`; list.appendChild(row); }); }
 </script>
 </body>
 </html>
