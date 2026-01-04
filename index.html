@@ -37,20 +37,12 @@
 
     /* === Home Screen === */
     #home-screen { background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%); }
-    
-    /* Mode Switcher */
-    .mode-switch-container { display: flex; justify-content: center; padding: 10px 0; gap: 20px; }
-    .mode-btn { font-size: 12px; color: #666; border-bottom: 2px solid transparent; padding-bottom: 5px; cursor: pointer; transition: 0.3s; letter-spacing: 0.1em; }
-    .mode-btn.active { color: #d4af37; border-bottom: 2px solid #d4af37; font-weight: bold; }
-
-    .search-area-wrapper { padding: 0 20px 10px; display: flex; gap: 10px; }
+    .search-area-wrapper { padding: 10px 20px 0; display: flex; gap: 10px; }
     .search-input { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #fff; font-size: 14px; outline: none; }
     .filter-btn { width: 40px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #d4af37; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .filter-btn.active { background: #d4af37; color: #000; }
 
     .section-title { color: #888; font-size: 12px; margin: 25px 20px 10px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
-    
-    /* Lists */
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
     .person-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .person-card:active { transform: scale(0.96); border-color: #d4af37; }
@@ -60,9 +52,6 @@
     .info-area { padding: 10px; }
     .name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
     .count { color: #d4af37; font-size: 11px; }
-
-    /* Work List in Home */
-    .work-list-home { padding: 0 20px; padding-bottom: 120px; }
 
     /* === Analysis Screen === */
     #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
@@ -82,7 +71,7 @@
     .cal-day.today { border: 1px solid #666; }
 
     .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
-    .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
     .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
     .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
     .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
@@ -121,11 +110,16 @@
 
     /* === Detail Screen === */
     #detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2500; flex-direction: column; }
-    .detail-fixed-header { flex-shrink: 0; position: relative; width: 100%; height: 40vh; overflow: hidden; border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
+    .detail-fixed-header { flex-shrink: 0; position: relative; width: 100%; height: 45vh; overflow: hidden; border-bottom: 1px solid rgba(212, 175, 55, 0.3); }
     .detail-bg-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
     .detail-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, #000 10%, transparent); padding: 20px; box-sizing: border-box; }
-    .detail-name { font-size: 32px; font-weight: bold; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
-    .detail-stats { color: #d4af37; font-family: monospace; font-size: 16px; margin-bottom: 8px;}
+    .detail-name { font-size: 32px; font-weight: bold; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+    
+    /* Specs (Cup, Age) */
+    .detail-specs { font-size: 13px; color: #fff; margin-bottom: 5px; font-family: sans-serif; display: flex; gap: 10px; align-items: center; }
+    .detail-spec-item { background: rgba(212, 175, 55, 0.2); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.4); }
+
+    .detail-stats { color: #d4af37; font-family: monospace; font-size: 14px; margin-bottom: 8px;}
     
     .person-profile-text { font-size: 12px; color: #ccc; line-height: 1.5; margin-bottom: 10px; }
     .person-tags-area { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
@@ -172,7 +166,9 @@
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); z-index: 3500; align-items: center; justify-content: center; }
     .modal-content { background: #1a1a2e; border: 1px solid #d4af37; padding: 20px; width: 85%; max-height: 80vh; overflow-y: auto; border-radius: 10px; text-align: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
     .modal-title { color: #d4af37; margin-bottom: 20px; font-size: 18px; }
-    input[type="text"], input[type="url"], textarea { width: 100%; padding: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.1); border: 1px solid #555; color: #fff; border-radius: 5px; box-sizing: border-box; }
+    input[type="text"], input[type="url"], input[type="date"], textarea { width: 100%; padding: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.1); border: 1px solid #555; color: #fff; border-radius: 5px; box-sizing: border-box; }
+    /* Date input placeholder fix */
+    input[type="date"] { font-family: inherit; color: #fff; }
     textarea { height: 80px; resize: none; font-family: inherit; }
     input[type="file"] { display: none; }
     .file-select-btn { display: inline-block; padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid #666; color: #ccc; border-radius: 4px; margin-bottom: 10px; font-size: 12px; cursor: pointer; }
@@ -237,23 +233,13 @@
 </header>
 
 <div id="home-screen" class="tab-content">
-    
-    <div class="mode-switch-container">
-        <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE MODE</div>
-        <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY MODE</div>
-    </div>
-
     <div class="search-area-wrapper">
-        <input type="search" class="search-input" id="search-input" placeholder="Search..." oninput="filterHomeList()">
+        <input type="search" class="search-input" id="search-input" placeholder="Search Muses..." oninput="filterPeople()">
         <div class="filter-btn" id="filter-btn" onclick="openTagFilterModal()">🏷️</div>
     </div>
-    
-    <div class="section-title" id="home-list-title">登録済みのミューズ (長押しで編集)</div>
-    
+    <div class="section-title">登録済みのミューズ (長押しで編集)</div>
     <div class="card-list" id="person-list"></div>
-    <div class="work-list-home" id="work-list-home" style="display:none;"></div>
-
-    <div class="fab" onclick="handleFabClick()">＋</div>
+    <div class="fab" onclick="openAddPersonModal()">＋</div>
 </div>
 
 <div id="analysis-screen" class="tab-content">
@@ -271,10 +257,7 @@
         <div class="cal-grid" id="calendar-grid"></div>
     </div>
 
-    <div class="section-title">MUSE TYPES (Actress Tags)</div>
-    <div id="person-tag-ranking" style="margin-bottom:30px;"></div>
-
-    <div class="section-title">SCENE TRENDS (Work Tags)</div>
+    <div class="section-title">TAG TRENDS</div>
     <div id="tag-ranking" style="margin-bottom:30px;"></div>
 
     <div class="champion-area" id="champion-area"></div>
@@ -305,6 +288,10 @@
         <img id="detail-img" class="detail-bg-img" src="">
         <div class="detail-overlay">
             <div class="detail-name" id="detail-name">Name</div>
+            
+            <div class="detail-specs" id="detail-specs">
+                </div>
+
             <div class="detail-stats" id="detail-count">Selection: 0</div>
             <div class="person-profile-text" id="detail-profile"></div>
             <div class="person-tags-area" id="detail-person-tags"></div>
@@ -360,6 +347,15 @@
         <div class="modal-title" id="person-modal-title">人物を追加</div>
         <input type="hidden" id="edit-person-id">
         <input type="text" id="new-person-name" placeholder="名前を入力">
+        
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="new-person-cup" placeholder="カップ数 (例: G)" style="flex:1;">
+            <div style="flex:2;">
+                <div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div>
+                <input type="date" id="new-person-birthday">
+            </div>
+        </div>
+
         <textarea id="new-person-profile" placeholder="プロフィール・メモ"></textarea>
         <input type="text" id="new-person-tags" placeholder="タグ (スペース区切り: ギャル 人妻)">
         
@@ -487,7 +483,6 @@
     let allPeopleCache = []; 
     let allWorksCache = [];
     let selectedTags = new Set(); 
-    let homeMode = 'people'; // 'people' or 'works'
 
     window.onload = function() {
         const request = indexedDB.open("SecretMuseumDB", 6);
@@ -510,76 +505,47 @@
     };
 
     // === Home Logic ===
-    function setHomeMode(mode) {
-        homeMode = mode;
-        document.getElementById('mode-people').className = mode === 'people' ? 'mode-btn active' : 'mode-btn';
-        document.getElementById('mode-works').className = mode === 'works' ? 'mode-btn active' : 'mode-btn';
-        
-        document.getElementById('search-input').value = "";
-        selectedTags.clear();
-        document.getElementById('filter-btn').classList.remove('active');
-        
-        const title = document.getElementById('home-list-title');
-        title.innerText = mode === 'people' ? "登録済みのミューズ (長押しで編集)" : "すべての作品 (タップで詳細)";
-        
-        filterHomeList();
-    }
-
-    function handleFabClick() {
-        // Only allow adding people from Home. Works added via Person Detail.
-        openAddPersonModal(); 
-    }
-
     function loadHomeData() {
         const tx = db.transaction(["people", "works"], "readonly");
         tx.objectStore("people").getAll().onsuccess = function(e) {
             allPeopleCache = e.target.result;
             allPeopleCache.sort((a, b) => (b.count || 0) - (a.count || 0));
-            
+            // Get works for filtering
             const wStore = db.transaction(["works"], "readonly").objectStore("works");
             wStore.getAll().onsuccess = function(ev) {
                 allWorksCache = ev.target.result;
-                // Sort works by recency or count? let's do count for now
-                allWorksCache.sort((a, b) => (b.count || 0) - (a.count || 0));
-                filterHomeList(); 
+                filterPeople(); 
             };
         };
     }
 
-    function filterHomeList() {
+    // --- Filter Logic ---
+    function filterPeople() {
         const query = document.getElementById('search-input').value.toLowerCase();
-        const isExact = document.getElementById('tag-exact-match').checked;
-        const filterBtn = document.getElementById('filter-btn');
-        if(selectedTags.size > 0) filterBtn.classList.add('active'); else filterBtn.classList.remove('active');
+        let filtered = allPeopleCache.filter(p => p.name.toLowerCase().includes(query));
 
-        if (homeMode === 'people') {
-            document.getElementById('person-list').style.display = 'grid';
-            document.getElementById('work-list-home').style.display = 'none';
-
-            let filtered = allPeopleCache.filter(p => p.name.toLowerCase().includes(query));
-            if (selectedTags.size > 0) {
-                filtered = filtered.filter(p => {
-                    const pTags = p.tags || [];
-                    if(isExact) return Array.from(selectedTags).every(t => pTags.includes(t));
-                    else return pTags.some(t => selectedTags.has(t));
+        if (selectedTags.size > 0) {
+            const filterBtn = document.getElementById('filter-btn');
+            filterBtn.classList.add('active');
+            const isExact = document.getElementById('tag-exact-match').checked;
+            
+            // Find personIds that have works with selected tags
+            filtered = filtered.filter(p => {
+                const pWorks = allWorksCache.filter(w => w.personId === p.id);
+                return pWorks.some(w => {
+                    if(!w.tags) return false;
+                    if(isExact) {
+                        return Array.from(selectedTags).every(t => w.tags.includes(t));
+                    } else {
+                        return w.tags.some(t => selectedTags.has(t));
+                    }
                 });
-            }
-            renderPeopleList(filtered);
-
+            });
         } else {
-            document.getElementById('person-list').style.display = 'none';
-            document.getElementById('work-list-home').style.display = 'block';
-
-            let filtered = allWorksCache.filter(w => w.title.toLowerCase().includes(query));
-            if (selectedTags.size > 0) {
-                filtered = filtered.filter(w => {
-                    const wTags = w.tags || [];
-                    if(isExact) return Array.from(selectedTags).every(t => wTags.includes(t));
-                    else return wTags.some(t => selectedTags.has(t));
-                });
-            }
-            renderWorkListForHome(filtered);
+            document.getElementById('filter-btn').classList.remove('active');
         }
+
+        renderPeopleList(filtered);
     }
 
     function renderPeopleList(people) {
@@ -614,46 +580,12 @@
         });
     }
 
-    function renderWorkListForHome(works) {
-        const container = document.getElementById('work-list-home');
-        container.innerHTML = "";
-        if (works.length === 0) { container.innerHTML = "<div style='text-align:center; color:#555; margin-top:20px;'>No Result</div>"; return; }
-        
-        works.forEach(w => {
-            const div = document.createElement('div');
-            div.className = 'work-item';
-            let tagsHtml = "";
-            if(w.tags && w.tags.length > 0) tagsHtml = w.tags.map(t => `<span class="tag">${t}</span>`).join("");
-            let thumbHtml = "";
-            if(w.image) thumbHtml = `<img src="${w.image}" class="work-thumb" style="object-position: ${w.focusX||50}% ${w.focusY||50}%">`;
-            
-            div.innerHTML = `
-                ${thumbHtml}
-                <div class="work-info">
-                    <h3>${w.title}</h3>
-                    <div class="work-tags">${tagsHtml}</div>
-                </div>
-                <div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>
-            `;
-            // Home Works: Click to details, No long press edit (edit in Person Detail)
-            div.onclick = (e) => {
-                if(!e.target.classList.contains('play-btn')) openWorkDetail(w);
-            };
-            container.appendChild(div);
-        });
-    }
-
     // --- Tag Filter Modal ---
     function openTagFilterModal() {
         const container = document.getElementById('filter-tag-container');
         container.innerHTML = "";
         const allTags = new Set();
-        
-        if (homeMode === 'people') {
-            allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => allTags.add(t)); });
-        } else {
-            allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => allTags.add(t)); });
-        }
+        allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => allTags.add(t)); });
 
         if(allTags.size === 0) {
             container.innerHTML = "<div style='font-size:12px; color:#666;'>タグが登録されていません</div>";
@@ -672,10 +604,10 @@
         document.getElementById('tag-filter-modal').style.display = 'flex';
     }
     function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
-    function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); }
-    function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
+    function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); } 
+    function applyTagFilter() { closeTagFilterModal(); filterPeople(); }
 
-    // === Analysis Logic (Updated) ===
+    // === Analysis Logic ===
     function renderAnalysis() {
         const now = new Date();
         const year = now.getFullYear();
@@ -684,6 +616,7 @@
         document.getElementById('cal-month-label').innerText = `${monthNames[month]} ${year}`;
 
         const tx = db.transaction(["logs", "people", "works"], "readonly");
+        
         let logs=[], people=[], works=[];
         const q1 = new Promise(r => tx.objectStore("logs").getAll().onsuccess = e => r(e.target.result));
         const q2 = new Promise(r => tx.objectStore("people").getAll().onsuccess = e => r(e.target.result));
@@ -694,56 +627,11 @@
             let total = 0; people.forEach(p => total += (p.count||0));
             document.getElementById('total-usage-display').innerHTML = total + '<span class="stats-unit">回</span>';
             renderCalendar(year, month, logs);
-            renderPersonTagRanking(people); // New
             renderTagRanking(works);
             renderChampion(logs, people);
             renderGobusata(people);
             people.sort((a, b) => (b.count || 0) - (a.count || 0));
             renderRanking(people.slice(0, 5));
-        });
-    }
-
-    function renderPersonTagRanking(people) {
-        const tagMap = {};
-        people.forEach(p => {
-            if(p.tags && p.tags.length > 0) {
-                const weight = p.count ? p.count : 1; 
-                p.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + weight; });
-            }
-        });
-        const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5);
-        const container = document.getElementById('person-tag-ranking');
-        container.innerHTML = "";
-        if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; }
-        const maxVal = sorted[0].val;
-        sorted.forEach(item => {
-            const percent = (item.val / maxVal) * 100;
-            const div = document.createElement('div');
-            div.className = 'tag-bar';
-            div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`;
-            container.appendChild(div);
-        });
-    }
-
-    function renderTagRanking(works) {
-        const tagMap = {};
-        works.forEach(w => {
-            if(w.tags && w.tags.length > 0) {
-                const weight = w.count ? w.count : 1; 
-                w.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + weight; });
-            }
-        });
-        const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5);
-        const container = document.getElementById('tag-ranking');
-        container.innerHTML = "";
-        if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; }
-        const maxVal = sorted[0].val;
-        sorted.forEach(item => {
-            const percent = (item.val / maxVal) * 100;
-            const div = document.createElement('div');
-            div.className = 'tag-bar';
-            div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`;
-            container.appendChild(div);
         });
     }
 
@@ -768,6 +656,28 @@
             if (isCurrentMonth && d === today.getDate()) cell.classList.add('today');
             grid.appendChild(cell);
         }
+    }
+    
+    function renderTagRanking(works) {
+        const tagMap = {};
+        works.forEach(w => {
+            if(w.tags && w.tags.length > 0) {
+                const weight = w.count ? w.count : 1; 
+                w.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + weight; });
+            }
+        });
+        const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5);
+        const container = document.getElementById('tag-ranking');
+        container.innerHTML = "";
+        if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; }
+        const maxVal = sorted[0].val;
+        sorted.forEach(item => {
+            const percent = (item.val / maxVal) * 100;
+            const div = document.createElement('div');
+            div.className = 'tag-bar';
+            div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`;
+            container.appendChild(div);
+        });
     }
 
     function renderChampion(logs, people) {
@@ -856,6 +766,17 @@
             document.getElementById('detail-count').innerText = "Selection: " + (p.count || 0);
             document.getElementById('detail-profile').innerText = p.profile || "";
             
+            // New Specs Display
+            const specsDiv = document.getElementById('detail-specs');
+            specsDiv.innerHTML = "";
+            let specsHtml = "";
+            if(p.cup) specsHtml += `<div class="detail-spec-item">${p.cup} cup</div>`;
+            if(p.birthday) {
+                const age = getAge(p.birthday);
+                specsHtml += `<div class="detail-spec-item">${age} yo (${p.birthday.replace(/-/g, '/')})</div>`;
+            }
+            specsDiv.innerHTML = specsHtml;
+
             const tagsDiv = document.getElementById('detail-person-tags');
             tagsDiv.innerHTML = "";
             if(p.tags) p.tags.forEach(t => tagsDiv.innerHTML += `<span class="tag">${t}</span>`);
@@ -869,6 +790,16 @@
         const detailScreen = document.getElementById('detail-screen');
         detailScreen.style.display = 'flex';
         detailScreen.classList.add('fade-in');
+    }
+
+    function getAge(birthdayString) {
+        if(!birthdayString) return "";
+        const birthDate = new Date(birthdayString);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
+        return age;
     }
 
     function renderWorkList(works) {
@@ -945,18 +876,13 @@
     // === Play Action ===
     function useWork(workId) {
         if(!currentPersonId) {
-            // Found via Home Work Search? Need to get personID from Work
             const tx = db.transaction(["works"], "readonly");
             tx.objectStore("works").get(workId).onsuccess = (e) => {
                 const w = e.target.result;
-                if(w) {
-                    currentPersonId = w.personId;
-                    useWork(workId); // Retry with personId set
-                }
+                if(w) { currentPersonId = w.personId; useWork(workId); }
             };
             return;
         }
-
         const tx = db.transaction(["people", "logs", "works"], "readwrite");
         const pStore = tx.objectStore("people");
         pStore.get(currentPersonId).onsuccess = function(e) {
@@ -989,7 +915,7 @@
     }
     function showToast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
 
-    // === Random Pick (Fix) ===
+    // === Random Pick ===
     function randomPick() {
         const tx = db.transaction(["people"], "readonly");
         const store = tx.objectStore("people");
@@ -1012,6 +938,8 @@
         document.getElementById('person-modal-title').innerText = "人物を追加";
         document.getElementById('edit-person-id').value = ""; 
         document.getElementById('new-person-name').value = "";
+        document.getElementById('new-person-cup').value = "";
+        document.getElementById('new-person-birthday').value = "";
         document.getElementById('new-person-profile').value = "";
         document.getElementById('new-person-tags').value = "";
         document.getElementById('new-person-image').value = "";
@@ -1024,9 +952,10 @@
         document.getElementById('person-modal-title').innerText = "編集";
         document.getElementById('edit-person-id').value = person.id;
         document.getElementById('new-person-name').value = person.name;
+        document.getElementById('new-person-cup').value = person.cup || "";
+        document.getElementById('new-person-birthday').value = person.birthday || "";
         document.getElementById('new-person-profile').value = person.profile || "";
         document.getElementById('new-person-tags').value = person.tags ? person.tags.join(" ") : "";
-        
         if(person.image) {
             const img = document.getElementById('preview-img');
             img.src = person.image; img.style.display = "block";
@@ -1116,6 +1045,8 @@
     function savePerson() {
         const id = document.getElementById('edit-person-id').value;
         const name = document.getElementById('new-person-name').value;
+        const cup = document.getElementById('new-person-cup').value;
+        const birthday = document.getElementById('new-person-birthday').value;
         const profile = document.getElementById('new-person-profile').value;
         const tagsStr = document.getElementById('new-person-tags').value;
         const tags = tagsStr.split(/[\s　]+/).filter(t => t !== "");
@@ -1127,7 +1058,7 @@
         const tx = db.transaction(["people"], "readwrite");
         const store = tx.objectStore("people");
 
-        const data = { name: name, profile: profile, tags: tags };
+        const data = { name: name, cup: cup, birthday: birthday, profile: profile, tags: tags };
         if(hasImage) { data.image = imgSrc; data.focusX = currentFocus.x; data.focusY = currentFocus.y; }
         
         if (id) {
