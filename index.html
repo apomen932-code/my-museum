@@ -45,30 +45,33 @@
     .search-input { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #fff; font-size: 14px; outline: none; }
     .filter-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #d4af37; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .filter-btn.active { background: #d4af37; color: #000; }
-    
-    /* Sort Button */
     .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
     .section-title { color: #888; font-size: 12px; margin: 25px 20px 10px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
     
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
+    
+    /* Person Card */
     .person-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .person-card:active { transform: scale(0.96); border-color: #d4af37; }
     .person-card.pressing { transform: scale(0.95); border-color: #ff4444; }
+    .person-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb-placeholder { color: #333; font-size: 10px; }
+    
     .info-area { padding: 10px; }
     .name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
     .count { color: #d4af37; font-size: 11px; }
 
+    /* Work Card */
     .work-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .work-card:active { transform: scale(0.96); border-color: #d4af37; }
+    .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
     .work-card-title { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; height: 2.8em; }
     
-    /* Hall of Fame Styling */
-    .hof-card { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.3); }
-    .hof-badge { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
-    
+    .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
 
@@ -102,7 +105,7 @@
     .legend-item { display: flex; align-items: center; gap: 4px; }
     .legend-color { width: 8px; height: 8px; border-radius: 2px; }
 
-    /* Queen */
+    /* The QUEEN */
     .champion-area { margin-bottom: 30px; display: none; }
     .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
     .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; position: relative; z-index: 2; }
@@ -203,6 +206,7 @@
     .btn-save { background: #d4af37; color: #000; font-weight: bold; }
     .btn-danger { background: #800; color: #fff; font-size:10px; margin-top:20px; }
 
+    /* Tag Filter Chips */
     .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; justify-content: center; }
     .filter-chip { padding: 6px 12px; border-radius: 20px; border: 1px solid #555; font-size: 12px; color: #aaa; cursor: pointer; transition: 0.2s; }
     .filter-chip.selected { background: #d4af37; color: #000; border-color: #d4af37; }
@@ -213,7 +217,7 @@
     .tag-s-chip { font-size: 10px; background: #333; border: 1px solid #555; padding: 3px 8px; border-radius: 10px; color: #ccc; cursor: pointer; transition:0.2s;}
     .tag-s-chip:active { background: #d4af37; color: #000; }
 
-    /* New Rating/HOF Styles */
+    /* Rating/HOF Styles */
     .star-rating { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; font-size: 24px; color: #444; cursor: pointer; }
     .star-rating span.on { color: #d4af37; }
     .hof-toggle { text-align: center; margin-bottom: 15px; }
@@ -286,10 +290,8 @@
     </div>
 
     <div class="section-title" id="home-list-title">登録済みのミューズ (長押しで編集)</div>
-    
     <div class="card-list" id="person-list"></div>
     <div class="card-list" id="work-list-home" style="display:none;"></div>
-
     <div class="fab" onclick="handleFabClick()">＋</div>
 </div>
 
@@ -418,6 +420,12 @@
                 <input type="date" id="new-person-birthday">
             </div>
         </div>
+        
+        <div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:15px;">
+            <div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame (殿堂入り)</div>
+            <input type="checkbox" id="new-person-hof" style="display:none;">
+        </div>
+
         <textarea id="new-person-profile" placeholder="プロフィール・メモ"></textarea>
         <input type="text" id="new-person-tags" placeholder="タグ (スペース区切り)">
         <div class="tag-suggestions" id="person-tag-suggestions"></div>
@@ -450,8 +458,8 @@
         <div class="star-rating" id="work-rating-input">
             <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
         </div>
-        <div class="hof-toggle" onclick="toggleHOFInput()">
-            <div class="hof-label"><span class="crown-icon" id="hof-icon-input">👑</span> Hall of Fame (殿堂入り)</div>
+        <div class="hof-toggle" onclick="toggleHOFInput('work')">
+            <div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame (殿堂入り)</div>
             <input type="checkbox" id="new-work-hof" style="display:none;">
         </div>
 
@@ -486,20 +494,14 @@
 </div>
 
 <script>
-    // === Init & Elements ===
-    let currentInput = '0';
-    const SECRET_CODE = '4519';
-    const display = document.getElementById('calc-display');
-    const calcScreen = document.getElementById('calculator-screen');
-    const appHeader = document.getElementById('app-header');
-    const bottomNav = document.getElementById('bottom-nav');
-    const homeScreen = document.getElementById('home-screen');
-    const analysisScreen = document.getElementById('analysis-screen');
-
-    let currentRating = 0; // For input
-    let sortMode = { home: 'count', detail: 'count' }; // 'count', 'rating', 'newest'
-
-    // === Panic Button ===
+    // === Init ===
+    let currentInput = '0'; const SECRET_CODE = '4519';
+    const display = document.getElementById('calc-display'); const calcScreen = document.getElementById('calculator-screen');
+    const appHeader = document.getElementById('app-header'); const bottomNav = document.getElementById('bottom-nav');
+    const homeScreen = document.getElementById('home-screen'); const analysisScreen = document.getElementById('analysis-screen');
+    let currentRating = 0; let sortMode = { home: 'count', detail: 'count' };
+    
+    // Panic
     let lastTap = 0;
     document.getElementById('panic-button').addEventListener('click', function(e) {
         const currentTime = new Date().getTime();
@@ -507,7 +509,7 @@
         lastTap = currentTime;
     });
 
-    // === Calculator ===
+    // Calc
     function updateDisplay() { display.innerText = currentInput; }
     function inputNum(num) { if (currentInput === '0') currentInput = num; else currentInput += num; updateDisplay(); }
     function clearCalc() { currentInput = '0'; updateDisplay(); }
@@ -515,35 +517,30 @@
     function unlockApp() {
         calcScreen.style.transform = 'scale(1.2)'; calcScreen.style.opacity = '0';
         setTimeout(() => {
-            calcScreen.style.display = 'none';
-            appHeader.style.display = 'flex'; bottomNav.style.display = 'flex'; homeScreen.style.display = 'flex';
+            calcScreen.style.display = 'none'; appHeader.style.display = 'flex'; bottomNav.style.display = 'flex'; homeScreen.style.display = 'flex';
             setTimeout(() => { appHeader.style.opacity = '1'; homeScreen.style.opacity = '1'; }, 50);
         }, 800);
     }
 
-    // === Navigation ===
+    // Navigation
     function switchTab(tabName) {
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         if (tabName === 'home') {
             homeScreen.style.display = 'flex'; analysisScreen.style.display = 'none';
-            document.querySelectorAll('.nav-item')[0].classList.add('active');
-            loadHomeData(); 
+            document.querySelectorAll('.nav-item')[0].classList.add('active'); loadHomeData(); 
         } else {
             homeScreen.style.display = 'none'; analysisScreen.style.display = 'block';
-            document.querySelectorAll('.nav-item')[1].classList.add('active');
-            renderAnalysis(); 
+            document.querySelectorAll('.nav-item')[1].classList.add('active'); renderAnalysis(); 
         }
     }
 
-    // === DB Setup (Ver 7) ===
-    let db;
-    let currentFocus = { x: 50, y: 50 }; let workCurrentFocus = { x: 50, y: 50 };
-    let currentPersonId = null;
-    let allPeopleCache = []; let allWorksCache = []; let selectedTags = new Set(); 
+    // === DB Setup (Ver 8) ===
+    let db; let currentFocus = { x: 50, y: 50 }; let workCurrentFocus = { x: 50, y: 50 };
+    let currentPersonId = null; let allPeopleCache = []; let allWorksCache = []; let selectedTags = new Set(); 
     let homeMode = 'people';
 
     window.onload = function() {
-        const request = indexedDB.open("SecretMuseumDB", 7);
+        const request = indexedDB.open("SecretMuseumDB", 8);
         request.onupgradeneeded = function(event) {
             db = event.target.result;
             if (!db.objectStoreNames.contains("people")) db.createObjectStore("people", { keyPath: "id", autoIncrement: true });
@@ -559,7 +556,7 @@
         request.onsuccess = function(event) { db = event.target.result; loadHomeData(); };
     };
 
-    // === Sorting Logic ===
+    // === Logic ===
     function toggleSortMenu(type) {
         const menu = document.getElementById(`sort-menu-${type}`);
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -569,7 +566,6 @@
         document.getElementById(`sort-menu-${context}`).style.display = 'none';
         if(context === 'home') filterHomeList();
         else if(context === 'detail') {
-            // Re-fetch works for detail
             const tx = db.transaction(["works"], "readonly");
             tx.objectStore("works").index("personId").getAll(currentPersonId).onsuccess = (e) => {
                 let works = e.target.result;
@@ -584,13 +580,11 @@
         else if(mode === 'newest') works.sort((a,b) => b.id - a.id);
     }
 
-    // === Home Logic ===
     function setHomeMode(mode) {
         homeMode = mode;
         document.getElementById('mode-people').className = mode === 'people' ? 'mode-btn active' : 'mode-btn';
         document.getElementById('mode-works').className = mode === 'works' ? 'mode-btn active' : 'mode-btn';
-        document.getElementById('search-input').value = "";
-        selectedTags.clear();
+        document.getElementById('search-input').value = ""; selectedTags.clear();
         document.getElementById('filter-btn').classList.remove('active');
         document.getElementById('home-list-title').innerText = mode === 'people' ? "登録済みのミューズ (長押しで編集)" : "すべての作品 (タップで詳細)";
         document.getElementById('sort-btn').style.display = mode === 'people' ? 'none' : 'flex';
@@ -643,21 +637,22 @@
                     else return wTags.some(t => selectedTags.has(t));
                 });
             }
-            sortWorks(filtered, sortMode.home); // Apply Sort
+            sortWorks(filtered, sortMode.home);
             renderWorkListForHome(filtered);
         }
     }
 
     function renderPeopleList(people) {
-        const list = document.getElementById('person-list');
-        list.innerHTML = "";
+        const list = document.getElementById('person-list'); list.innerHTML = "";
         if(people.length === 0) { list.innerHTML = "<div style='grid-column:span 2; text-align:center; color:#555; font-size:12px; margin-top:20px;'>No Result</div>"; return; }
         people.forEach(p => {
             const card = document.createElement('div');
             card.className = 'person-card';
+            if(p.hallOfFame) card.classList.add('hof');
+            let crown = p.hallOfFame ? '<div class="card-crown">👑</div>' : '';
             let imgHtml = '<div class="thumb-placeholder">NO IMAGE</div>';
             if (p.image) imgHtml = `<img src="${p.image}" style="object-position: ${p.focusX||50}% ${p.focusY||50}%">`;
-            card.innerHTML = `<div class="thumb-area">${imgHtml}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count || 0} SELECTIONS</div></div>`;
+            card.innerHTML = `<div class="thumb-area">${imgHtml}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count || 0} SELECTIONS</div></div>`;
             
             let pressTimer = null; let isLongPress = false;
             card.addEventListener('touchstart', (e) => {
@@ -672,23 +667,18 @@
     }
 
     function renderWorkListForHome(works) {
-        const container = document.getElementById('work-list-home');
-        container.innerHTML = "";
+        const container = document.getElementById('work-list-home'); container.innerHTML = "";
         if (works.length === 0) { container.innerHTML = "<div style='grid-column:span 2; text-align:center; color:#555; font-size:12px; margin-top:20px;'>No Result</div>"; return; }
         works.forEach(w => {
             const div = document.createElement('div');
             div.className = 'work-card';
             if(w.hallOfFame) div.classList.add('hof');
+            let crown = w.hallOfFame ? '<div class="card-crown">👑</div>' : '';
             let thumbHtml = '<div class="thumb-placeholder">NO IMAGE</div>';
-            let crown = w.hallOfFame ? '<div style="position:absolute; top:5px; right:5px; font-size:16px;">👑</div>' : '';
             if(w.image) thumbHtml = `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">`;
             
             let stars = "";
-            if(w.rating > 0) {
-                stars = '<div class="rating-stars-sm">';
-                for(let i=0; i<w.rating; i++) stars += '<span class="on">★</span>';
-                stars += '</div>';
-            }
+            if(w.rating > 0) { stars = '<div class="rating-stars-sm">'; for(let i=0; i<w.rating; i++) stars += '<span class="on">★</span>'; stars += '</div>'; }
 
             div.innerHTML = `<div class="thumb-area">${thumbHtml}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count || 0} SELECTIONS</div></div>`;
             div.onclick = () => openWorkDetail(w);
@@ -696,11 +686,39 @@
         });
     }
 
-    // === Analysis Logic (Updated for Pie Chart) ===
+    function loadTagSuggestions(type) {
+        const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions'); container.innerHTML = "";
+        const tags = new Set();
+        if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
+        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
+        const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
+        Array.from(tags).sort().forEach(tag => {
+            const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
+            chip.onclick = () => { const input = document.getElementById(inputId); let val = input.value.trim(); const current = val.split(/[\s　]+/).filter(t => t); if(!current.includes(tag)) { input.value = val + (val ? " " : "") + tag; } };
+            container.appendChild(chip);
+        });
+    }
+    function openTagFilterModal() {
+        const container = document.getElementById('filter-tag-container'); container.innerHTML = "";
+        const allTags = new Set();
+        if (homeMode === 'people') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => allTags.add(t)); });
+        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => allTags.add(t)); });
+        Array.from(allTags).sort().forEach(tag => {
+            const chip = document.createElement('div'); chip.className = 'filter-chip' + (selectedTags.has(tag) ? ' selected' : ''); chip.innerText = tag;
+            chip.onclick = () => { if(selectedTags.has(tag)) { selectedTags.delete(tag); chip.classList.remove('selected'); } else { selectedTags.add(tag); chip.classList.add('selected'); } };
+            container.appendChild(chip);
+        });
+        document.getElementById('tag-filter-modal').style.display = 'flex';
+    }
+    function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
+    function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); } 
+    function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
+
+    // === Analysis ===
     function renderAnalysis() {
         const now = new Date();
         const year = now.getFullYear(); const month = now.getMonth(); 
-        document.getElementById('cal-month-label').innerText = `${year}/${month+1}`;
+        document.getElementById('cal-month-label').innerText = `${month+1}/${year}`;
         const tx = db.transaction(["logs", "people", "works"], "readonly");
         let logs=[], people=[], works=[];
         Promise.all([
@@ -712,7 +730,7 @@
             let total = 0; people.forEach(p => total += (p.count||0));
             document.getElementById('total-usage-display').innerHTML = total + '<span class="stats-unit">回</span>';
             renderCalendar(year, month, logs);
-            renderPieChart(works); // New
+            renderPieChart(works);
             renderPersonTagRanking(people); 
             renderTagRanking(works);
             renderChampion(logs, people);
@@ -721,63 +739,36 @@
             renderRanking(people.slice(0, 5));
         });
     }
-
     function renderPieChart(works) {
-        // High Rated Tags (>=4 stars or HOF)
-        const tagCounts = {};
-        let totalTags = 0;
+        const tagCounts = {}; let totalTags = 0;
         works.forEach(w => {
-            if((w.rating >= 4 || w.hallOfFame) && w.tags) {
-                w.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; totalTags++; });
-            }
+            if((w.rating >= 4 || w.hallOfFame) && w.tags) { w.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; totalTags++; }); }
         });
-        const container = document.getElementById('pie-rated');
-        container.innerHTML = "";
-        
+        const container = document.getElementById('pie-rated'); container.innerHTML = "";
         if(totalTags === 0) { container.innerHTML = "<div style='font-size:12px; color:#555;'>No Data</div>"; return; }
-
         const sorted = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
-        // Calculate gradients
-        let gradientStr = "";
-        let currentDeg = 0;
-        const colors = ['#d4af37', '#b89630', '#8a7024', '#5e4d1a', '#333'];
+        let gradientStr = ""; let currentDeg = 0; const colors = ['#d4af37', '#b89630', '#8a7024', '#5e4d1a', '#333'];
         let legendHtml = '<div class="pie-legend">';
-        
         sorted.forEach((item, idx) => {
-            const deg = (item[1] / totalTags) * 360;
-            const color = colors[idx] || '#333';
-            gradientStr += `${color} ${currentDeg}deg ${currentDeg + deg}deg, `;
-            currentDeg += deg;
+            const deg = (item[1] / totalTags) * 360; const color = colors[idx] || '#333';
+            gradientStr += `${color} ${currentDeg}deg ${currentDeg + deg}deg, `; currentDeg += deg;
             legendHtml += `<div class="legend-item"><div class="legend-color" style="background:${color}"></div>${item[0]}</div>`;
         });
-        // Fill rest
-        if(currentDeg < 360) gradientStr += `#111 ${currentDeg}deg 360deg`;
-        else gradientStr = gradientStr.slice(0, -2); 
-
-        const chart = document.createElement('div');
-        chart.className = 'pie-chart';
-        chart.style.background = `conic-gradient(${gradientStr})`;
+        if(currentDeg < 360) gradientStr += `#111 ${currentDeg}deg 360deg`; else gradientStr = gradientStr.slice(0, -2); 
+        const chart = document.createElement('div'); chart.className = 'pie-chart'; chart.style.background = `conic-gradient(${gradientStr})`;
         chart.innerHTML = `<div class="pie-hole"><div style="font-size:10px; color:#888;">TOTAL</div><div style="font-size:14px; color:#d4af37;">${totalTags}</div></div>`;
-        
-        container.appendChild(chart);
-        container.insertAdjacentHTML('beforeend', legendHtml + '</div>');
+        container.appendChild(chart); container.insertAdjacentHTML('beforeend', legendHtml + '</div>');
     }
-
-    // ... (PersonTagRanking, TagRanking, Calendar, Champion, Gobusata, Ranking logic remain similar to v11) ...
-    // Keeping brevity for existing complex logic which is stable. 
     function renderPersonTagRanking(people) {
         const tagMap = {};
         people.forEach(p => { const weight = p.count || 0; if(weight>0 && p.tags) p.tags.forEach(t => tagMap[t] = (tagMap[t]||0)+weight); });
         const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5);
-        const container = document.getElementById('person-tag-ranking');
-        container.innerHTML = "";
+        const container = document.getElementById('person-tag-ranking'); container.innerHTML = "";
         if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; }
         const maxVal = sorted[0].val;
         sorted.forEach(item => {
             const percent = (item.val / maxVal) * 100;
-            const div = document.createElement('div');
-            div.className = 'tag-bar';
-            div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`;
+            const div = document.createElement('div'); div.className = 'tag-bar'; div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`;
             container.appendChild(div);
         });
     }
@@ -785,37 +776,31 @@
         const tagMap = {};
         works.forEach(w => { const weight = w.count || 0; if(weight>0 && w.tags) w.tags.forEach(t => tagMap[t] = (tagMap[t]||0)+weight); });
         const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5);
-        const container = document.getElementById('tag-ranking');
-        container.innerHTML = "";
+        const container = document.getElementById('tag-ranking'); container.innerHTML = "";
         if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; }
         const maxVal = sorted[0].val;
         sorted.forEach(item => {
             const percent = (item.val / maxVal) * 100;
-            const div = document.createElement('div');
-            div.className = 'tag-bar';
-            div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`;
+            const div = document.createElement('div'); div.className = 'tag-bar'; div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`;
             container.appendChild(div);
         });
     }
     function renderCalendar(year, month, logs) {
         const grid = document.getElementById('calendar-grid'); grid.innerHTML = "";
-        const activeDays = new Set();
-        logs.forEach(log => { const d = new Date(log.timestamp); if (d.getFullYear() === year && d.getMonth() === month) activeDays.add(d.getDate()); });
+        const activeDays = new Set(); logs.forEach(log => { const d = new Date(log.timestamp); if (d.getFullYear() === year && d.getMonth() === month) activeDays.add(d.getDate()); });
         const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate();
         for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
         const today = new Date(); const isCurrentMonth = (today.getFullYear() === year && today.getMonth() === month);
         for (let d = 1; d <= daysInMonth; d++) {
             const cell = document.createElement('div'); cell.className = 'cal-day'; cell.innerText = d;
-            if (activeDays.has(d)) cell.classList.add('active');
-            if (isCurrentMonth && d === today.getDate()) cell.classList.add('today');
+            if (activeDays.has(d)) cell.classList.add('active'); if (isCurrentMonth && d === today.getDate()) cell.classList.add('today');
             grid.appendChild(cell);
         }
     }
     function renderChampion(logs, people) {
         const area = document.getElementById('champion-area');
         const now = new Date(); const currentMonth = now.getMonth(); const currentYear = now.getFullYear();
-        const monthlyCounts = {};
-        logs.forEach(l => { const d = new Date(l.timestamp); if(d.getMonth() === currentMonth && d.getFullYear() === currentYear) monthlyCounts[l.personId] = (monthlyCounts[l.personId] || 0) + 1; });
+        const monthlyCounts = {}; logs.forEach(l => { const d = new Date(l.timestamp); if(d.getMonth() === currentMonth && d.getFullYear() === currentYear) monthlyCounts[l.personId] = (monthlyCounts[l.personId] || 0) + 1; });
         let championId = null; let maxCount = 0;
         for(const [pid, count] of Object.entries(monthlyCounts)) { if(count > maxCount) { maxCount = count; championId = parseInt(pid); } }
         if(championId) {
@@ -863,6 +848,7 @@
             document.getElementById('detail-profile').innerText = p.profile || "";
             const specsDiv = document.getElementById('detail-specs');
             let specsHtml = "";
+            if(p.hallOfFame) specsHtml += `<div class="detail-spec-item" style="border-color:#d4af37; color:#d4af37;">👑 Hall of Fame</div>`;
             if(p.cup) specsHtml += `<div class="detail-spec-item">${p.cup} cup</div>`;
             if(p.birthday) {
                 const age = getAge(p.birthday);
@@ -883,47 +869,28 @@
         document.getElementById('detail-screen').style.display = 'flex';
         document.getElementById('detail-screen').classList.add('fade-in');
     }
-
     function getAge(birthdayString) {
         if(!birthdayString) return "";
-        const birthDate = new Date(birthdayString);
-        const today = new Date();
+        const birthDate = new Date(birthdayString); const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
         const m = today.getMonth() - birthDate.getMonth();
         if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
         return age;
     }
-
     function renderWorkList(works) {
-        const container = document.getElementById('work-list');
-        container.innerHTML = "";
+        const container = document.getElementById('work-list'); container.innerHTML = "";
         if (works.length === 0) { container.innerHTML = "<div style='text-align:center; color:#555; margin-top:20px;'>まだ作品が登録されていません</div>"; return; }
         works.forEach(w => {
-            const div = document.createElement('div');
-            div.className = 'work-item';
+            const div = document.createElement('div'); div.className = 'work-item';
             if(w.hallOfFame) div.classList.add('hof');
-            let tagsHtml = "";
-            if(w.tags && w.tags.length > 0) tagsHtml = w.tags.map(t => `<span class="tag">${t}</span>`).join("");
-            let thumbHtml = "";
-            if(w.image) thumbHtml = `<img src="${w.image}" class="work-thumb" style="object-position: ${w.focusX||50}% ${w.focusY||50}%">`;
+            let tagsHtml = ""; if(w.tags && w.tags.length > 0) tagsHtml = w.tags.map(t => `<span class="tag">${t}</span>`).join("");
+            let thumbHtml = ""; if(w.image) thumbHtml = `<img src="${w.image}" class="work-thumb" style="object-position: ${w.focusX||50}% ${w.focusY||50}%">`;
             let crown = w.hallOfFame ? '👑' : '';
-            
-            div.innerHTML = `
-                ${thumbHtml}
-                <div class="work-info">
-                    <h3>${crown} ${w.title}</h3>
-                    <div class="work-tags">${tagsHtml}</div>
-                    <div class="work-count">▶ ${w.count||0}</div>
-                </div>
-                <div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>
-            `;
-            
-            // Interaction logic (same as before)
+            div.innerHTML = `${thumbHtml}<div class="work-info"><h3>${crown} ${w.title}</h3><div class="work-tags">${tagsHtml}</div><div class="work-count">▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>`;
             let pressTimer = null; let isLongPress = false;
             div.addEventListener('touchstart', (e) => {
                 if(e.target.classList.contains('play-btn')) return;
-                isLongPress = false;
-                pressTimer = setTimeout(() => { isLongPress = true; div.classList.add('pressing'); if(navigator.vibrate) navigator.vibrate(50); setTimeout(() => div.classList.remove('pressing'), 200); openEditWorkModal(w); }, 600);
+                isLongPress = false; pressTimer = setTimeout(() => { isLongPress = true; div.classList.add('pressing'); if(navigator.vibrate) navigator.vibrate(50); setTimeout(() => div.classList.remove('pressing'), 200); openEditWorkModal(w); }, 600);
             });
             div.addEventListener('touchend', () => { if(pressTimer) clearTimeout(pressTimer); });
             div.addEventListener('touchmove', () => { if(pressTimer) clearTimeout(pressTimer); isLongPress = true; });
@@ -931,12 +898,7 @@
             container.appendChild(div);
         });
     }
-    function closeDetail() {
-        document.getElementById('detail-screen').style.display = 'none';
-        document.getElementById('home-screen').style.display = 'flex';
-        currentPersonId = null;
-        loadHomeData();
-    }
+    function closeDetail() { document.getElementById('detail-screen').style.display = 'none'; document.getElementById('home-screen').style.display = 'flex'; currentPersonId = null; loadHomeData(); }
 
     // === Work Detail ===
     function openWorkDetail(work) {
@@ -944,38 +906,151 @@
         document.getElementById('wd-meta').innerText = `Selection: ${work.count || 0}`;
         const tagsDiv = document.getElementById('wd-tags'); tagsDiv.innerHTML = "";
         if(work.tags) work.tags.forEach(t => tagsDiv.innerHTML += `<span class="tag">${t}</span>`);
-        
-        let ratingHtml = "";
-        if(work.hallOfFame) ratingHtml += "👑 Hall of Fame ";
-        if(work.rating) { for(let i=0;i<work.rating;i++) ratingHtml += "★"; }
+        let ratingHtml = ""; if(work.hallOfFame) ratingHtml += "👑 Hall of Fame "; if(work.rating) { for(let i=0;i<work.rating;i++) ratingHtml += "★"; }
         document.getElementById('wd-rating-display').innerHTML = ratingHtml;
-
         const img = document.getElementById('wd-img'); const noImg = document.getElementById('wd-no-img');
-        if(work.image) {
-            img.src = work.image; img.style.objectPosition = `${work.focusX||50}% ${work.focusY||50}%`;
-            img.style.display = "block"; noImg.style.display = "none";
-        } else { img.style.display = "none"; noImg.style.display = "block"; }
-        
+        if(work.image) { img.src = work.image; img.style.objectPosition = `${work.focusX||50}% ${work.focusY||50}%`; img.style.display = "block"; noImg.style.display = "none"; } else { img.style.display = "none"; noImg.style.display = "block"; }
         const playBtn = document.getElementById('wd-play-btn'); playBtn.onclick = () => { useWork(work.id); };
-        const linkBtn = document.getElementById('wd-link-btn');
-        if(work.url) { linkBtn.style.display = "block"; linkBtn.onclick = () => { window.open(work.url, '_blank'); }; } else { linkBtn.style.display = "none"; }
+        const linkBtn = document.getElementById('wd-link-btn'); if(work.url) { linkBtn.style.display = "block"; linkBtn.onclick = () => { window.open(work.url, '_blank'); }; } else { linkBtn.style.display = "none"; }
         const screen = document.getElementById('work-detail-screen'); screen.style.display = 'flex'; screen.classList.add('fade-in');
     }
     function closeWorkDetail() { document.getElementById('work-detail-screen').style.display = 'none'; }
 
-    // === Rating/HOF UI Logic ===
+    // === Play Action (FIXED) ===
+    function useWork(workId) {
+        // If coming from Home (Library Mode), currentPersonId is null.
+        // We must fetch work first to find personId.
+        if(!currentPersonId) {
+            const tx = db.transaction(["works"], "readonly");
+            tx.objectStore("works").get(workId).onsuccess = (e) => {
+                const w = e.target.result;
+                if(w) { 
+                    currentPersonId = w.personId; 
+                    executeUseWork(workId); // Proceed with valid personId
+                }
+            };
+        } else {
+            executeUseWork(workId);
+        }
+    }
+
+    function executeUseWork(workId) {
+        const tx = db.transaction(["people", "logs", "works"], "readwrite");
+        const pStore = tx.objectStore("people");
+        pStore.get(currentPersonId).onsuccess = function(e) {
+            const data = e.target.result;
+            if(data) {
+                data.count = (data.count || 0) + 1;
+                data.lastUsed = new Date();
+                pStore.put(data);
+                if(document.getElementById('detail-screen').style.display !== 'none') {
+                    document.getElementById('detail-count').innerText = "Selection: " + data.count;
+                }
+            }
+        };
+        const wStore = tx.objectStore("works");
+        wStore.get(workId).onsuccess = function(e) {
+            const wData = e.target.result;
+            if(wData) {
+                wData.count = (wData.count || 0) + 1;
+                wStore.put(wData);
+            }
+        };
+        const lStore = tx.objectStore("logs");
+        lStore.add({ personId: currentPersonId, workId: workId, timestamp: new Date() });
+        
+        tx.oncomplete = function() {
+            showToast();
+            if(document.getElementById('detail-screen').style.display !== 'none') {
+                const tx2 = db.transaction(["works"], "readonly");
+                tx2.objectStore("works").index("personId").getAll(currentPersonId).onsuccess = function(e) { renderWorkList(e.target.result); };
+                if(document.getElementById('work-detail-screen').style.display !== 'none') {
+                    document.getElementById('wd-meta').innerText = "Selection: Updated";
+                }
+            }
+        };
+    }
+    function showToast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2000); }
+
+    // === Random Pick (FIXED) ===
+    function randomPick() {
+        // Fetch fresh list from DB to ensure validity
+        const tx = db.transaction(["people"], "readonly");
+        const store = tx.objectStore("people");
+        store.getAll().onsuccess = function(e) {
+            const people = e.target.result;
+            if(people.length === 0) { alert("ミューズが登録されていません"); return; }
+            
+            // Visual feedback
+            const btn = document.querySelector('.header-btn.right');
+            btn.style.opacity = "0.5";
+            setTimeout(() => { btn.style.opacity = "1"; }, 100);
+
+            const randomIndex = Math.floor(Math.random() * people.length);
+            const target = people[randomIndex];
+            if(target) openDetail(target.id);
+        };
+    }
+
+    // === Rating/HOF UI ===
     function setRating(r) {
         currentRating = r;
         const spans = document.querySelectorAll('#work-rating-input span');
-        spans.forEach((s, idx) => {
-            if(idx < r) s.classList.add('on'); else s.classList.remove('on');
-        });
+        spans.forEach((s, idx) => { if(idx < r) s.classList.add('on'); else s.classList.remove('on'); });
     }
-    function toggleHOFInput() {
-        const box = document.getElementById('new-work-hof');
-        const icon = document.getElementById('hof-icon-input');
+    function toggleHOFInput(type) {
+        const id = type === 'person' ? 'new-person-hof' : 'new-work-hof';
+        const iconId = type === 'person' ? 'person-hof-icon' : 'work-hof-icon';
+        const box = document.getElementById(id);
+        const icon = document.getElementById(iconId);
         box.checked = !box.checked;
         if(box.checked) icon.classList.add('gold'); else icon.classList.remove('gold');
+    }
+
+    // === Add/Edit Person ===
+    function openAddPersonModal() {
+        document.getElementById('person-modal-title').innerText = "人物を追加";
+        document.getElementById('edit-person-id').value = ""; 
+        document.getElementById('new-person-name').value = "";
+        document.getElementById('new-person-cup').value = "";
+        document.getElementById('new-person-birthday').value = "";
+        document.getElementById('new-person-profile').value = "";
+        document.getElementById('new-person-tags').value = "";
+        document.getElementById('new-person-image').value = "";
+        document.getElementById('preview-img').style.display = "none";
+        document.getElementById('focus-point').style.display = "none";
+        document.getElementById('delete-person-btn').style.display = "none";
+        document.getElementById('new-person-hof').checked = false;
+        document.getElementById('person-hof-icon').classList.remove('gold');
+        document.getElementById('person-tag-suggestions').innerHTML = ""; 
+        loadTagSuggestions('person');
+        document.getElementById('add-person-modal').style.display = 'flex';
+    }
+    function openEditPersonModal(person) {
+        document.getElementById('person-modal-title').innerText = "編集";
+        document.getElementById('edit-person-id').value = person.id;
+        document.getElementById('new-person-name').value = person.name;
+        document.getElementById('new-person-cup').value = person.cup || "";
+        document.getElementById('new-person-birthday').value = person.birthday || "";
+        document.getElementById('new-person-profile').value = person.profile || "";
+        document.getElementById('new-person-tags').value = person.tags ? person.tags.join(" ") : "";
+        document.getElementById('new-person-hof').checked = !!person.hallOfFame;
+        if(person.hallOfFame) document.getElementById('person-hof-icon').classList.add('gold'); else document.getElementById('person-hof-icon').classList.remove('gold');
+
+        if(person.image) {
+            const img = document.getElementById('preview-img');
+            img.src = person.image; img.style.display = "block";
+            document.querySelector('#preview-box div').style.display = "none";
+            document.getElementById('preview-msg').style.display = "block";
+            currentFocus = { x: person.focusX || 50, y: person.focusY || 50 };
+            moveFocusMarker(currentFocus.x, currentFocus.y, 'focus-point');
+        } else {
+            document.getElementById('preview-img').style.display = "none";
+            document.querySelector('#preview-box div').style.display = "block";
+        }
+        document.getElementById('delete-person-btn').style.display = "block";
+        loadTagSuggestions('person');
+        document.getElementById('add-person-modal').style.display = 'flex';
     }
 
     // === Add/Edit Work ===
@@ -991,7 +1066,7 @@
         document.getElementById('delete-work-btn').style.display = "none";
         setRating(0);
         document.getElementById('new-work-hof').checked = false;
-        document.getElementById('hof-icon-input').classList.remove('gold');
+        document.getElementById('work-hof-icon').classList.remove('gold');
         loadTagSuggestions('work');
         document.getElementById('add-work-modal').style.display = 'flex';
         workCurrentFocus = { x: 50, y: 50 };
@@ -1004,21 +1079,55 @@
         document.getElementById('new-work-tags').value = work.tags ? work.tags.join(" ") : "";
         setRating(work.rating || 0);
         document.getElementById('new-work-hof').checked = !!work.hallOfFame;
-        if(work.hallOfFame) document.getElementById('hof-icon-input').classList.add('gold'); 
-        else document.getElementById('hof-icon-input').classList.remove('gold');
+        if(work.hallOfFame) document.getElementById('work-hof-icon').classList.add('gold'); else document.getElementById('work-hof-icon').classList.remove('gold');
 
         if(work.image) {
             const img = document.getElementById('work-preview-img');
             img.src = work.image; img.style.display = "block";
             workCurrentFocus = { x: work.focusX || 50, y: work.focusY || 50 };
             moveFocusMarker(workCurrentFocus.x, workCurrentFocus.y, 'work-focus-point');
-        } else { document.getElementById('work-preview-img').style.display = "none"; }
+        } else {
+            document.getElementById('work-preview-img').style.display = "none";
+        }
         document.getElementById('delete-work-btn').style.display = "block";
         loadTagSuggestions('work');
         document.getElementById('add-work-modal').style.display = 'flex';
     }
 
-    // === Save Work (Updated) ===
+    function openSettingsModal() { document.getElementById('settings-modal').style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    // === Save & Delete ===
+    function savePerson() {
+        const id = document.getElementById('edit-person-id').value;
+        const name = document.getElementById('new-person-name').value;
+        const cup = document.getElementById('new-person-cup').value;
+        const birthday = document.getElementById('new-person-birthday').value;
+        const profile = document.getElementById('new-person-profile').value;
+        const tagsStr = document.getElementById('new-person-tags').value;
+        const tags = tagsStr.split(/[\s　]+/).filter(t => t !== "");
+        const hof = document.getElementById('new-person-hof').checked;
+
+        if (!name) return alert("名前が必要です");
+        const imgSrc = document.getElementById('preview-img').src;
+        const hasImage = imgSrc && imgSrc.startsWith('data:');
+        
+        const tx = db.transaction(["people"], "readwrite");
+        const store = tx.objectStore("people");
+
+        const data = { name: name, cup: cup, birthday: birthday, profile: profile, tags: tags, hallOfFame: hof };
+        if(hasImage) { data.image = imgSrc; data.focusX = currentFocus.x; data.focusY = currentFocus.y; }
+        
+        if (id) {
+            store.get(parseInt(id)).onsuccess = (e) => {
+                const existing = e.target.result;
+                Object.assign(existing, data);
+                store.put(existing);
+            };
+        } else { store.add({ ...data, count: 0, createdAt: new Date() }); }
+        tx.oncomplete = () => { closeModal('add-person-modal'); loadHomeData(); };
+    }
+
     function saveWork() {
         if (!currentPersonId) return;
         const id = document.getElementById('edit-work-id').value;
@@ -1046,10 +1155,26 @@
         tx.oncomplete = () => { closeModal('add-work-modal'); openDetail(currentPersonId); };
     }
 
-    // ... (Existing Functions for Person, Delete, Paste, Preview, Focus, Backup, Restore - unchanged from previous version but included in full code) ...
-    // To save space in this response, assume all standard functions (savePerson, deletePerson/Work, export/import etc) are same as Ver 15 but adjusted for UI IDs.
-    // I will include them for completeness.
+    function deletePerson() {
+        const id = document.getElementById('edit-person-id').value;
+        if(!id) return;
+        if(confirm("本当に削除しますか？")) {
+            const tx = db.transaction(["people"], "readwrite");
+            tx.objectStore("people").delete(parseInt(id));
+            tx.oncomplete = () => { closeModal('add-person-modal'); loadHomeData(); };
+        }
+    }
+    function deleteWork() {
+        const id = document.getElementById('edit-work-id').value;
+        if(!id) return;
+        if(confirm("本当に削除しますか？")) {
+            const tx = db.transaction(["works"], "readwrite");
+            tx.objectStore("works").delete(parseInt(id));
+            tx.oncomplete = () => { closeModal('add-work-modal'); openDetail(currentPersonId); };
+        }
+    }
 
+    // === Helpers ===
     async function pasteUrl() { try { const text = await navigator.clipboard.readText(); document.getElementById('new-work-url').value = text; } catch (err) { alert("手動で貼り付けてください"); } }
     function previewImage(input, targetId) {
         const file = input.files[0]; if (file) {
@@ -1073,54 +1198,34 @@
     }
     function moveFocusMarker(x, y, id) { const marker = document.getElementById(id); if(marker) { marker.style.left = x + "%"; marker.style.top = y + "%"; marker.style.display = "block"; } }
 
-    function savePerson() {
-        const id = document.getElementById('edit-person-id').value; const name = document.getElementById('new-person-name').value; const cup = document.getElementById('new-person-cup').value; const birthday = document.getElementById('new-person-birthday').value; const profile = document.getElementById('new-person-profile').value; const tagsStr = document.getElementById('new-person-tags').value; const tags = tagsStr.split(/[\s　]+/).filter(t => t !== "");
-        if (!name) return alert("名前が必要です");
-        const imgSrc = document.getElementById('preview-img').src; const hasImage = imgSrc && imgSrc.startsWith('data:');
-        const tx = db.transaction(["people"], "readwrite"); const store = tx.objectStore("people");
-        const data = { name: name, cup: cup, birthday: birthday, profile: profile, tags: tags };
-        if(hasImage) { data.image = imgSrc; data.focusX = currentFocus.x; data.focusY = currentFocus.y; }
-        if (id) { store.get(parseInt(id)).onsuccess = (e) => { const existing = e.target.result; Object.assign(existing, data); store.put(existing); }; } else { store.add({ ...data, count: 0, createdAt: new Date() }); }
-        tx.oncomplete = () => { closeModal('add-person-modal'); loadHomeData(); };
+    function exportData() {
+        const tx = db.transaction(["people", "works", "logs"], "readonly");
+        const data = {};
+        let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll();
+        pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result;
+        tx.oncomplete = () => {
+            const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url);
+        };
     }
-    function deletePerson() { const id = document.getElementById('edit-person-id').value; if(!id) return; if(confirm("削除しますか？")) { const tx = db.transaction(["people"], "readwrite"); tx.objectStore("people").delete(parseInt(id)); tx.oncomplete = () => { closeModal('add-person-modal'); loadHomeData(); }; } }
-    function deleteWork() { const id = document.getElementById('edit-work-id').value; if(!id) return; if(confirm("削除しますか？")) { const tx = db.transaction(["works"], "readwrite"); tx.objectStore("works").delete(parseInt(id)); tx.oncomplete = () => { closeModal('add-work-modal'); openDetail(currentPersonId); }; } }
-    
-    function loadTagSuggestions(type) {
-        const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions'); container.innerHTML = "";
-        const tags = new Set();
-        if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
-        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
-        const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
-        Array.from(tags).sort().forEach(tag => {
-            const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
-            chip.onclick = () => { const input = document.getElementById(inputId); let val = input.value.trim(); const current = val.split(/[\s　]+/).filter(t => t); if(!current.includes(tag)) { input.value = val + (val ? " " : "") + tag; } };
-            container.appendChild(chip);
-        });
+    function importData(input) {
+        const file = input.files[0]; if(!file) return; if(!confirm("上書き復元しますか？")) return;
+        const reader = new FileReader(); reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite");
+                tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear();
+                if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i));
+                tx.oncomplete = () => { alert("復元完了"); closeModal('settings-modal'); loadHomeData(); };
+            } catch(err) { alert("エラー"); }
+        }; reader.readAsText(file);
     }
-    function openTagFilterModal() {
-        const container = document.getElementById('filter-tag-container'); container.innerHTML = "";
-        const allTags = new Set();
-        if (homeMode === 'people') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => allTags.add(t)); });
-        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => allTags.add(t)); });
-        Array.from(allTags).sort().forEach(tag => {
-            const chip = document.createElement('div'); chip.className = 'filter-chip' + (selectedTags.has(tag) ? ' selected' : ''); chip.innerText = tag;
-            chip.onclick = () => { if(selectedTags.has(tag)) { selectedTags.delete(tag); chip.classList.remove('selected'); } else { selectedTags.add(tag); chip.classList.add('selected'); } };
-            container.appendChild(chip);
-        });
-        document.getElementById('tag-filter-modal').style.display = 'flex';
+    function resetAllData() {
+        if(confirm("全データを削除しますか？")) {
+            const tx = db.transaction(["people", "works", "logs"], "readwrite");
+            tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear();
+            tx.oncomplete = () => { alert("初期化完了"); closeModal('settings-modal'); loadHomeData(); }
+        }
     }
-    function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
-    function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); } 
-    function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
-    
-    function openAddPersonModal() { document.getElementById('person-modal-title').innerText = "人物を追加"; document.getElementById('edit-person-id').value = ""; document.getElementById('new-person-name').value = ""; document.getElementById('new-person-cup').value = ""; document.getElementById('new-person-birthday').value = ""; document.getElementById('new-person-profile').value = ""; document.getElementById('new-person-tags').value = ""; document.getElementById('new-person-image').value = ""; document.getElementById('preview-img').style.display = "none"; document.getElementById('delete-person-btn').style.display = "none"; document.getElementById('person-tag-suggestions').innerHTML = ""; loadTagSuggestions('person'); document.getElementById('add-person-modal').style.display = 'flex'; }
-    function openEditPersonModal(person) { document.getElementById('person-modal-title').innerText = "編集"; document.getElementById('edit-person-id').value = person.id; document.getElementById('new-person-name').value = person.name; document.getElementById('new-person-cup').value = person.cup || ""; document.getElementById('new-person-birthday').value = person.birthday || ""; document.getElementById('new-person-profile').value = person.profile || ""; document.getElementById('new-person-tags').value = person.tags ? person.tags.join(" ") : ""; if(person.image) { const img = document.getElementById('preview-img'); img.src = person.image; img.style.display = "block"; currentFocus = { x: person.focusX || 50, y: person.focusY || 50 }; moveFocusMarker(currentFocus.x, currentFocus.y, 'focus-point'); } else { document.getElementById('preview-img').style.display = "none"; } document.getElementById('delete-person-btn').style.display = "block"; loadTagSuggestions('person'); document.getElementById('add-person-modal').style.display = 'flex'; }
-    function openSettingsModal() { document.getElementById('settings-modal').style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    function exportData() { const tx = db.transaction(["people", "works", "logs"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
-    function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("上書き復元しますか？")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); tx.oncomplete = () => { alert("復元完了"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("エラー"); } }; reader.readAsText(file); }
-    function resetAllData() { if(confirm("全データを削除しますか？")) { const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.oncomplete = () => { alert("初期化完了"); closeModal('settings-modal'); loadHomeData(); } } }
 </script>
 </body>
 </html>
