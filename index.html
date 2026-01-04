@@ -49,7 +49,7 @@
 
     .section-title { color: #888; font-size: 12px; margin: 25px 20px 10px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
     
-    /* Grid List (Both People & Works) */
+    /* Lists */
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
     
     .person-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
@@ -64,7 +64,7 @@
     .name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
     .count { color: #d4af37; font-size: 11px; }
 
-    /* Work Card (Same as Person Card) */
+    /* Work Card */
     .work-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .work-card:active { transform: scale(0.96); border-color: #d4af37; }
     .work-card-title { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; height: 2.8em; }
@@ -75,6 +75,7 @@
     .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
     .stats-value { font-size: 28px; color: #fff; }
     .stats-unit { font-size: 14px; margin-left: 5px; color: #aaa; }
+
     .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .cal-month { font-family: "Times New Roman", serif; font-size: 18px; color: #d4af37; }
@@ -83,6 +84,7 @@
     .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; position: relative; }
     .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
     .cal-day.today { border: 1px solid #666; }
+
     .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
     .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
     .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
@@ -197,7 +199,7 @@
     .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 12px; color: #ccc; cursor: pointer; }
     .checkbox-label input { width: auto; margin: 0 8px 0 0; }
 
-    /* Tag Suggestions (New) */
+    /* Tag Suggestions */
     .tag-suggestions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: -10px; margin-bottom: 15px; }
     .tag-s-chip { font-size: 10px; background: #333; border: 1px solid #555; padding: 3px 8px; border-radius: 10px; color: #ccc; cursor: pointer; transition:0.2s;}
     .tag-s-chip:active { background: #d4af37; color: #000; }
@@ -493,7 +495,7 @@
         }
     }
 
-    // === DB Setup (Ver 6) ===
+    // === DB Setup ===
     let db;
     let currentFocus = { x: 50, y: 50 };
     let workCurrentFocus = { x: 50, y: 50 };
@@ -501,7 +503,7 @@
     let allPeopleCache = []; 
     let allWorksCache = [];
     let selectedTags = new Set(); 
-    let homeMode = 'people'; // 'people' or 'works'
+    let homeMode = 'people';
 
     window.onload = function() {
         const request = indexedDB.open("SecretMuseumDB", 6);
@@ -528,27 +530,21 @@
         homeMode = mode;
         document.getElementById('mode-people').className = mode === 'people' ? 'mode-btn active' : 'mode-btn';
         document.getElementById('mode-works').className = mode === 'works' ? 'mode-btn active' : 'mode-btn';
-        
         document.getElementById('search-input').value = "";
         selectedTags.clear();
         document.getElementById('filter-btn').classList.remove('active');
-        
         const title = document.getElementById('home-list-title');
         title.innerText = mode === 'people' ? "登録済みのミューズ (長押しで編集)" : "すべての作品 (タップで詳細)";
-        
         filterHomeList();
     }
 
-    function handleFabClick() {
-        openAddPersonModal(); 
-    }
+    function handleFabClick() { openAddPersonModal(); }
 
     function loadHomeData() {
         const tx = db.transaction(["people", "works"], "readonly");
         tx.objectStore("people").getAll().onsuccess = function(e) {
             allPeopleCache = e.target.result;
             allPeopleCache.sort((a, b) => (b.count || 0) - (a.count || 0));
-            
             const wStore = db.transaction(["works"], "readonly").objectStore("works");
             wStore.getAll().onsuccess = function(ev) {
                 allWorksCache = ev.target.result;
@@ -567,7 +563,6 @@
         if (homeMode === 'people') {
             document.getElementById('person-list').style.display = 'grid';
             document.getElementById('work-list-home').style.display = 'none';
-
             let filtered = allPeopleCache.filter(p => p.name.toLowerCase().includes(query));
             if (selectedTags.size > 0) {
                 filtered = filtered.filter(p => {
@@ -577,11 +572,9 @@
                 });
             }
             renderPeopleList(filtered);
-
         } else {
             document.getElementById('person-list').style.display = 'none';
             document.getElementById('work-list-home').style.display = 'grid';
-
             let filtered = allWorksCache.filter(w => w.title.toLowerCase().includes(query));
             if (selectedTags.size > 0) {
                 filtered = filtered.filter(w => {
@@ -598,7 +591,6 @@
         const list = document.getElementById('person-list');
         list.innerHTML = "";
         if(people.length === 0) { list.innerHTML = "<div style='grid-column:span 2; text-align:center; color:#555; font-size:12px; margin-top:20px;'>No Result</div>"; return; }
-        
         people.forEach(p => {
             const card = document.createElement('div');
             card.className = 'person-card';
@@ -621,46 +613,34 @@
             card.addEventListener('touchend', () => { if(pressTimer) clearTimeout(pressTimer); });
             card.addEventListener('touchmove', () => { if(pressTimer) clearTimeout(pressTimer); isLongPress = true; });
             card.onclick = () => { if(!isLongPress) openDetail(p.id); };
-            
             list.appendChild(card);
         });
     }
 
-    // Grid Layout for Work List in Home (Library Mode)
+    // Grid Layout for Work List in Home
     function renderWorkListForHome(works) {
         const container = document.getElementById('work-list-home');
         container.innerHTML = "";
         if (works.length === 0) { container.innerHTML = "<div style='grid-column:span 2; text-align:center; color:#555; font-size:12px; margin-top:20px;'>No Result</div>"; return; }
-        
         works.forEach(w => {
             const div = document.createElement('div');
-            div.className = 'work-card'; // Use New Class for grid items
+            div.className = 'work-card';
             let thumbHtml = '<div class="thumb-placeholder">NO IMAGE</div>';
             if(w.image) thumbHtml = `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">`;
-            
-            div.innerHTML = `
-                <div class="thumb-area">${thumbHtml}</div>
-                <div class="info-area">
-                    <div class="work-card-title">${w.title}</div>
-                    <div class="count">${w.count || 0} SELECTIONS</div>
-                </div>
-            `;
-            // Click to detail
+            div.innerHTML = `<div class="thumb-area">${thumbHtml}</div><div class="info-area"><div class="work-card-title">${w.title}</div><div class="count">${w.count || 0} SELECTIONS</div></div>`;
             div.onclick = () => openWorkDetail(w);
             container.appendChild(div);
         });
     }
 
-    // --- Tag Logic (Suggestions & Filter) ---
+    // --- Tag Logic ---
     function loadTagSuggestions(type) {
         const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions');
         container.innerHTML = "";
         const tags = new Set();
         if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
         else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
-
         const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
-        
         Array.from(tags).sort().forEach(tag => {
             const chip = document.createElement('div');
             chip.className = 'tag-s-chip';
@@ -668,11 +648,8 @@
             chip.onclick = () => {
                 const input = document.getElementById(inputId);
                 let val = input.value.trim();
-                // Check if already exists
                 const current = val.split(/[\s　]+/).filter(t => t);
-                if(!current.includes(tag)) {
-                    input.value = val + (val ? " " : "") + tag;
-                }
+                if(!current.includes(tag)) { input.value = val + (val ? " " : "") + tag; }
             };
             container.appendChild(chip);
         });
@@ -684,10 +661,8 @@
         const allTags = new Set();
         if (homeMode === 'people') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => allTags.add(t)); });
         else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => allTags.add(t)); });
-
-        if(allTags.size === 0) {
-            container.innerHTML = "<div style='font-size:12px; color:#666;'>タグが登録されていません</div>";
-        } else {
+        if(allTags.size === 0) { container.innerHTML = "<div style='font-size:12px; color:#666;'>タグが登録されていません</div>"; } 
+        else {
             Array.from(allTags).sort().forEach(tag => {
                 const chip = document.createElement('div');
                 chip.className = 'filter-chip' + (selectedTags.has(tag) ? ' selected' : '');
@@ -705,21 +680,18 @@
     function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); } 
     function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
 
-    // === Analysis Logic ===
+    // === Analysis Logic (Weighted) ===
     function renderAnalysis() {
         const now = new Date();
         const year = now.getFullYear();
         const month = now.getMonth(); 
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         document.getElementById('cal-month-label').innerText = `${monthNames[month]} ${year}`;
-
         const tx = db.transaction(["logs", "people", "works"], "readonly");
-        
         let logs=[], people=[], works=[];
         const q1 = new Promise(r => tx.objectStore("logs").getAll().onsuccess = e => r(e.target.result));
         const q2 = new Promise(r => tx.objectStore("people").getAll().onsuccess = e => r(e.target.result));
         const q3 = new Promise(r => tx.objectStore("works").getAll().onsuccess = e => r(e.target.result));
-
         Promise.all([q1, q2, q3]).then(res => {
             logs = res[0]; people = res[1]; works = res[2];
             let total = 0; people.forEach(p => total += (p.count||0));
@@ -737,8 +709,8 @@
     function renderPersonTagRanking(people) {
         const tagMap = {};
         people.forEach(p => {
-            if(p.tags && p.tags.length > 0) {
-                const weight = p.count ? p.count : 1; 
+            const weight = p.count || 0; 
+            if(weight > 0 && p.tags && p.tags.length > 0) {
                 p.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + weight; });
             }
         });
@@ -759,8 +731,8 @@
     function renderTagRanking(works) {
         const tagMap = {};
         works.forEach(w => {
-            if(w.tags && w.tags.length > 0) {
-                const weight = w.count ? w.count : 1; 
+            const weight = w.count || 0; 
+            if(weight > 0 && w.tags && w.tags.length > 0) {
                 w.tags.forEach(t => { tagMap[t] = (tagMap[t] || 0) + weight; });
             }
         });
@@ -893,7 +865,6 @@
             if(p.cup) specsHtml += `<div class="detail-spec-item">${p.cup} cup</div>`;
             if(p.birthday) {
                 const age = getAge(p.birthday);
-                // Modified Age format
                 specsHtml += `<div class="detail-spec-item">${age}歳 (${p.birthday.replace(/-/g, '/')})</div>`;
             }
             specsDiv.innerHTML = specsHtml;
@@ -1165,32 +1136,6 @@
     function moveFocusMarker(x, y, id) {
         const marker = document.getElementById(id);
         if(marker) { marker.style.left = x + "%"; marker.style.top = y + "%"; marker.style.display = "block"; }
-    }
-
-    // === Tag Suggestions (New) ===
-    function loadTagSuggestions(type) {
-        const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions');
-        container.innerHTML = "";
-        const tags = new Set();
-        if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
-        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
-
-        const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
-        
-        Array.from(tags).sort().forEach(tag => {
-            const chip = document.createElement('div');
-            chip.className = 'tag-s-chip';
-            chip.innerText = tag;
-            chip.onclick = () => {
-                const input = document.getElementById(inputId);
-                let val = input.value.trim();
-                const current = val.split(/[\s　]+/).filter(t => t);
-                if(!current.includes(tag)) {
-                    input.value = val + (val ? " " : "") + tag;
-                }
-            };
-            container.appendChild(chip);
-        });
     }
 
     // === Save & Delete ===
