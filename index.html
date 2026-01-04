@@ -13,103 +13,67 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes spinSlow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    /* === 1. ダミー画面 (アンティーク電話) === */
+    /* === 1. ダミー画面 (ミュージアムの古電話) === */
     #dummy-screen {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background-color: #050505;
-        background-image: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
+        /* 背景をミュージアムのアーカイブ室風に */
+        background-color: #1a120b;
+        background-image: 
+            radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 60%), /* スポットライト */
+            linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.4)), /* 陰影 */
+            repeating-linear-gradient(90deg, #2a221b 0px, #2a221b 20px, #1a120b 20px, #1a120b 22px); /* 木の棚のようなテクスチャ */
+        background-blend-mode: soft-light, multiply, normal;
         display: flex; flex-direction: column; align-items: center; justify-content: center;
         z-index: 2000; transition: opacity 0.8s ease;
     }
     
     .museum-sign {
         font-family: "Times New Roman", serif;
-        color: #666;
+        color: #8a7024;
         font-size: 14px;
         letter-spacing: 0.4em;
-        margin-bottom: 30px;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-        border-bottom: 1px solid #333;
+        margin-bottom: 25px;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        border-bottom: 1px solid #5e4d1a;
         padding-bottom: 10px;
     }
 
     .phone-body {
-        width: 280px;
-        background: linear-gradient(145deg, #222, #111);
-        border-radius: 20px;
-        padding: 30px 20px;
+        width: 240px; /* 一回り小さく */
+        background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+        border-radius: 15px;
+        padding: 25px 15px;
         box-shadow: 
-            0 10px 30px rgba(0,0,0,0.8),
-            inset 0 0 2px rgba(255,255,255,0.1),
-            0 0 0 2px #333; /* Outer rim */
+            0 15px 40px rgba(0,0,0,0.9),
+            inset 0 0 5px rgba(255,255,255,0.05),
+            0 0 0 2px #333;
         border: 1px solid #444;
         display: flex; flex-direction: column; align-items: center;
     }
 
     /* Display Area */
     .phone-display-container {
-        width: 100%;
-        height: 60px;
-        background: #000;
-        border: 2px solid #555;
-        border-radius: 8px;
-        margin-bottom: 25px;
+        width: 100%; height: 50px; /* 少し小さく */
+        background: #000; border: 2px solid #555; border-radius: 6px; margin-bottom: 20px;
         display: flex; align-items: center; justify-content: center;
-        box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-        position: relative;
-        overflow: hidden;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.8); position: relative; overflow: hidden;
     }
-    .phone-display-container::after {
-        content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
-        background: linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, transparent 100%);
-        pointer-events: none;
-    }
-    .phone-display-text {
-        font-family: 'Courier New', monospace;
-        color: #d4af37; /* Gold Text */
-        font-size: 32px;
-        letter-spacing: 5px;
-        text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
-    }
+    .phone-display-container::after { content: ""; position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to bottom, rgba(255,255,255,0.05) 0%, transparent 100%); pointer-events: none; }
+    .phone-display-text { font-family: 'Courier New', monospace; color: #d4af37; font-size: 28px; letter-spacing: 4px; text-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
 
     /* Keypad */
-    .phone-keypad {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-        width: 100%;
-    }
+    .phone-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; }
     .phone-key {
-        width: 60px; height: 60px;
-        border-radius: 50%;
-        background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-        border: 1px solid #444;
-        color: #ccc;
-        font-family: "Times New Roman", serif;
-        font-size: 24px;
-        display: flex; align-items: center; justify-content: center;
-        margin: 0 auto;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-        transition: transform 0.1s, box-shadow 0.1s;
-        user-select: none;
+        width: 55px; height: 55px; /* 少し小さく */
+        border-radius: 50%; background: linear-gradient(145deg, #1a1a1a, #2a2a2a); border: 1px solid #444;
+        color: #ccc; font-family: "Times New Roman", serif; font-size: 22px;
+        display: flex; align-items: center; justify-content: center; margin: 0 auto;
+        cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.5); transition: transform 0.1s, box-shadow 0.1s; user-select: none;
     }
-    .phone-key:active {
-        transform: scale(0.95);
-        box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        background: #111;
-        color: #d4af37;
-    }
-    .phone-key.call-btn {
-        grid-column: 2;
-        background: linear-gradient(145deg, #d4af37, #aa8a2e);
-        color: #000;
-        font-weight: bold;
-        border: 1px solid #8a7024;
-    }
+    .phone-key:active { transform: scale(0.95); box-shadow: 0 1px 2px rgba(0,0,0,0.5); background: #111; color: #d4af37; }
+    .phone-key.call-btn { grid-column: 2; background: linear-gradient(145deg, #d4af37, #aa8a2e); color: #000; font-weight: bold; border: 1px solid #8a7024; }
     .phone-key.call-btn:active { background: #8a7024; }
-    
-    .phone-key-sub { font-size: 10px; color: #555; margin-top: -5px; display: block; text-align: center; } /* ABC etc */
+    .phone-key-sub { font-size: 9px; color: #555; margin-top: -4px; display: block; text-align: center; }
 
     /* === アプリ基盤 === */
     .app-container { display: none; height: 100%; width: 100%; background: #000; color: #fff; font-family: "YuMincho", serif; }
@@ -572,7 +536,6 @@
     }
     
     function updatePhoneDisplay() {
-        // Show dots like security code
         let display = "";
         for(let i=0; i<4; i++) {
             if(i < phoneInput.length) display += "•";
@@ -584,15 +547,15 @@
     function callApp() {
         if(phoneInput === SECRET_CODE) {
             if(navigator.vibrate) navigator.vibrate([50, 50, 50]);
-            // Unlock Animation
             const screen = document.getElementById('dummy-screen');
             screen.style.opacity = '0';
             setTimeout(() => {
                 screen.style.display = 'none';
                 document.getElementById('app-container').style.display = 'block';
+                // FIX: Ensure data is loaded and rendered when app becomes visible
+                loadHomeData(); 
             }, 800);
         } else {
-            // Error
             if(navigator.vibrate) navigator.vibrate(100);
             const disp = document.getElementById('phone-display');
             disp.style.color = 'red';
@@ -649,8 +612,6 @@
         };
         request.onsuccess = function(event) { db = event.target.result; loadHomeData(); };
     };
-
-    // ... (All other logic remains same as Ver 18, just integrate Phone logic above) ... 
     
     // Sort, Logic
     function toggleSortMenu(type) { const menu = document.getElementById(`sort-menu-${type}`); menu.style.display = menu.style.display === 'block' ? 'none' : 'block'; }
@@ -683,6 +644,7 @@
     function handleFabClick() { openAddPersonModal(); }
 
     function loadHomeData() {
+        if(!db) return; // Safety check
         const tx = db.transaction(["people", "works"], "readonly");
         tx.objectStore("people").getAll().onsuccess = function(e) {
             allPeopleCache = e.target.result;
@@ -735,6 +697,7 @@
         }
     }
 
+    // === FIX: Tap/LongPress Logic ===
     function renderPeopleList(people) {
         const list = document.getElementById('person-list'); list.innerHTML = "";
         if(people.length === 0) { list.innerHTML = "<div style='grid-column:span 2; text-align:center; color:#555; font-size:12px; margin-top:20px;'>No Result</div>"; return; }
@@ -746,14 +709,23 @@
             if (p.image) imgHtml = `<img src="${p.image}" style="object-position: ${p.focusX||50}% ${p.focusY||50}%">`;
             card.innerHTML = `<div class="thumb-area">${imgHtml}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count || 0} SELECTIONS</div></div>`;
             
-            let pressTimer = null; let isLongPress = false;
+            let pressTimer = null;
             card.addEventListener('touchstart', (e) => {
-                isLongPress = false;
-                pressTimer = setTimeout(() => { isLongPress = true; card.classList.add('pressing'); if(navigator.vibrate) navigator.vibrate(50); setTimeout(() => card.classList.remove('pressing'), 200); openEditPersonModal(p); }, 600);
+                pressTimer = setTimeout(() => {
+                    if(navigator.vibrate) navigator.vibrate(50);
+                    openEditPersonModal(p);
+                    pressTimer = null; // Logged as long press
+                }, 600);
             });
-            card.addEventListener('touchend', () => { if(pressTimer) clearTimeout(pressTimer); });
-            card.addEventListener('touchmove', () => { if(pressTimer) clearTimeout(pressTimer); isLongPress = true; });
-            card.onclick = () => { if(!isLongPress) openDetail(p.id); };
+            card.addEventListener('touchmove', () => {
+                if(pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+            });
+            card.addEventListener('touchend', () => {
+                if(pressTimer) {
+                    clearTimeout(pressTimer);
+                    openDetail(p.id);
+                }
+            });
             list.appendChild(card);
         });
     }
@@ -849,7 +821,6 @@
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("上書き復元しますか？")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); tx.oncomplete = () => { alert("復元完了"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("エラー"); } }; reader.readAsText(file); }
     function resetAllData() { if(confirm("全データを削除しますか？")) { const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.oncomplete = () => { alert("初期化完了"); closeModal('settings-modal'); loadHomeData(); } } }
     
-    // Analysis Helper Functions
     function renderAnalysis() {
         const now = new Date(); const year = now.getFullYear(); const month = now.getMonth(); 
         document.getElementById('cal-month-label').innerText = `${month+1}/${year}`;
@@ -857,7 +828,7 @@
         let logs=[], people=[], works=[];
         Promise.all([ new Promise(r => tx.objectStore("logs").getAll().onsuccess = e => r(e.target.result)), new Promise(r => tx.objectStore("people").getAll().onsuccess = e => r(e.target.result)), new Promise(r => tx.objectStore("works").getAll().onsuccess = e => r(e.target.result)) ]).then(res => { logs = res[0]; people = res[1]; works = res[2]; let total = 0; people.forEach(p => total += (p.count||0)); document.getElementById('total-usage-display').innerHTML = total + '<span class="stats-unit">回</span>'; renderCalendar(year, month, logs); renderPieChart(works); renderPersonTagRanking(people); renderTagRanking(works); renderChampion(logs, people); renderGobusata(people); people.sort((a, b) => (b.count || 0) - (a.count || 0)); renderRanking(people.slice(0, 5)); });
     }
-    // ... Other render functions same as before ...
+    // ... Other render functions are same as before ...
     function renderPieChart(works) { const tagCounts = {}; let totalTags = 0; works.forEach(w => { if((w.rating >= 4 || w.hallOfFame) && w.tags) { w.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; totalTags++; }); } }); const container = document.getElementById('pie-rated'); container.innerHTML = ""; if(totalTags === 0) { container.innerHTML = "<div style='font-size:12px; color:#555;'>No Data</div>"; return; } const sorted = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,5); let gradientStr = ""; let currentDeg = 0; const colors = ['#d4af37', '#b89630', '#8a7024', '#5e4d1a', '#333']; let legendHtml = '<div class="pie-legend">'; sorted.forEach((item, idx) => { const deg = (item[1] / totalTags) * 360; const color = colors[idx] || '#333'; gradientStr += `${color} ${currentDeg}deg ${currentDeg + deg}deg, `; currentDeg += deg; legendHtml += `<div class="legend-item"><div class="legend-color" style="background:${color}"></div>${item[0]}</div>`; }); if(currentDeg < 360) gradientStr += `#111 ${currentDeg}deg 360deg`; else gradientStr = gradientStr.slice(0, -2); const chart = document.createElement('div'); chart.className = 'pie-chart'; chart.style.background = `conic-gradient(${gradientStr})`; chart.innerHTML = `<div class="pie-hole"><div style="font-size:10px; color:#888;">TOTAL</div><div style="font-size:14px; color:#d4af37;">${totalTags}</div></div>`; container.appendChild(chart); container.insertAdjacentHTML('beforeend', legendHtml + '</div>'); }
     function renderPersonTagRanking(people) { const tagMap = {}; people.forEach(p => { const weight = p.count || 0; if(weight>0 && p.tags) p.tags.forEach(t => tagMap[t] = (tagMap[t]||0)+weight); }); const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5); const container = document.getElementById('person-tag-ranking'); container.innerHTML = ""; if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; } const maxVal = sorted[0].val; sorted.forEach(item => { const percent = (item.val / maxVal) * 100; const div = document.createElement('div'); div.className = 'tag-bar'; div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`; container.appendChild(div); }); }
     function renderTagRanking(works) { const tagMap = {}; works.forEach(w => { const weight = w.count || 0; if(weight>0 && w.tags) w.tags.forEach(t => tagMap[t] = (tagMap[t]||0)+weight); }); const sorted = Object.keys(tagMap).map(k => ({ tag: k, val: tagMap[k] })).sort((a,b) => b.val - a.val).slice(0, 5); const container = document.getElementById('tag-ranking'); container.innerHTML = ""; if (sorted.length === 0) { container.innerHTML = "<div style='color:#555; font-size:12px; text-align:center;'>No Data</div>"; return; } const maxVal = sorted[0].val; sorted.forEach(item => { const percent = (item.val / maxVal) * 100; const div = document.createElement('div'); div.className = 'tag-bar'; div.innerHTML = `<div class="tag-label">${item.tag}</div><div class="tag-track"><div class="tag-fill" style="width:${percent}%"></div></div><div class="tag-val">${item.val}</div>`; container.appendChild(div); }); }
