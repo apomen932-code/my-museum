@@ -53,30 +53,34 @@
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
     
     /* Person & Work Card (Grid Style) */
-    .grid-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
-    .grid-card:active { transform: scale(0.96); border-color: #d4af37; }
-    .grid-card.pressing { transform: scale(0.95); border-color: #ff4444; }
-    .grid-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    .person-card, .work-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
+    .person-card:active, .work-card:active { transform: scale(0.96); border-color: #d4af37; }
+    .person-card.pressing, .work-card.pressing { transform: scale(0.95); border-color: #ff4444; }
+    .person-card.hof, .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
     
-    .grid-thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-    .grid-thumb-area img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb-placeholder { color: #333; font-size: 10px; }
     
-    .grid-info-area { padding: 10px; }
-    .grid-name { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
-    .grid-work-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; color:#fff; }
-    .grid-count { color: #d4af37; font-size: 11px; }
+    .info-area { padding: 10px; }
+    .name, .work-card-title { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
+    .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
+    .count { color: #d4af37; font-size: 11px; }
+
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
+    .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
+    .rating-stars-sm .on { color: #d4af37; }
 
     /* Work Item (List Style for Detail) */
-    .list-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
-    .list-item.pressing { background: rgba(100, 30, 30, 0.6); }
-    .list-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
-    .list-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
-    .list-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
-    .list-title { margin: 0 0 3px 0; font-size: 14px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
-    .list-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 2px; }
+    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
+    .work-item.pressing { background: rgba(100, 30, 30, 0.6); }
+    .work-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
+    .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
+    .work-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
+    .work-title { margin: 0 0 3px 0; font-size: 14px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
+    .work-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 2px; }
     .tag { font-size: 9px; background: #333; color: #aaa; padding: 1px 4px; border-radius: 3px; }
-    .list-count { font-size: 11px; color: #888; font-family: monospace; display:flex; align-items:center; gap:5px; }
+    .work-count { font-size: 11px; color: #888; font-family: monospace; display:flex; align-items:center; gap:5px; }
     .play-btn { width: 40px; height: 40px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
     .play-btn:active { transform: scale(0.9); background: #fff; }
 
@@ -85,16 +89,55 @@
     .stats-area { margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent); border-left: 2px solid #d4af37; border-radius: 0 8px 8px 0; }
     .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
     .stats-value { font-size: 28px; color: #fff; }
+    .stats-unit { font-size: 14px; margin-left: 5px; color: #aaa; }
+
     .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
     .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; }
     .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
+    
     .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
     .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
     .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
     .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
     .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
+
+    .pie-chart-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; height: 160px; }
+    .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#d4af37 0% 0%); position: relative; }
+    .pie-hole { position: absolute; width: 80px; height: 80px; background: #050505; border-radius: 50%; top: 35px; left: 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+    .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 10px; color: #ccc; margin-bottom: 30px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-color { width: 8px; height: 8px; border-radius: 2px; }
+
+    /* QUEEN */
+    .champion-area { margin-bottom: 30px; display: none; }
+    .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
+    .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; }
+    .champion-img-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
+    .champion-bg-flower { position: absolute; top: 50%; left: 50%; width: 240px; height: 240px; background: repeating-conic-gradient(from 0deg, rgba(212, 175, 55, 0.2) 0deg 15deg, transparent 15deg 30deg); border-radius: 50%; transform: translate(-50%, -50%); animation: spinSlow 30s linear infinite; pointer-events: none; }
+    .champion-img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+    .champion-crown { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); font-size: 40px; z-index: 5; text-shadow: 0 5px 10px rgba(0,0,0,0.8); filter: drop-shadow(0 0 5px #d4af37); }
+    .champion-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #fff; font-family: serif; text-shadow: 0 2px 10px rgba(0,0,0,0.8); position: relative; z-index: 2; }
+    .champion-score { color: #aaa; font-size: 14px; font-family: monospace; position: relative; z-index: 2; }
+
+    /* Gobusata & Ranking */
+    .gobusata-area { margin-bottom: 25px; display: none; }
+    .gobusata-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+    .gobusata-item { min-width: 80px; text-align: center; }
+    .gobusata-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 1px solid #555; filter: grayscale(100%); opacity: 0.7; }
+    .gobusata-name { font-size: 10px; color: #888; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ranking-list { margin-top: 10px; margin-bottom: 30px; }
+    .rank-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #222; }
+    .rank-num { font-family: "Times New Roman", serif; font-size: 20px; color: #d4af37; width: 30px; font-style: italic; }
+    .rank-name { flex-grow: 1; font-size: 14px; }
+    .rank-count { font-size: 12px; color: #888; }
+
+    /* === Bottom Nav === */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 10px; transition: color 0.3s; }
+    .nav-item.active { color: #d4af37; }
+    .nav-icon { font-size: 20px; margin-bottom: 4px; }
 
     /* === Detail Screen === */
     #detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2500; flex-direction: column; }
@@ -120,8 +163,9 @@
     .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
     
     /* === FAB === */
-    .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 9999; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
+    .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 2700; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
     .fab:active { transform: scale(0.9); }
+    #detail-screen .fab { z-index: 2900; }
 
     /* === Bottom Nav === */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
@@ -286,7 +330,7 @@
         <div class="sort-item" onclick="applySort('rating', 'detail')">Rating</div>
         <div class="sort-item" onclick="applySort('newest', 'detail')">Newest</div>
     </div>
-    <div class="detail-scroll-area"><div id="work-list-detail"></div></div>
+    <div class="detail-scroll-area"><div id="work-list"></div></div>
     <div class="fab" onclick="openAddWorkModal()">＋</div>
 </div>
 
@@ -301,8 +345,6 @@
 
 <div id="image-viewer">
     <div class="viewer-close" onclick="closeImageViewer()">×</div>
-    <div class="viewer-nav nav-left" onclick="prevImage()"></div>
-    <div class="viewer-nav nav-right" onclick="nextImage()"></div>
     <img id="full-img">
 </div>
 
@@ -350,14 +392,13 @@
             calcScreen.style.display='none'; 
             document.getElementById('app-container').style.display='block';
             appHeader.style.display='flex'; bottomNav.style.display='flex'; homeScreen.style.display='block';
-            // Force Mode Reset & Load
-            setHomeMode('people');
+            setHomeMode('people'); // Ensure Mode Set
         }, 500);
     }
     
-    // DB (Ver 9)
+    // DB (Ver 10)
     window.onload = ()=>{
-        const r = indexedDB.open("SecretMuseumDB", 9);
+        const r = indexedDB.open("SecretMuseumDB", 10);
         r.onupgradeneeded = (e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people", {keyPath:"id", autoIncrement:true});
@@ -382,13 +423,11 @@
         document.getElementById('mode-gallery').className=m==='gallery'?'mode-btn active':'mode-btn';
         const title = m==='people'?"MUSE LIST": m==='works'?"LIBRARY": "GALLERY";
         document.getElementById('home-list-title').innerText = title;
-        // Reset Search
-        document.getElementById('search-input').value = ""; selectedTags.clear(); document.getElementById('filter-btn').classList.remove('active');
         loadHomeData();
     }
 
     function loadHomeData(){
-        if(!db) { setTimeout(loadHomeData, 100); return; } // Wait DB
+        if(!db) { setTimeout(loadHomeData, 100); return; } // Wait for DB
         const tx = db.transaction(["people","works"], "readonly");
         Promise.all([
             new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
@@ -470,34 +509,32 @@
         else if(homeMode==='gallery') openGallery(p.id);
     }
 
-    // Grid for Home Library
     function renderWorkListForHome(works) {
         const container = document.getElementById('work-list-home'); container.innerHTML = "";
         if (works.length === 0) { container.innerHTML = "<div style='grid-column:span 2;text-align:center;color:#555;'>No Works</div>"; return; }
         works.forEach(w => {
-            const div = document.createElement('div'); div.className = 'grid-card';
+            const div = document.createElement('div'); div.className = 'work-card';
             if(w.hallOfFame) div.classList.add('hof');
             let crown = w.hallOfFame ? '<div class="card-crown">👑</div>' : '';
             let thumbHtml = w.image ? `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">` : '<div class="thumb-placeholder">NO IMG</div>';
             let stars = ""; if(w.rating > 0) { stars = '<div class="rating-stars-sm">'; for(let i=0; i<w.rating; i++) stars += '<span class="on">★</span>'; stars += '</div>'; }
-            div.innerHTML = `<div class="grid-thumb-area">${thumbHtml}${crown}</div><div class="grid-info-area"><div class="grid-work-title">${w.title}</div>${stars}<div class="grid-count">${w.count || 0} SELECTIONS</div></div>`;
+            div.innerHTML = `<div class="thumb-area">${thumbHtml}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count || 0} SELECTIONS</div></div>`;
             div.onclick = () => openWorkDetail(w);
             container.appendChild(div);
         });
     }
 
-    // List for Detail
     function renderWorkList(list, containerId){
         const con = document.getElementById(containerId); con.innerHTML="";
         if(list.length===0){con.innerHTML="<div style='text-align:center;color:#555;'>No Works</div>";return;}
         list.forEach(w=>{
-            const div=document.createElement('div'); div.className='list-item';
+            const div=document.createElement('div'); div.className='work-item';
             if(w.hallOfFame) div.classList.add('hof');
             let crown = w.hallOfFame ? '👑 ' : '';
-            const thumb = w.image ? `<img src="${w.image}" class="list-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">` : `<div class="list-thumb" style="background:#000;"></div>`;
+            const thumb = w.image ? `<img src="${w.image}" class="work-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">` : `<div class="work-thumb"></div>`;
             let stars = ""; if(w.rating > 0) { for(let i=0; i<w.rating; i++) stars += '<span style="color:#d4af37; font-size:10px;">★</span>'; }
             
-            div.innerHTML = `${thumb}<div class="list-info"><div class="list-title">${crown}${w.title}</div><div class="list-tags" style="margin-bottom:2px;">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="list-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>`;
+            div.innerHTML = `${thumb}<div class="work-info"><div class="work-title">${crown}${w.title}</div><div class="work-tags" style="margin-bottom:2px;">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>`;
             
             let pressTimer;
             div.addEventListener('touchstart', (e)=>{ if(e.target.classList.contains('play-btn'))return; isScrolling=false; pressTimer=setTimeout(()=>{ pressTimer=null; openEditWorkModal(w); },600); });
@@ -544,22 +581,12 @@
         };
     }
     
-    // Viewer Logic (Swipe & Tap)
-    function openImageViewer(index){ 
-        currentGalleryIndex = index;
-        updateImageViewer();
-        document.getElementById('image-viewer').style.display='flex'; 
-    }
-    function updateImageViewer(){
-        if(currentGalleryImages[currentGalleryIndex]){
-            document.getElementById('full-img').src = currentGalleryImages[currentGalleryIndex].data;
-        }
-    }
+    function openImageViewer(index){ currentGalleryIndex = index; updateImageViewer(); document.getElementById('image-viewer').style.display='flex'; }
+    function updateImageViewer(){ if(currentGalleryImages[currentGalleryIndex]){ document.getElementById('full-img').src = currentGalleryImages[currentGalleryIndex].data; } }
     function nextImage(e){ if(e)e.stopPropagation(); if(currentGalleryIndex < currentGalleryImages.length-1) { currentGalleryIndex++; updateImageViewer(); } }
     function prevImage(e){ if(e)e.stopPropagation(); if(currentGalleryIndex > 0) { currentGalleryIndex--; updateImageViewer(); } }
     function closeImageViewer(){ document.getElementById('image-viewer').style.display='none'; }
 
-    // Swipe Handling
     let touchStartX = 0;
     document.getElementById('image-viewer').addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
     document.getElementById('image-viewer').addEventListener('touchend', e => {
@@ -567,7 +594,6 @@
         if(touchEndX < touchStartX - 50) nextImage();
         if(touchEndX > touchStartX + 50) prevImage();
     });
-    // Tap Sides
     document.getElementById('image-viewer').addEventListener('click', e => {
         if(e.target.className === 'viewer-close') return;
         if(e.clientX > window.innerWidth / 2) nextImage(); else prevImage();
@@ -582,25 +608,17 @@
         const input = document.getElementById('new-gallery-img');
         const files = input.files;
         if(files.length === 0) return;
-        
         const tx = db.transaction(["gallery"], "readwrite");
         const store = tx.objectStore("gallery");
-        
-        // Multi-file read
-        let promises = [];
+        let loaded = 0;
         Array.from(files).forEach(f => {
-            promises.push(new Promise(resolve => {
-                const r = new FileReader();
-                r.onload = e => resolve(e.target.result);
-                r.readAsDataURL(f);
-            }));
-        });
-        
-        Promise.all(promises).then(results => {
-            results.forEach(data => {
-                store.add({ personId: parseInt(currentPersonId), data: data, createdAt: new Date() });
-            });
-            tx.oncomplete = ()=>{ closeModal('add-image-modal'); loadGalleryGrid(); };
+            const r = new FileReader();
+            r.onload = e => {
+                store.add({ personId: parseInt(currentPersonId), data: e.target.result, createdAt: new Date() });
+                loaded++;
+                if(loaded === files.length) { closeModal('add-image-modal'); setTimeout(loadGalleryGrid, 300); }
+            };
+            r.readAsDataURL(f);
         });
     }
 
@@ -634,7 +652,7 @@
         db.transaction(["works"],"readonly").objectStore("works").index("personId").getAll(currentPersonId).onsuccess=e=>{
             let works=e.target.result;
             sortWorks(works, sortMode.detail);
-            renderWorkList(works, 'detail-work-list'); // Use Detail List Render
+            renderWorkList(works, 'work-list');
         };
     }
     function sortWorks(works, mode) {
