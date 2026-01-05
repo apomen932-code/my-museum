@@ -7,11 +7,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Calculator</title>
 <style>
-    /* === 共通設定 (Based on Ver 17.0) === */
+    /* === 共通設定 (Ver 17.0 Base) === */
     body { margin: 0; padding: 0; font-family: "YuMincho", "Hiragino Mincho ProN", serif; background-color: #000; color: #fff; overflow: hidden; height: 100vh; width: 100vw; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
     .fade-in { animation: fadeIn 0.4s ease forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes spinSlow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
     /* === 1. 電卓画面 === */
     #calculator-screen { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; width: 100%; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; background-color: #000; z-index: 9999; position: absolute; top: 0; left: 0; font-family: -apple-system, sans-serif; transition: opacity 0.5s; }
@@ -28,7 +27,7 @@
     #app-container { display: none; height: 100%; width: 100%; }
     .tab-content { display: none; height: 100%; width: 100%; box-sizing: border-box; padding-top: 60px; padding-bottom: 80px; overflow-y: auto; flex-direction: column; }
     
-    .app-header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(212, 175, 55, 0.3); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .app-header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: center; z-index: 1000; }
     .header-center { text-align: center; cursor: pointer; width: 60%; }
     .app-header h1 { font-family: "Times New Roman", serif; font-size: 20px; color: #d4af37; letter-spacing: 0.1em; margin: 0; text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
     .app-header .subtitle { font-family: "Times New Roman", serif; font-size: 9px; color: #888; letter-spacing: 0.2em; text-transform: uppercase; }
@@ -36,7 +35,7 @@
     .header-btn.left { left: 0; }
     .header-btn.right { right: 0; }
 
-    /* === Home Screen === */
+    /* === Home Screen (MUSEUM) === */
     #home-screen { background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%); }
     .mode-switch-container { display: flex; justify-content: center; padding: 10px 0; gap: 20px; }
     .mode-btn { font-size: 12px; color: #666; border-bottom: 2px solid transparent; padding-bottom: 5px; cursor: pointer; transition: 0.3s; letter-spacing: 0.1em; }
@@ -58,23 +57,20 @@
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
     .info-area { padding: 10px; }
-    .name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-    .work-card-title { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; height: 2.8em; }
+    .name, .work-card-title { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+    .work-card-title { font-size: 14px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
     .count { color: #d4af37; font-size: 11px; }
-
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
 
-    /* === Gallery Folder Screen === */
-    #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
-    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; }
-    .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
-    
-    /* Image Viewer */
-    #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
-    #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
+    /* === Gallery Root Screen (New Tab) === */
+    #gallery-root-screen { background: #0a0a0a; }
+    .gallery-list-item { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid #222; }
+    .gallery-list-item:active { background: #222; }
+    .gallery-list-thumb { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 1px solid #444; }
+    .gallery-list-name { font-size: 16px; color: #fff; flex-grow: 1; }
+    .gallery-list-arrow { color: #444; font-size: 18px; }
 
     /* === Analysis Screen === */
     #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
@@ -82,40 +78,31 @@
     .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
     .stats-value { font-size: 28px; color: #fff; }
     .stats-unit { font-size: 14px; margin-left: 5px; color: #aaa; }
-
     .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .cal-month { font-family: "Times New Roman", serif; font-size: 18px; color: #d4af37; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-    .cal-day-label { font-size: 10px; color: #666; margin-bottom: 5px; }
-    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; position: relative; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; }
     .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
-    .cal-day.today { border: 1px solid #666; }
-
     .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
     .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
     .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
     .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
     .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
-
     .pie-chart-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; height: 160px; }
     .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#d4af37 0% 0%); position: relative; }
     .pie-hole { position: absolute; width: 80px; height: 80px; background: #050505; border-radius: 50%; top: 35px; left: 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
     .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 10px; color: #ccc; margin-bottom: 30px; }
     .legend-item { display: flex; align-items: center; gap: 4px; }
     .legend-color { width: 8px; height: 8px; border-radius: 2px; }
-
     .champion-area { margin-bottom: 30px; display: none; }
     .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
-    .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; position: relative; z-index: 2; }
+    .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; }
     .champion-img-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-    .champion-bg-flower { position: absolute; top: 50%; left: 50%; width: 240px; height: 240px; background: repeating-conic-gradient(from 0deg, rgba(212, 175, 55, 0.2) 0deg 15deg, transparent 15deg 30deg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 0; animation: spinSlow 30s linear infinite; pointer-events: none; }
-    .champion-bg-flower::before { content: ""; position: absolute; inset: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%); }
+    .champion-bg-flower { position: absolute; top: 50%; left: 50%; width: 240px; height: 240px; background: repeating-conic-gradient(from 0deg, rgba(212, 175, 55, 0.2) 0deg 15deg, transparent 15deg 30deg); border-radius: 50%; transform: translate(-50%, -50%); animation: spinSlow 30s linear infinite; pointer-events: none; }
     .champion-img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
     .champion-crown { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); font-size: 40px; z-index: 5; text-shadow: 0 5px 10px rgba(0,0,0,0.8); filter: drop-shadow(0 0 5px #d4af37); }
     .champion-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #fff; font-family: serif; text-shadow: 0 2px 10px rgba(0,0,0,0.8); position: relative; z-index: 2; }
     .champion-score { color: #aaa; font-size: 14px; font-family: monospace; position: relative; z-index: 2; }
-
     .gobusata-area { margin-bottom: 25px; display: none; }
     .gobusata-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
     .gobusata-item { min-width: 80px; text-align: center; }
@@ -174,17 +161,28 @@
     .wd-play { background: #d4af37; color: #000; }
     .wd-link { background: #333; color: #fff; border: 1px solid #555; }
 
+    /* === Gallery Folder Screen (New) === */
+    #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
+    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; }
+    .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
+    
+    /* Image Viewer */
+    #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
+    #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
+
     /* === FAB === */
     .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 2700; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
     .fab:active { transform: scale(0.9); }
     #detail-screen .fab { z-index: 2900; }
+    #gallery-folder-screen .fab { z-index: 3500; }
 
     /* === Toast === */
     #toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: rgba(0,0,0,0.9); border: 1px solid #d4af37; padding: 20px 40px; border-radius: 8px; color: #d4af37; font-family: serif; font-size: 20px; letter-spacing: 0.1em; pointer-events: none; opacity: 0; transition: all 0.3s; z-index: 9999; box-shadow: 0 0 30px rgba(212,175,55,0.3); text-align: center; }
     #toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
     /* === Modals === */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); z-index: 3500; align-items: center; justify-content: center; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); z-index: 4000; align-items: center; justify-content: center; }
     .modal-content { background: #1a1a2e; border: 1px solid #d4af37; padding: 20px; width: 85%; max-height: 80vh; overflow-y: auto; border-radius: 10px; text-align: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
     .modal-title { color: #d4af37; margin-bottom: 20px; font-size: 18px; }
     input[type="text"], input[type="url"], input[type="date"], textarea { width: 100%; padding: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.1); border: 1px solid #555; color: #fff; border-radius: 5px; box-sizing: border-box; }
@@ -200,10 +198,16 @@
     .focus-point { position: absolute; width: 20px; height: 20px; background: rgba(212, 175, 55, 0.6); border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
     .btn-group { display: flex; gap: 10px; justify-content: center; }
     .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: serif; }
-    .btn-cancel { background: #333; color: #fff; }
     .btn-save { background: #d4af37; color: #000; font-weight: bold; }
+    .btn-cancel { background: #333; color: #fff; }
     .btn-danger { background: #800; color: #fff; font-size:10px; margin-top:20px; }
-
+    
+    .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; overflow: hidden; }
+    .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; cursor: pointer; }
+    .sort-item:last-child { border-bottom: none; }
+    .sort-item:active { background: #444; }
+    .sort-item.active { color: #d4af37; }
+    
     .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; justify-content: center; }
     .filter-chip { padding: 6px 12px; border-radius: 20px; border: 1px solid #555; font-size: 12px; color: #aaa; cursor: pointer; transition: 0.2s; }
     .filter-chip.selected { background: #d4af37; color: #000; border-color: #d4af37; }
@@ -220,12 +224,6 @@
     .hof-label { font-size: 12px; color: #ccc; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
     .crown-icon { font-size: 14px; }
     .crown-icon.gold { color: #d4af37; }
-
-    .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; overflow: hidden; }
-    .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; cursor: pointer; }
-    .sort-item:last-child { border-bottom: none; }
-    .sort-item:active { background: #444; }
-    .sort-item.active { color: #d4af37; }
 
 </style>
 </head>
@@ -258,62 +256,85 @@
     </div>
 </div>
 
-<header class="app-header" id="app-header" style="display:none;">
-    <div class="header-btn left" onclick="openSettingsModal()">⚙</div>
-    <div class="header-center" id="panic-button">
-        <div class="subtitle">PRIVATE COLLECTION</div>
-        <h1>MUSEUM</h1>
-    </div>
-    <div class="header-btn right" onclick="randomPick()">🔀</div>
-</header>
+<div id="app-container" style="display:none;">
+    <header class="app-header" id="app-header">
+        <div class="header-btn left" onclick="openSettingsModal()">⚙</div>
+        <div class="header-center" id="panic-button">
+            <div class="subtitle">PRIVATE COLLECTION</div>
+            <h1>MUSEUM</h1>
+        </div>
+        <div class="header-btn right" onclick="randomPick()">🔀</div>
+    </header>
 
-<div id="home-screen" class="tab-content">
-    <div class="mode-switch-container">
-        <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE MODE</div>
-        <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY MODE</div>
-        <div class="mode-btn" id="mode-gallery" onclick="setHomeMode('gallery')">GALLERY MODE</div>
-    </div>
+    <div id="home-screen" class="tab-content">
+        <div class="mode-switch-container">
+            <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE MODE</div>
+            <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY MODE</div>
+        </div>
 
-    <div class="search-area-wrapper">
-        <input type="search" class="search-input" id="search-input" placeholder="Search..." oninput="filterHomeList()">
-        <div class="filter-btn" id="filter-btn" onclick="openTagFilterModal()">🏷️</div>
-        <div class="sort-btn" id="sort-btn" onclick="toggleSortMenu('home')" style="margin-left:10px;">⇅</div>
+        <div class="search-area-wrapper">
+            <input type="search" class="search-input" id="search-input" placeholder="Search..." oninput="filterHomeList()">
+            <div class="filter-btn" id="filter-btn" onclick="openTagFilterModal()">🏷️</div>
+            <div class="sort-btn" id="sort-btn" onclick="toggleSortMenu('home')" style="margin-left:10px;">⇅</div>
+        </div>
+        
+        <div class="sort-menu" id="sort-menu-home">
+            <div class="sort-item" onclick="applySort('count', 'home')">Select Count</div>
+            <div class="sort-item" onclick="applySort('rating', 'home')">Rating (Quality)</div>
+            <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
+        </div>
+
+        <div class="section-title" id="home-list-title">登録済みのミューズ (長押しで編集)</div>
+        
+        <div class="card-list" id="person-list"></div>
+        <div class="card-list" id="work-list-home" style="display:none;"></div>
+        <div class="fab" onclick="handleFabClick()">＋</div>
     </div>
     
-    <div class="sort-menu" id="sort-menu-home">
-        <div class="sort-item" onclick="applySort('count', 'home')">Select Count</div>
-        <div class="sort-item" onclick="applySort('rating', 'home')">Rating (Quality)</div>
-        <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
+    <div id="gallery-root-screen" class="tab-content">
+         <div class="search-area-wrapper">
+            <input type="search" class="search-input" id="gallery-search-input" placeholder="Search Gallery..." oninput="filterGalleryRoot()">
+        </div>
+        <div class="section-title">GALLERY FOLDERS</div>
+        <div class="card-list" id="gallery-folder-list"></div>
+        <div class="fab" onclick="openAddPersonModal()">＋</div>
     </div>
 
-    <div class="section-title" id="home-list-title">登録済みのミューズ (長押しで編集)</div>
-    
-    <div class="card-list" id="person-list"></div>
-    <div class="card-list" id="work-list-home" style="display:none;"></div>
-    <div class="fab" onclick="handleFabClick()">＋</div>
-</div>
-
-<div id="analysis-screen" class="tab-content">
-    <div class="stats-area"><div class="stats-title">累計選択回数</div><div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div></div>
-    <div class="section-title" style="margin-top:0;">ACTIVITY LOG</div>
-    <div class="calendar-container">
-        <div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div>
-        <div class="cal-day-label" style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center;"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
-        <div class="cal-grid" id="calendar-grid"></div>
+    <div id="analysis-screen" class="tab-content">
+        <div class="stats-area">
+            <div class="stats-title">累計選択回数</div>
+            <div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div>
+        </div>
+        <div class="section-title" style="margin-top:0;">ACTIVITY LOG</div>
+        <div class="calendar-container">
+            <div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div>
+            <div class="cal-day-label" style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center;"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
+            <div class="cal-grid" id="calendar-grid"></div>
+        </div>
+        <div class="section-title">QUALITY ANALYSIS</div>
+        <div class="pie-chart-container" id="pie-rated"></div>
+        <div class="section-title">MUSE TYPES (Actress Tags)</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">SCENE TRENDS (Work Tags)</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="champion-area" id="champion-area"></div>
+        <div class="gobusata-area" id="gobusata-area"><div class="section-title">Long Time No See...</div><div class="gobusata-scroller" id="gobusata-list"></div></div>
+        <div class="section-title">TOP RANKING</div><div class="ranking-list" id="ranking-list"></div>
     </div>
-    <div class="section-title">QUALITY ANALYSIS</div>
-    <div class="pie-chart-container" id="pie-rated"></div>
-    <div class="section-title">MUSE TYPES (Actress Tags)</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
-    <div class="section-title">SCENE TRENDS (Work Tags)</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
-    <div class="champion-area" id="champion-area"></div>
-    <div class="gobusata-area" id="gobusata-area"><div class="section-title">Long Time No See...</div><div class="gobusata-scroller" id="gobusata-list"></div></div>
-    <div class="section-title">TOP RANKING</div><div class="ranking-list" id="ranking-list"></div>
-</div>
 
-<nav class="bottom-nav" id="bottom-nav" style="display:none;">
-    <div class="nav-item active" onclick="switchTab('home')"><div class="nav-icon">🏛️</div><div>MUSEUM</div></div>
-    <div class="nav-item" onclick="switchTab('analysis')"><div class="nav-icon">📊</div><div>ANALYSIS</div></div>
-</nav>
+    <nav class="bottom-nav" id="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home')">
+            <div class="nav-icon">🏛️</div>
+            <div>MUSEUM</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('gallery')">
+            <div class="nav-icon">🖼️</div>
+            <div>GALLERY</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('analysis')">
+            <div class="nav-icon">📊</div>
+            <div>ANALYSIS</div>
+        </div>
+    </nav>
+</div>
 
 <div id="detail-screen">
     <div class="back-btn" onclick="closeDetail()">←</div>
@@ -336,39 +357,54 @@
         <div class="sort-item" onclick="applySort('rating', 'detail')">Rating (Quality)</div>
         <div class="sort-item" onclick="applySort('newest', 'detail')">Newest</div>
     </div>
-    <div class="detail-scroll-area"><div id="work-list"></div></div>
+    <div class="detail-scroll-area">
+        <div id="work-list"></div>
+    </div>
     <div class="fab" onclick="openAddWorkModal()">＋</div>
 </div>
 
 <div id="work-detail-screen">
     <div class="back-btn" onclick="closeWorkDetail()">↓</div>
-    <div class="wd-image-area"><img id="wd-img" class="wd-image"><div id="wd-no-img" style="color:#333; font-size:12px;">NO IMAGE</div></div>
+    <div class="wd-image-area">
+        <img id="wd-img" class="wd-image" src="" style="display:none;">
+        <div id="wd-no-img" style="color:#333; font-size:12px;">NO IMAGE</div>
+    </div>
     <div class="wd-info">
         <div class="wd-title" id="wd-title">Title</div>
         <div class="wd-meta" id="wd-meta">...</div>
         <div id="wd-rating-display" style="margin-bottom:15px; color:#d4af37; font-size:14px;"></div>
         <div class="wd-tags" id="wd-tags"></div>
-        <div class="wd-actions"><div class="wd-btn wd-link" id="wd-link-btn">🔗 LINK</div><div class="wd-btn wd-play" id="wd-play-btn">▶ PLAY</div></div>
+        <div class="wd-actions">
+            <div class="wd-btn wd-link" id="wd-link-btn" onclick="">🔗 LINK</div>
+            <div class="wd-btn wd-play" id="wd-play-btn" onclick="">▶ PLAY</div>
+        </div>
     </div>
 </div>
 
 <div id="gallery-folder-screen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:3000; flex-direction:column;">
     <div class="app-header" style="position:relative;">
         <div class="header-btn left" onclick="closeGalleryFolder()">←</div>
-        <div class="header-center"><h1>IMAGE FOLDER</h1></div>
+        <div class="header-center"><h1 id="gallery-folder-title">GALLERY</h1></div>
     </div>
     <div class="gallery-grid" id="gallery-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:15px; overflow-y:auto; padding-bottom:100px;"></div>
     <div class="fab" style="z-index:3500;" onclick="openAddImageModal()">＋</div>
 </div>
 
 <div id="image-viewer-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:5000; align-items:center; justify-content:center;">
-    <div class="viewer-close" style="position:absolute; top:30px; right:20px; color:#fff; font-size:30px; z-index:5002;" onclick="closeImageViewer()">×</div>
+    <div class="viewer-close" style="position:absolute; top:30px; right:20px; color:#fff; font-size:30px; z-index:5002; cursor:pointer;" onclick="closeImageViewer()">×</div>
     <img id="full-img" style="max-width:100%; max-height:100%; object-fit:contain;">
 </div>
 
-<div class="modal-overlay" id="add-image-modal"><div class="modal-content"><div class="modal-title">ADD IMAGES</div><label class="file-select-btn" style="width:100%;">Select Images (Multiple) <input type="file" id="new-gallery-img" accept="image/*" multiple style="display:none;" onchange="previewGalleryImage(this)"></label><div id="gallery-preview-count" style="font-size:12px; color:#ccc; margin:10px 0;"></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">CANCEL</button><button class="btn btn-save" onclick="saveGalleryImage()">SAVE</button></div></div></div>
+<div class="modal-overlay" id="add-image-modal">
+    <div class="modal-content">
+        <div class="modal-title">ADD IMAGES</div>
+        <label class="file-select-btn" style="width:100%;">Select Images (Multiple) <input type="file" id="new-gallery-img" accept="image/*" multiple style="display:none;" onchange="previewGalleryImage(this)"></label>
+        <div id="gallery-preview-count" style="font-size:12px; color:#ccc; margin:10px 0;"></div>
+        <div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">CANCEL</button><button class="btn btn-save" onclick="saveGalleryImage()">SAVE</button></div>
+    </div>
+</div>
 
-<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title" id="person-modal-title">人物を追加</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="名前を入力"><div style="display:flex; gap:10px;"><input type="text" id="new-person-cup" placeholder="カップ数" style="flex:1;"><div style="flex:2;"><div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div><input type="date" id="new-person-birthday"></div></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:15px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame (殿堂入り)</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="プロフィール・メモ"></textarea><input type="text" id="new-person-tags" placeholder="タグ (スペース区切り)"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn" for="new-person-image" style="margin-top:5px;">画像を選択</label><input type="file" id="new-person-image" accept="image/*" onchange="previewImage(this, 'preview-img')"><div class="preview-container" id="preview-box" onclick="setFocus(event, 'person')"><img id="preview-img" class="preview-img"><div id="focus-point" class="focus-point"></div><div style="color:#666; font-size:12px;">No Image Selected</div></div><div class="preview-instruction" id="preview-msg">画像をタップして顔の中心を指定</div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">キャンセル</button><button class="btn btn-save" onclick="savePerson()">保存</button></div><button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">この人物を削除</button></div></div>
+<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title" id="person-modal-title">人物を追加</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="名前を入力"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="カップ数" style="flex:1;"><div style="flex:2;"><div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div><input type="date" id="new-person-birthday"></div></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:15px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame (殿堂入り)</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="プロフィール・メモ"></textarea><input type="text" id="new-person-tags" placeholder="タグ (スペース区切り)"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn" for="new-person-image" style="margin-top:5px;">画像を選択</label><input type="file" id="new-person-image" accept="image/*" onchange="previewImage(this, 'preview-img')"><div class="preview-container" id="preview-box" onclick="setFocus(event, 'person')"><img id="preview-img" class="preview-img"><div id="focus-point" class="focus-point"></div><div style="color:#666; font-size:12px;">No Image Selected</div></div><div class="preview-instruction" id="preview-msg">画像をタップして顔の中心を指定</div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">キャンセル</button><button class="btn btn-save" onclick="savePerson()">保存</button></div><button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">この人物を削除</button></div></div>
 <div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title" id="work-modal-title">作品を追加</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="作品タイトル / 動画名"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL (http://...)"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div><div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame (殿堂入り)</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="タグ (スペース区切り)"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn" for="new-work-image" style="width:100%; box-sizing:border-box; margin-top:5px;">サムネイル画像を選択</label><input type="file" id="new-work-image" accept="image/*" onchange="previewImage(this, 'work-preview-img')"><div class="preview-container" style="height:120px; margin-bottom:20px;" onclick="setFocus(event, 'work')"><img id="work-preview-img" class="preview-img"><div id="work-focus-point" class="focus-point"></div><div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">キャンセル</button><button class="btn btn-save" onclick="saveWork()">保存</button></div><button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">この作品を削除</button></div></div>
 <div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER BY TAGS</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> All tags must match (完全一致)</label></div><div class="btn-group" style="margin-top:20px;"><button class="btn btn-cancel" style="background:#555;" onclick="clearTagFilter()">Clear All</button><button class="btn btn-cancel" onclick="closeTagFilterModal()">閉じる</button><button class="btn btn-save" onclick="applyTagFilter()">適用</button></div></div></div>
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">データ書き出し (Backup)</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">データ読み込み (Restore)<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">閉じる</button><button class="btn btn-danger" onclick="resetAllData()">⚠️ 全データを削除 (Reset)</button></div></div>
@@ -377,11 +413,10 @@
     let currentInput='0'; const SECRET_CODE='4519';
     const display=document.getElementById('calc-display'); const calcScreen=document.getElementById('calculator-screen');
     const appHeader=document.getElementById('app-header'); const bottomNav=document.getElementById('bottom-nav');
-    const homeScreen=document.getElementById('home-screen'); const analysisScreen=document.getElementById('analysis-screen');
-    let db; let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50};
-    let currentPersonId=null; let allPeopleCache=[]; let allWorksCache=[]; let selectedTags=new Set();
-    let homeMode='people'; let currentRating=0; let sortMode={home:'count', detail:'count'};
-    let lastTap=0; let isScrolling=false;
+    const homeScreen=document.getElementById('home-screen'); const galleryRoot=document.getElementById('gallery-root-screen'); const analysisScreen=document.getElementById('analysis-screen');
+    let db; let currentPersonId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
+    let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
+    let currentRating=0;
     
     // Gallery
     let currentGalleryImages=[]; let currentGalleryIndex=0;
@@ -394,15 +429,15 @@
         calcScreen.style.opacity='0';
         setTimeout(()=>{
             calcScreen.style.display='none';
-            appHeader.style.display='flex'; bottomNav.style.display='flex'; homeScreen.style.display='block';
-            loadHomeData(); 
+            document.getElementById('app-container').style.display='block';
+            switchTab('home'); // Init Load
         },500);
     }
-    document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
+    let lastTap=0; document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
-    // DB Init (Ver 50 to force reset connection)
+    // DB (Ver 55 to reset)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 50);
+        const r=indexedDB.open("SecretMuseumDB", 55);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -410,7 +445,7 @@
             if(!db.objectStoreNames.contains("logs")){const ls=db.createObjectStore("logs",{keyPath:"id",autoIncrement:true});ls.createIndex("timestamp","timestamp",{unique:false});}
             if(!db.objectStoreNames.contains("gallery")){const gs=db.createObjectStore("gallery",{keyPath:"id",autoIncrement:true});gs.createIndex("personId","personId",{unique:false});}
         };
-        r.onsuccess=(e)=>{db=e.target.result; loadHomeData();};
+        r.onsuccess=(e)=>{db=e.target.result;};
     };
 
     function switchTab(t){
@@ -418,8 +453,10 @@
         document.querySelectorAll('.tab-content').forEach(c=>c.style.display='none');
         if(t==='home'){
             homeScreen.style.display='block'; document.querySelectorAll('.nav-item')[0].classList.add('active'); loadHomeData();
-        }else{
-            analysisScreen.style.display='block'; document.querySelectorAll('.nav-item')[1].classList.add('active'); renderAnalysis();
+        } else if(t==='gallery') {
+            galleryRoot.style.display='block'; document.querySelectorAll('.nav-item')[1].classList.add('active'); loadGalleryRootData();
+        } else {
+            analysisScreen.style.display='block'; document.querySelectorAll('.nav-item')[2].classList.add('active'); renderAnalysis();
         }
     }
 
@@ -427,10 +464,8 @@
         homeMode=m;
         document.getElementById('mode-people').className=m==='people'?'mode-btn active':'mode-btn';
         document.getElementById('mode-works').className=m==='works'?'mode-btn active':'mode-btn';
-        document.getElementById('mode-gallery').className=m==='gallery'?'mode-btn active':'mode-btn';
         let t="登録済みのミューズ (長押しで編集)";
         if(m==='works')t="すべての作品 (タップで詳細)";
-        if(m==='gallery')t="画像フォルダ (タップで開く)";
         document.getElementById('home-list-title').innerText=t;
         loadHomeData();
     }
@@ -450,11 +485,27 @@
 
     function filterHomeList(){
         const q=document.getElementById('search-input').value.toLowerCase();
-        if(homeMode==='people' || homeMode==='gallery'){
+        const btn=document.getElementById('filter-btn');
+        if(selectedTags.size>0)btn.classList.add('active');else btn.classList.remove('active');
+
+        if(homeMode==='people'){
             document.getElementById('person-list').style.display='grid';
             document.getElementById('work-list-home').style.display='none';
             let res=allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
-            // Apply Sort
+            if(selectedTags.size>0){
+                const exact=document.getElementById('tag-exact-match').checked;
+                res=res.filter(p=>{
+                    const pt=p.tags||[];
+                    const pw=allWorksCache.filter(w=>w.personId===p.id);
+                    const matchP = exact?Array.from(selectedTags).every(t=>pt.includes(t)):pt.some(t=>selectedTags.has(t));
+                    if(matchP)return true;
+                    return pw.some(w=>{
+                        const wt=w.tags||[];
+                        return exact?Array.from(selectedTags).every(t=>wt.includes(t)):wt.some(t=>selectedTags.has(t));
+                    });
+                });
+            }
+            // Sort
             if(sortState.home==='count')res.sort((a,b)=>(b.count||0)-(a.count||0));
             else if(sortState.home==='newest')res.sort((a,b)=>b.id-a.id);
             else if(sortState.home==='rating')res.sort((a,b)=>((b.hallOfFame?1:0)-(a.hallOfFame?1:0)));
@@ -463,6 +514,13 @@
             document.getElementById('person-list').style.display='none';
             document.getElementById('work-list-home').style.display='grid';
             let res=allWorksCache.filter(w=>w.title.toLowerCase().includes(q));
+            if(selectedTags.size>0){
+                const exact=document.getElementById('tag-exact-match').checked;
+                res=res.filter(w=>{
+                    const wt=w.tags||[];
+                    return exact?Array.from(selectedTags).every(t=>wt.includes(t)):wt.some(t=>selectedTags.has(t));
+                });
+            }
             sortWorks(res, sortState.home);
             renderWorkListForHome(res);
         }
@@ -479,19 +537,12 @@
             div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
             
             let pressTimer;
-            div.addEventListener('touchstart',()=>{ isScrolling=false; pressTimer=setTimeout(()=>{ pressTimer=null; if(homeMode==='people') openEditPersonModal(p); },600); });
-            div.addEventListener('touchmove',()=>{ isScrolling=true; if(pressTimer) clearTimeout(pressTimer); });
-            div.addEventListener('touchend',()=>{
-                if(pressTimer){ clearTimeout(pressTimer); if(!isScrolling) handleClickPerson(p); }
-            });
-            div.onclick=()=>{if(!('ontouchstart' in window))handleClickPerson(p);}; 
+            div.addEventListener('touchstart',()=>{ pressTimer=setTimeout(()=>{ pressTimer=null; if(navigator.vibrate)navigator.vibrate(50); openEditPersonModal(p); },600); });
+            div.addEventListener('touchend',()=>{ if(pressTimer){ clearTimeout(pressTimer); openDetail(p.id); } });
+            div.addEventListener('touchmove',()=>{ if(pressTimer) clearTimeout(pressTimer); });
+            div.onclick=()=>{if(!('ontouchstart' in window))openDetail(p.id);}; 
             con.appendChild(div);
         });
-    }
-    
-    function handleClickPerson(p){
-        if(homeMode==='people') openDetail(p.id);
-        else if(homeMode==='gallery') openGalleryFolder(p.id);
     }
 
     function renderWorkListForHome(list){
@@ -509,16 +560,46 @@
         });
     }
 
-    // === Gallery Logic (New) ===
+    // === Gallery Root Logic ===
+    function loadGalleryRootData(){
+        const tx=db.transaction(["people"], "readonly");
+        tx.objectStore("people").getAll().onsuccess=e=>{
+            let people=e.target.result.sort((a,b)=>(b.count||0)-(a.count||0));
+            const q=document.getElementById('gallery-search-input').value.toLowerCase();
+            people=people.filter(p=>p.name.toLowerCase().includes(q));
+            renderGalleryFolderList(people);
+        };
+    }
+    function filterGalleryRoot(){ loadGalleryRootData(); }
+
+    function renderGalleryFolderList(list){
+        const con=document.getElementById('gallery-folder-list'); con.innerHTML="";
+        if(list.length===0){con.innerHTML="<div style='grid-column:span 2;text-align:center;color:#555;'>No Data</div>";return;}
+        list.forEach(p=>{
+            const div=document.createElement('div'); div.className='person-card';
+            if(p.hallOfFame) div.classList.add('hof');
+            const img=p.image?`<img src="${p.image}" style="object-position:${p.focusX||50}% ${p.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
+            const crown=p.hallOfFame?'<div class="card-crown">👑</div>':'';
+            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">📂 OPEN FOLDER</div></div>`;
+            div.onclick=()=>openGalleryFolder(p.id);
+            con.appendChild(div);
+        });
+    }
+
+    // === Gallery Folder Screen ===
     function openGalleryFolder(pid){
         currentPersonId=parseInt(pid);
-        document.getElementById('home-screen').style.display='none';
+        galleryRoot.style.display='none';
         document.getElementById('gallery-folder-screen').style.display='flex';
+        // Get Name
+        db.transaction(["people"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
+            if(e.target.result) document.getElementById('gallery-folder-title').innerText = e.target.result.name;
+        };
         loadGalleryGrid();
     }
     function closeGalleryFolder(){
         document.getElementById('gallery-folder-screen').style.display='none';
-        document.getElementById('home-screen').style.display='block';
+        galleryRoot.style.display='block';
         currentPersonId=null;
     }
     function loadGalleryGrid(){
@@ -559,26 +640,28 @@
 
     function openAddImageModal(){ document.getElementById('add-image-modal').style.display='flex'; document.getElementById('gallery-preview-count').innerText=""; }
     function previewGalleryImage(input){
-        if(input.files.length>0) document.getElementById('gallery-preview-count').innerText=`${input.files.length} images selected`;
+        const files = input.files;
+        if(files.length > 0) document.getElementById('gallery-preview-count').innerText = `${files.length} images selected`;
     }
     function saveGalleryImage(){
-        const input=document.getElementById('new-gallery-img');
-        if(input.files.length===0)return;
-        const tx=db.transaction(["gallery"],"readwrite");
-        const s=tx.objectStore("gallery");
-        let count=0;
-        Array.from(input.files).forEach(f=>{
-            const r=new FileReader();
-            r.onload=e=>{
-                s.add({personId:parseInt(currentPersonId), data:e.target.result, createdAt:new Date()});
-                count++;
-                if(count===input.files.length){ closeModal('add-image-modal'); setTimeout(loadGalleryGrid,300); }
+        const input = document.getElementById('new-gallery-img');
+        const files = input.files;
+        if(files.length === 0) return;
+        const tx = db.transaction(["gallery"], "readwrite");
+        const store = tx.objectStore("gallery");
+        let loaded = 0;
+        Array.from(files).forEach(f => {
+            const r = new FileReader();
+            r.onload = e => {
+                store.add({ personId: parseInt(currentPersonId), data: e.target.result, createdAt: new Date() });
+                loaded++;
+                if(loaded === files.length) { closeModal('add-image-modal'); setTimeout(loadGalleryGrid, 300); }
             };
             r.readAsDataURL(f);
         });
     }
 
-    // === Detail Screen (Ver 17 Original) ===
+    // === Detail Screen (Standard) ===
     function openDetail(id){
         currentPersonId=parseInt(id);
         document.getElementById('home-screen').style.display='none';
@@ -620,9 +703,9 @@
             div.innerHTML=`${thumb}<div class="work-info"><h3>${crown} ${w.title}</h3><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
             
             let pressTimer;
-            div.addEventListener('touchstart',(e)=>{if(e.target.classList.contains('play-btn'))return;isScrolling=false;pressTimer=setTimeout(()=>{pressTimer=null;openEditWorkModal(w);},600);});
-            div.addEventListener('touchmove',()=>{isScrolling=true;if(pressTimer)clearTimeout(pressTimer);});
-            div.addEventListener('touchend',()=>{if(pressTimer){clearTimeout(pressTimer);if(!isScrolling)openWorkDetail(w);}});
+            div.addEventListener('touchstart',(e)=>{if(e.target.classList.contains('play-btn'))return;pressTimer=setTimeout(()=>{pressTimer=null;if(navigator.vibrate)navigator.vibrate(50);openEditWorkModal(w);},600);});
+            div.addEventListener('touchend',()=>{if(pressTimer){clearTimeout(pressTimer);openWorkDetail(w);}});
+            div.addEventListener('touchmove',()=>{if(pressTimer)clearTimeout(pressTimer);});
             div.onclick=(e)=>{if(!('ontouchstart' in window)&&!e.target.classList.contains('play-btn'))openWorkDetail(w);};
             con.appendChild(div);
         });
@@ -672,7 +755,7 @@
     }
 
     // === Helpers, Modals, Sort ===
-    function handleFabClick(){ if(homeMode==='people') openAddPersonModal(); else if(homeMode==='works') alert("Add works via Muse detail"); else if(homeMode==='gallery') alert("Select a Muse to add photos"); else if(document.getElementById('detail-screen').style.display==='flex') openAddWorkModal(); }
+    function handleFabClick(){ if(homeMode==='people') openAddPersonModal(); else if(homeMode==='works') alert("Add works via Muse detail"); }
     function openAddPersonModal(){ clearForm(); document.getElementById('add-person-modal').style.display='flex'; }
     function openEditPersonModal(p){ fillForm(p); document.getElementById('add-person-modal').style.display='flex'; }
     function openAddWorkModal(){ clearFormWork(); document.getElementById('add-work-modal').style.display='flex'; }
@@ -798,6 +881,7 @@
                 ch.innerHTML=`<div class="pie-hole"><div style="font-size:10px;color:#888;">TOTAL</div><div style="font-size:14px;color:#d4af37;">${hTotal}</div></div>`;
                 pieCon.appendChild(ch); pieCon.insertAdjacentHTML('beforeend', leg+'</div>');
             } else pieCon.innerHTML="<div style='color:#555;font-size:10px;'>No Data</div>";
+            // Rankings and other analysis (Simplified for length)
             const rList=document.getElementById('ranking-list'); rList.innerHTML="";
             people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
                 rList.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
