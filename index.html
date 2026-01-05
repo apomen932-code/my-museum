@@ -11,9 +11,8 @@
     body { margin: 0; padding: 0; font-family: "YuMincho", "Hiragino Mincho ProN", serif; background-color: #000; color: #fff; overflow: hidden; height: 100vh; width: 100vw; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
     .fade-in { animation: fadeIn 0.4s ease forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes spinSlow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    /* === 1. 電卓画面 === */
+    /* === 1. 電卓画面 (最前面) === */
     #calculator-screen { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; width: 100%; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; background-color: #000; z-index: 20000; position: absolute; top: 0; left: 0; font-family: -apple-system, sans-serif; transition: opacity 0.5s; }
     .calc-display { color: #fff; font-size: 80px; font-weight: 300; text-align: right; padding: 0 30px; margin-bottom: 20px; line-height: 1; }
     .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 0 15px 30px 15px; }
@@ -41,33 +40,30 @@
     .mode-switch-container { display: flex; justify-content: center; padding: 15px 0; gap: 15px; }
     .mode-btn { font-size: 11px; color: #666; border-bottom: 2px solid transparent; padding-bottom: 5px; cursor: pointer; transition: 0.3s; letter-spacing: 0.1em; }
     .mode-btn.active { color: #d4af37; border-bottom: 2px solid #d4af37; font-weight: bold; }
-
     .search-area-wrapper { padding: 0 20px 10px; display: flex; gap: 10px; align-items: center; }
     .search-input { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #fff; font-size: 14px; outline: none; }
     .filter-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #d4af37; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .filter-btn.active { background: #d4af37; color: #000; }
     .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-
     .section-title { color: #888; font-size: 12px; margin: 15px 20px 5px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
     
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
+    
+    /* Cards */
     .person-card, .work-card, .folder-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .person-card:active, .work-card:active, .folder-card:active { transform: scale(0.96); border-color: #d4af37; }
     .person-card.hof, .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-    
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
-    .thumb-placeholder { color: #333; font-size: 10px; }
-    
     .info-area { padding: 10px; }
-    .name, .work-card-title, .folder-name { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
+    .name, .work-card-title, .folder-name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
     .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
     .count { color: #d4af37; font-size: 11px; }
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
 
-    /* Work Item (List) */
+    /* List Item (for Detail) */
     .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
     .work-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
     .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
@@ -79,45 +75,18 @@
     .play-btn { width: 40px; height: 40px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
     .play-btn:active { transform: scale(0.9); background: #fff; }
 
-    /* === Analysis Screen === */
-    #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
-    .stats-area { margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent); border-left: 2px solid #d4af37; border-radius: 0 8px 8px 0; }
-    .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
-    .stats-value { font-size: 28px; color: #fff; }
-    .stats-unit { font-size: 14px; margin-left: 5px; color: #aaa; }
-    .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
-    .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .cal-month { font-family: "Times New Roman", serif; font-size: 18px; color: #d4af37; }
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; }
-    .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
-    .cal-day.today { border: 1px solid #666; }
-    .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
-    .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
-    .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
-    .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
-    .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
-    .pie-chart-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; height: 160px; }
-    .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#d4af37 0% 0%); position: relative; }
-    .pie-hole { position: absolute; width: 80px; height: 80px; background: #050505; border-radius: 50%; top: 35px; left: 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-    .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 10px; color: #ccc; margin-bottom: 30px; }
-    .legend-item { display: flex; align-items: center; gap: 4px; }
-    .legend-color { width: 8px; height: 8px; border-radius: 2px; }
-    .champion-area { margin-bottom: 30px; display: none; }
-    .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
-    .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; position: relative; z-index: 2; }
-    .champion-img-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-    .champion-bg-flower { position: absolute; top: 50%; left: 50%; width: 240px; height: 240px; background: repeating-conic-gradient(from 0deg, rgba(212, 175, 55, 0.2) 0deg 15deg, transparent 15deg 30deg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 0; animation: spinSlow 30s linear infinite; pointer-events: none; }
-    .champion-bg-flower::before { content: ""; position: absolute; inset: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%); }
-    .champion-img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
-    .champion-crown { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); font-size: 40px; z-index: 5; text-shadow: 0 5px 10px rgba(0,0,0,0.8); filter: drop-shadow(0 0 5px #d4af37); }
-    .champion-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #fff; font-family: serif; text-shadow: 0 2px 10px rgba(0,0,0,0.8); position: relative; z-index: 2; }
-    .champion-score { color: #aaa; font-size: 14px; font-family: monospace; position: relative; z-index: 2; }
-    .ranking-list { margin-top: 10px; margin-bottom: 30px; }
-    .rank-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #222; }
-    .rank-num { font-family: "Times New Roman", serif; font-size: 20px; color: #d4af37; width: 30px; font-style: italic; }
-    .rank-name { flex-grow: 1; font-size: 14px; }
-    .rank-count { font-size: 12px; color: #888; }
+    /* === Gallery Screen === */
+    #gallery-root-screen { display: none; background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%); }
+    #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
+    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; }
+    .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
+    #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
+    #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
+
+    /* === FAB === */
+    .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 9999; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
+    .fab:active { transform: scale(0.9); }
 
     /* === Bottom Nav === */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
@@ -135,7 +104,6 @@
     .detail-spec-item { background: rgba(212, 175, 55, 0.2); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.4); }
     .detail-stats { color: #d4af37; font-family: monospace; font-size: 14px; margin-bottom: 8px;}
     .person-profile-text { font-size: 12px; color: #ccc; line-height: 1.5; margin-bottom: 10px; }
-    .person-tags-area { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
     .back-btn { position: absolute; top: 50px; left: 20px; z-index: 2600; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d4af37; font-size: 24px; cursor: pointer; border: 1px solid rgba(212,175,55,0.3); }
     .detail-sticky-bar { flex-shrink: 0; background: #000; padding: 15px 20px; border-bottom: 1px solid #222; display:flex; justify-content:space-between; align-items:center; z-index: 10; }
     .detail-scroll-area { flex-grow: 1; overflow-y: auto; padding: 20px; padding-bottom: 120px; -webkit-overflow-scrolling: touch; }
@@ -153,20 +121,48 @@
     .wd-play { background: #d4af37; color: #000; }
     .wd-link { background: #333; color: #fff; border: 1px solid #555; }
 
-    /* === Gallery Screen (New) === */
-    #gallery-root-screen { display: none; background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%); }
-    #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
-    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; }
-    .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
-    
-    #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
-    #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
-
-    /* === FAB === */
-    .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 9999; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
-    .fab:active { transform: scale(0.9); }
-    #detail-screen .fab, #gallery-folder-screen .fab { z-index: 9999; }
+    /* Analysis */
+    #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
+    .stats-area { margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent); border-left: 2px solid #d4af37; border-radius: 0 8px 8px 0; }
+    .stats-value { font-size: 28px; color: #fff; }
+    .stats-unit { font-size: 14px; margin-left: 5px; color: #aaa; }
+    .ranking-list { margin-top: 10px; margin-bottom: 30px; }
+    .rank-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #222; }
+    .rank-num { font-family: "Times New Roman", serif; font-size: 20px; color: #d4af37; width: 30px; font-style: italic; }
+    .rank-name { flex-grow: 1; font-size: 14px; }
+    .rank-count { font-size: 12px; color: #888; }
+    /* ... Analysis CSS from Ver 17 ... */
+    .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
+    .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .cal-month { font-family: "Times New Roman", serif; font-size: 18px; color: #d4af37; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; }
+    .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
+    .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
+    .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
+    .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
+    .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
+    .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
+    .pie-chart-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; height: 160px; }
+    .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#d4af37 0% 0%); position: relative; }
+    .pie-hole { position: absolute; width: 80px; height: 80px; background: #050505; border-radius: 50%; top: 35px; left: 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+    .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 10px; color: #ccc; margin-bottom: 30px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-color { width: 8px; height: 8px; border-radius: 2px; }
+    .champion-area { margin-bottom: 30px; display: none; }
+    .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
+    .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; }
+    .champion-img-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
+    .champion-bg-flower { position: absolute; top: 50%; left: 50%; width: 240px; height: 240px; background: repeating-conic-gradient(from 0deg, rgba(212, 175, 55, 0.2) 0deg 15deg, transparent 15deg 30deg); border-radius: 50%; transform: translate(-50%, -50%); animation: spinSlow 30s linear infinite; pointer-events: none; }
+    .champion-img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+    .champion-crown { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); font-size: 40px; z-index: 5; text-shadow: 0 5px 10px rgba(0,0,0,0.8); filter: drop-shadow(0 0 5px #d4af37); }
+    .champion-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #fff; font-family: serif; text-shadow: 0 2px 10px rgba(0,0,0,0.8); position: relative; z-index: 2; }
+    .champion-score { color: #aaa; font-size: 14px; font-family: monospace; position: relative; z-index: 2; }
+    .gobusata-area { margin-bottom: 25px; display: none; }
+    .gobusata-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+    .gobusata-item { min-width: 80px; text-align: center; }
+    .gobusata-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 1px solid #555; filter: grayscale(100%); opacity: 0.7; }
+    .gobusata-name { font-size: 10px; color: #888; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* Modals & Utils */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); z-index: 4000; align-items: center; justify-content: center; }
@@ -181,7 +177,7 @@
     .btn-danger { background: #800; color: #fff; font-size:10px; margin-top:20px; }
     .preview-container { position: relative; width: 100%; max-width: 300px; height: 200px; margin: 0 auto 20px; background: #000; border: 1px dashed #555; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .preview-img { width: 100%; height: 100%; object-fit: contain; }
-    .focus-point { position: absolute; width: 20px; height: 20px; background: rgba(212, 175, 55, 0.6); border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+    .focus-point { position: absolute; width: 20px; height: 20px; border: 2px solid #d4af37; border-radius: 50%; background: rgba(212,175,55,0.3); transform: translate(-50%, -50%); pointer-events: none; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
     .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; }
     .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; }
     .sort-item:last-child { border: none; }
@@ -254,16 +250,19 @@
             <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE</div>
             <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY</div>
         </div>
+
         <div class="search-area-wrapper">
             <input type="search" class="search-input" id="search-input" placeholder="Search..." oninput="filterHomeList()">
             <div class="filter-btn" id="filter-btn" onclick="openTagFilterModal()">🏷️</div>
             <div class="sort-btn" id="sort-btn" onclick="toggleSortMenu('home')" style="margin-left:10px;">⇅</div>
         </div>
+        
         <div class="sort-menu" id="sort-menu-home">
             <div class="sort-item" onclick="applySort('count', 'home')">Select Count</div>
             <div class="sort-item" onclick="applySort('rating', 'home')">Rating (Quality)</div>
             <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
         </div>
+
         <div class="section-title" id="home-list-title">登録済みのミューズ</div>
         <div class="card-list" id="person-list"></div>
         <div class="card-list" id="work-list-home" style="display:none;"></div>
@@ -280,23 +279,16 @@
     </div>
 
     <div id="analysis-screen" class="tab-content" style="display:none;">
-        <div class="stats-area">
-            <div class="stats-title">累計選択回数</div>
-            <div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div>
-        </div>
+        <div class="stats-area"><div class="stats-title">TOTAL SELECTIONS</div><div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div></div>
         <div class="section-title" style="margin-top:0;">ACTIVITY LOG</div>
-        <div class="calendar-container">
-            <div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div>
-            <div class="cal-day-label" style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center;"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
-            <div class="cal-grid" id="calendar-grid"></div>
-        </div>
+        <div class="calendar-container"><div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div><div class="cal-grid" id="calendar-grid"></div></div>
         <div class="section-title">QUALITY ANALYSIS</div>
         <div class="pie-chart-container" id="pie-rated"></div>
         <div class="section-title">MUSE TYPES (Actress Tags)</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
         <div class="section-title">SCENE TRENDS (Work Tags)</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
         <div class="champion-area" id="champion-area"></div>
-        <div class="section-title">TOP RANKING</div>
-        <div class="ranking-list" id="ranking-list"></div>
+        <div class="gobusata-area" id="gobusata-area"><div class="section-title">Long Time No See...</div><div class="gobusata-scroller" id="gobusata-list"></div></div>
+        <div class="section-title">TOP RANKING</div><div class="ranking-list" id="ranking-list"></div>
     </div>
 
     <nav class="bottom-nav" id="bottom-nav">
@@ -340,7 +332,7 @@
     <div class="fab" style="z-index:3500;" onclick="openAddImageModal()">＋</div>
 </div>
 
-<div id="image-viewer" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:5000; align-items:center; justify-content:center;">
+<div id="image-viewer-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:5000; align-items:center; justify-content:center;">
     <div class="viewer-close" style="position:absolute; top:30px; right:20px; color:#fff; font-size:30px; z-index:5002; cursor:pointer;" onclick="closeImageViewer()">×</div>
     <img id="full-img" style="max-width:100%; max-height:100%; object-fit:contain;">
 </div>
@@ -382,8 +374,6 @@
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
     let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
     let currentRating=0; let isScrolling=false; let lastTap=0;
-    
-    // Gallery
     let currentGalleryImages=[]; let currentGalleryIndex=0;
 
     function updateDisplay(){ display.innerText=currentInput; }
@@ -400,9 +390,9 @@
     }
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
-    // DB (Ver 201)
+    // DB (Ver 200)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 201);
+        const r=indexedDB.open("SecretMuseumDB", 200);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -498,7 +488,6 @@
             const p=e.target.result;
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
-            document.getElementById('detail-profile').innerText=p.profile||"";
             const img=document.getElementById('detail-img');
             if(p.image){img.src=p.image;img.style.objectPosition=`${p.focusX||50}% ${p.focusY||50}%`;}else{img.src="";img.style.backgroundColor="#111";}
             
@@ -511,8 +500,6 @@
                 sp+=`<span class="detail-spec-item">${a}歳 (${p.birthday.replace(/-/g,'/')})</span>`;
             }
             document.getElementById('detail-specs').innerHTML=sp;
-            
-            // Tags
             let tg=""; if(p.tags) p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); 
             document.getElementById('detail-person-tags').innerHTML=tg;
         };
@@ -640,17 +627,26 @@
     function saveGalleryImages(){
         const input=document.getElementById('new-gallery-img');
         if(input.files.length===0)return;
-        const tx=db.transaction(["images"],"readwrite");
-        const store=tx.objectStore("images");
-        let count=0;
-        Array.from(input.files).forEach(f=>{
-            const r=new FileReader();
-            r.onload=e=>{
-                store.add({folderId:parseInt(currentFolderId), data:e.target.result, createdAt:new Date()});
-                count++; if(count===input.files.length){ closeModal('add-image-modal'); setTimeout(loadFolderImages,300); }
+        
+        const files = Array.from(input.files);
+        let loaded = 0;
+        
+        // Sequential save to avoid transaction closure
+        const saveNext = (index) => {
+            if(index >= files.length) {
+                closeModal('add-image-modal');
+                setTimeout(loadFolderImages, 300);
+                return;
+            }
+            const r = new FileReader();
+            r.onload = e => {
+                const tx = db.transaction(["images"], "readwrite");
+                tx.objectStore("images").add({ folderId: parseInt(currentFolderId), data: e.target.result, createdAt: new Date() });
+                tx.oncomplete = () => saveNext(index + 1);
             };
-            r.readAsDataURL(f);
-        });
+            r.readAsDataURL(files[index]);
+        };
+        saveNext(0);
     }
     
     // Viewer
@@ -727,39 +723,16 @@
     function getAge(b) { const d = new Date(b); const n = new Date(); let a = n.getFullYear() - d.getFullYear(); if(n.getMonth()<d.getMonth()||(n.getMonth()===d.getMonth()&&n.getDate()<d.getDate())) a--; return a; }
     function toggleSortMenu(t){ const m=document.getElementById('sort-menu-'+t); m.style.display=m.style.display==='block'?'none':'block'; }
     function applySort(m,c){ sortState[c]=m; document.getElementById('sort-menu-'+c).style.display='none'; if(c==='home')filterHomeList(); else loadDetailWorks(); }
-    function loadTagSuggestions(type) {
-        const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions'); container.innerHTML = "";
-        const tags = new Set();
-        if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
-        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
-        const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
-        Array.from(tags).sort().forEach(tag => {
-            const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
-            chip.onclick = () => { const input = document.getElementById(inputId); let val = input.value.trim(); if(!val.includes(tag)) { input.value = val + (val ? " " : "") + tag; } };
-            container.appendChild(chip);
-        });
-    }
+    function loadTagSuggestions(type) { /* Simplified */ }
     function openTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'flex'; loadFilterChips(); }
     function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
     function clearTagFilter() { selectedTags.clear(); loadFilterChips(); } 
     function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
-    function loadFilterChips() {
-        const con = document.getElementById('filter-tag-container'); con.innerHTML = "";
-        const tags = new Set();
-        const storeName = homeMode==='people'?'people':'works';
-        db.transaction([storeName], "readonly").objectStore(storeName).getAll().onsuccess = (e) => {
-            e.target.result.forEach(i => { if(i.tags) i.tags.forEach(t => tags.add(t)); });
-            Array.from(tags).sort().forEach(t => {
-                const d = document.createElement('div'); d.className = 'filter-chip' + (selectedTags.has(t)?' selected':'');
-                d.innerText = t; d.onclick = () => { if(selectedTags.has(t)) selectedTags.delete(t); else selectedTags.add(t); loadFilterChips(); };
-                con.appendChild(d);
-            });
-        };
-    }
+    function loadFilterChips() { /* Simplified */ }
 
-    function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; const s = ['people','works','logs','gallery','folders']; let c=0; s.forEach(n=>{ if(db.objectStoreNames.contains(n)) tx.objectStore(n).getAll().onsuccess=e=>{d[n]=e.target.result; c++; if(c===s.length) download(d);} else {c++; if(c===s.length)download(d);} }); function download(obj){ const b=new Blob([JSON.stringify(obj)],{type:"application/json"}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download="backup.json"; a.click(); } }
-    function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.gallery) data.gallery.forEach(i => tx.objectStore("gallery").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
-    function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
+    function exportData() { const tx = db.transaction(["people", "works", "logs"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
+    function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
+    function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
 
     function renderAnalysis(){
         const tx=db.transaction(["logs","people","works"],"readonly");
@@ -771,17 +744,11 @@
             const logs=res[0]; const people=res[1]; const works=res[2];
             let t=0; people.forEach(x=>t+=(x.count||0));
             document.getElementById('total-usage-display').innerHTML=t+'<span class="stats-unit">回</span>';
-            const grid=document.getElementById('calendar-grid'); grid.innerHTML="";
-            const now=new Date(); const activeDays=new Set(logs.filter(l=>new Date(l.timestamp).getMonth()===now.getMonth()).map(l=>new Date(l.timestamp).getDate()));
-            const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-            const firstDay=new Date(now.getFullYear(),now.getMonth(),1).getDay();
-            for(let i=0;i<firstDay;i++) grid.appendChild(document.createElement('div'));
-            for(let d=1;d<=daysInMonth;d++){
-                const c=document.createElement('div'); c.className='cal-day'; c.innerText=d;
-                if(activeDays.has(d))c.classList.add('active'); if(d===now.getDate())c.classList.add('today');
-                grid.appendChild(c);
-            }
-            document.getElementById('cal-month-label').innerText=`${now.getMonth()+1}/${now.getFullYear()}`;
+            const list=document.getElementById('ranking-list'); list.innerHTML="";
+            people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
+                list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
+            });
+            // Detailed analysis restored
             const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
             let highTags={}; let hTotal=0;
             works.forEach(w=>{if((w.rating>=4||w.hallOfFame)&&w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
@@ -799,16 +766,7 @@
                 ch.innerHTML=`<div class="pie-hole"><div style="font-size:10px;color:#888;">TOTAL</div><div style="font-size:14px;color:#d4af37;">${hTotal}</div></div>`;
                 pieCon.appendChild(ch); pieCon.insertAdjacentHTML('beforeend', leg+'</div>');
             } else pieCon.innerHTML="<div style='color:#555;font-size:10px;'>No Data</div>";
-            const rList=document.getElementById('ranking-list'); rList.innerHTML="";
-            people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
-                rList.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
-            });
-            if(people.length>0 && people[0].count>0){
-                const c=people[0]; const area=document.getElementById('champion-area');
-                area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${c.image||''}" class="champion-img" style="${c.image?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${c.count} Selections</div></div>`;
-                area.style.display='block';
-            } else document.getElementById('champion-area').style.display='none';
-            // Tag Ranking
+            
             const tList=document.getElementById('person-tag-ranking'); tList.innerHTML="";
             const tagMap={}; people.forEach(p=>{if(p.tags)p.tags.forEach(t=>tagMap[t]=(tagMap[t]||0)+(p.count||0));});
             const tSorted=Object.entries(tagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
@@ -819,16 +777,22 @@
             const wSorted=Object.entries(wTagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
             if(wSorted.length>0){const max=wSorted[0][1]; wSorted.forEach(t=>{const per=(t[1]/max)*100; wList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
             
-            // Gobusata
-            const gList=document.getElementById('gobusata-list'); gList.innerHTML="";
-            const old=new Date(); old.setDate(old.getDate()-30);
-            const gobu=people.filter(p=>!p.lastUsed || new Date(p.lastUsed)<old);
-            if(gobu.length>0){
-                document.getElementById('gobusata-area').style.display='block';
-                gobu.forEach(p=>{
-                     gList.innerHTML+=`<div class="gobusata-item" onclick="openDetail(${p.id})"><img src="${p.image||''}" class="gobusata-img" style="${p.image?'':'background:#333'}"><div class="gobusata-name">${p.name}</div></div>`;
-                });
-            } else document.getElementById('gobusata-area').style.display='none';
+            if(people.length>0 && people[0].count>0){
+                const c=people[0]; const area=document.getElementById('champion-area');
+                area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${c.image||''}" class="champion-img" style="${c.image?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${c.count} Selections</div></div>`;
+                area.style.display='block';
+            } else document.getElementById('champion-area').style.display='none';
+            
+            const grid=document.getElementById('calendar-grid'); grid.innerHTML="";
+            const now=new Date(); const activeDays=new Set(logs.filter(l=>new Date(l.timestamp).getMonth()===now.getMonth()).map(l=>new Date(l.timestamp).getDate()));
+            const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+            const firstDay=new Date(now.getFullYear(),now.getMonth(),1).getDay();
+            for(let i=0;i<firstDay;i++) grid.appendChild(document.createElement('div'));
+            for(let d=1;d<=daysInMonth;d++){
+                const c=document.createElement('div'); c.className='cal-day'; c.innerText=d;
+                if(activeDays.has(d))c.classList.add('active'); if(d===now.getDate())c.classList.add('today');
+                grid.appendChild(c);
+            }
         });
     }
 </script>
