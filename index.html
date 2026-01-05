@@ -48,6 +48,7 @@
     .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
     .section-title { color: #888; font-size: 12px; margin: 15px 20px 5px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
+    
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
     
     /* Cards */
@@ -58,6 +59,7 @@
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
     .thumb-placeholder { color: #333; font-size: 10px; }
+    
     .info-area { padding: 10px; }
     .name, .work-card-title, .folder-name { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
     .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
@@ -78,14 +80,16 @@
     .play-btn { width: 40px; height: 40px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
     .play-btn:active { transform: scale(0.9); background: #fff; }
 
-    /* === Gallery Screens === */
+    /* === Gallery Screen === */
     #gallery-root-screen { display: none; background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%); }
     #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
     .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; }
-    .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; position: relative; }
+    .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
+    
+    /* Gallery Item & Selection */
     .gallery-item { position: relative; }
-    .gallery-item.selected { border: 2px solid #d4af37; opacity: 0.7; }
-    .gallery-check { position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; background: #d4af37; border-radius: 50%; display: none; align-items: center; justify-content: center; color: #000; font-size: 12px; font-weight: bold; z-index: 10; }
+    .gallery-item.selected img { border: 2px solid #d4af37; opacity: 0.7; }
+    .gallery-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: #d4af37; color: #000; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; z-index: 10; font-size: 14px; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
     .gallery-item.selected .gallery-check { display: flex; }
 
     #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
@@ -95,7 +99,6 @@
     /* === FAB === */
     .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 9999; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
     .fab:active { transform: scale(0.9); }
-    #detail-screen .fab, #gallery-folder-screen .fab { z-index: 9999; }
 
     /* === Bottom Nav === */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
@@ -107,12 +110,12 @@
     #detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2500; flex-direction: column; }
     .detail-fixed-header { flex-shrink: 0; position: relative; width: 100%; height: 45vh; overflow: hidden; border-bottom: 1px solid rgba(212, 175, 55, 0.3); background:#111; }
     .detail-bg-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
-    .detail-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, #000 10%, transparent); padding: 20px; box-sizing: border-box; }
+    .detail-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.6) 50%, transparent 100%); padding: 20px; box-sizing: border-box; }
     .detail-name { font-size: 32px; font-weight: bold; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
     .detail-specs { font-size: 13px; color: #fff; margin-bottom: 5px; font-family: sans-serif; display: flex; gap: 10px; align-items: center; }
     .detail-spec-item { background: rgba(212, 175, 55, 0.2); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.4); }
     .detail-stats { color: #d4af37; font-family: monospace; font-size: 14px; margin-bottom: 8px;}
-    .person-profile-text { font-size: 12px; color: #ccc; line-height: 1.5; margin-bottom: 10px; }
+    .person-profile-text { font-size: 12px; color: #ccc; line-height: 1.5; margin-bottom: 10px; white-space: pre-wrap; }
     .person-tags-area { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
     .back-btn { position: absolute; top: 50px; left: 20px; z-index: 2600; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d4af37; font-size: 24px; cursor: pointer; border: 1px solid rgba(212,175,55,0.3); }
     .detail-sticky-bar { flex-shrink: 0; background: #000; padding: 15px 20px; border-bottom: 1px solid #222; display:flex; justify-content:space-between; align-items:center; z-index: 10; }
@@ -534,6 +537,7 @@
         const s=document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             const p=e.target.result;
+            if(!p) return;
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
             document.getElementById('detail-profile').innerText=p.profile||"";
@@ -635,8 +639,8 @@
             const con=document.getElementById('gallery-folder-list'); con.innerHTML="";
             if(list.length===0){con.innerHTML="<div style='color:#555;'>No Folders</div>";return;}
             list.forEach(f=>{
-                const div=document.createElement('div'); div.className='folder-card'; 
-                const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;object-position:${f.focusX||50}% ${f.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
+                const div=document.createElement('div'); div.className='person-card'; 
+                const img=f.image?`<img src="${f.image}" style="object-position:${f.focusX||50}% ${f.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
                 div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div>`;
                 div.onclick=()=>openFolder(f.id, f.name);
                 // Long press edit folder
@@ -793,7 +797,8 @@
     });
     v.addEventListener('click',e=>{
         if(e.target.className==='viewer-close')return;
-        if(e.clientX>window.innerWidth/2) nextImage(); else prevImage();
+        if(e.clientX>window.innerWidth/2){if(currentGalleryIndex<currentGalleryImages.length-1){currentGalleryIndex++;updateImageViewer();}}
+        else{if(currentGalleryIndex>0){currentGalleryIndex--;updateImageViewer();}}
     });
     function nextImage(){if(currentGalleryIndex<currentGalleryImages.length-1){currentGalleryIndex++;updateImageViewer();}}
     function prevImage(){if(currentGalleryIndex>0){currentGalleryIndex--;updateImageViewer();}}
@@ -884,7 +889,7 @@
         };
     }
 
-    function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
+    function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; const s = ['people','works','logs','gallery','folders']; let c=0; s.forEach(n=>{ if(db.objectStoreNames.contains(n)) tx.objectStore(n).getAll().onsuccess=e=>{d[n]=e.target.result; c++; if(c===s.length) download(d);} else {c++; if(c===s.length)download(d);} }); function download(obj){ const b=new Blob([JSON.stringify(obj)],{type:"application/json"}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download="backup.json"; a.click(); } }
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.gallery) data.gallery.forEach(i => tx.objectStore("gallery").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
     function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
 
