@@ -52,39 +52,44 @@
     
     /* Grid List */
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
-    .work-list-container { display: flex; flex-direction: column; gap: 8px; padding: 0 20px; padding-bottom: 120px; }
-
-    /* Cards */
-    .person-card, .work-card, .gallery-item { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
-    .person-card:active, .work-card:active, .gallery-item:active { transform: scale(0.96); border-color: #d4af37; }
-    .person-card.pressing, .work-card.pressing { transform: scale(0.95); border-color: #ff4444; }
-    .person-card.hof, .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    
+    /* Person Card */
+    .person-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
+    .person-card:active { transform: scale(0.96); border-color: #d4af37; }
+    .person-card.pressing { transform: scale(0.95); border-color: #ff4444; }
+    .person-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
     
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
     .thumb-placeholder { color: #333; font-size: 10px; }
     
     .info-area { padding: 10px; }
-    .name, .work-card-title { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
-    .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
+    .name { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
     .count { color: #d4af37; font-size: 11px; }
 
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
+
+    /* Work Card (Grid) */
+    .work-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
+    .work-card:active { transform: scale(0.96); border-color: #d4af37; }
+    .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; margin-bottom:4px; color:#f0f0f0; }
+
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
 
-    /* Work Item (List View) */
-    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 8px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; margin-bottom: 8px; }
+    /* Work Item (List) */
+    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
     .work-item.pressing { background: rgba(100, 30, 30, 0.6); }
     .work-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
     
-    .work-thumb { width: 45px; height: 45px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
+    .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
     .work-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
-    .work-title { margin: 0 0 3px 0; font-size: 13px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
+    .work-title { margin: 0 0 3px 0; font-size: 14px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
     .work-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 2px; }
-    .tag { font-size: 9px; background: #333; color: #aaa; padding: 1px 4px; border-radius: 3px; }
-    .work-count { font-size: 10px; color: #888; font-family: monospace; display:flex; align-items:center; gap:5px; }
-    .play-btn { width: 36px; height: 36px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 14px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
+    .tag { font-size: 10px; background: #333; color: #aaa; padding: 2px 6px; border-radius: 4px; }
+    .work-count { font-size: 11px; color: #888; font-family: monospace; display:flex; align-items:center; gap:5px; }
+    .play-btn { width: 40px; height: 40px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
     .play-btn:active { transform: scale(0.9); background: #fff; }
 
     /* === Analysis Screen === */
@@ -195,6 +200,23 @@
     .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; }
     .sort-item:last-child { border: none; }
     .sort-item:active { background: #444; }
+    
+    .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; justify-content: center; }
+    .filter-chip { padding: 6px 12px; border-radius: 20px; border: 1px solid #555; font-size: 12px; color: #aaa; cursor: pointer; transition: 0.2s; }
+    .filter-chip.selected { background: #d4af37; color: #000; border-color: #d4af37; }
+    .filter-options { text-align: left; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
+    .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 12px; color: #ccc; cursor: pointer; }
+    .checkbox-label input { width: auto; margin: 0 8px 0 0; }
+    .tag-suggestions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: -10px; margin-bottom: 15px; }
+    .tag-s-chip { font-size: 10px; background: #333; border: 1px solid #555; padding: 3px 8px; border-radius: 10px; color: #ccc; cursor: pointer; transition:0.2s;}
+    .tag-s-chip:active { background: #d4af37; color: #000; }
+
+    .star-rating { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; font-size: 24px; color: #444; cursor: pointer; }
+    .star-rating span.on { color: #d4af37; }
+    .hof-toggle { text-align: center; margin-bottom: 15px; }
+    .hof-label { font-size: 12px; color: #ccc; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+    .crown-icon { font-size: 14px; }
+    .crown-icon.gold { color: #d4af37; }
 
     /* Work Detail Screen */
     #work-detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; overflow-y: auto; }
@@ -316,7 +338,7 @@
         <div class="sort-item" onclick="applySort('rating', 'detail')">Rating</div>
         <div class="sort-item" onclick="applySort('newest', 'detail')">Newest</div>
     </div>
-    <div class="detail-scroll-area"><div id="work-list" class="work-list-container"></div></div>
+    <div class="detail-scroll-area"><div id="work-list" style="padding:0 20px 100px;"></div></div>
     <div class="fab" onclick="openAddWorkModal()">＋</div>
 </div>
 
@@ -349,7 +371,7 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><input type="date" id="new-person-birthday" style="flex:2;"></div><div style="margin:10px 0;text-align:center;"><label style="color:#ccc;font-size:12px;"><input type="checkbox" id="new-person-hof"> 👑 Hall of Fame</label></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img"><div id="focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" onclick="deletePerson()">DELETE</button></div></div>
+<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><input type="date" id="new-person-birthday" style="flex:2;"></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:10px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img"><div id="focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" onclick="deletePerson()">DELETE</button></div></div>
 <div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div><div style="margin-bottom:10px;text-align:center;"><span id="work-rating-input" style="font-size:24px;cursor:pointer;"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></span><br><label style="color:#ccc;font-size:12px;"><input type="checkbox" id="new-work-hof"> 👑 Hall of Fame</label></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" onclick="deleteWork()">DELETE</button></div></div>
 <div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> Exact Match</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%;margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="display:block;">RESTORE <input type="file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;margin-top:10px;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
@@ -378,7 +400,7 @@
             calcScreen.style.display='none'; 
             document.getElementById('app-container').style.display='block';
             appHeader.style.display='flex'; bottomNav.style.display='flex'; homeScreen.style.display='block';
-            setHomeMode('people'); // FORCE INIT
+            setHomeMode('people'); // FORCE INIT: This fixes the blank screen issue
         }, 500);
     }
     
@@ -503,7 +525,7 @@
             const div = document.createElement('div'); div.className = 'work-card';
             if(w.hallOfFame) div.classList.add('hof');
             let crown = w.hallOfFame ? '<div class="card-crown">👑</div>' : '';
-            let thumbHtml = w.image ? `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">` : '<div class="thumb-placeholder">NO IMAGE</div>';
+            let thumbHtml = w.image ? `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">` : '<div class="thumb-placeholder">NO IMG</div>';
             let stars = ""; if(w.rating > 0) { stars = '<div class="rating-stars-sm">'; for(let i=0; i<w.rating; i++) stars += '<span class="on">★</span>'; stars += '</div>'; }
             div.innerHTML = `<div class="thumb-area">${thumbHtml}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count || 0} SELECTIONS</div></div>`;
             div.onclick = () => openWorkDetail(w);
@@ -660,7 +682,7 @@
         db.transaction(["works"],"readonly").objectStore("works").index("personId").getAll(currentPersonId).onsuccess=e=>{
             let works=e.target.result;
             sortWorks(works, sortMode.detail);
-            renderWorkList(works, 'detail-work-list');
+            renderWorkList(works, 'work-list'); // Use unified render
         };
     }
     function sortWorks(works, mode) {
@@ -716,8 +738,8 @@
     function closeModal(id){ document.getElementById(id).style.display='none'; }
     function openSettingsModal(){ document.getElementById('settings-modal').style.display='flex'; }
     
-    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('new-person-cup').value=""; document.getElementById('new-person-birthday').value=""; document.getElementById('new-person-profile').value=""; document.getElementById('new-person-tags').value=""; document.getElementById('new-person-hof').checked=false; toggleHOFIcon('person-hof-icon', false); document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; loadTagSuggestions('person'); }
-    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hallOfFame; toggleHOFIcon('person-hof-icon', !!p.hallOfFame); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
+    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); }
+    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hallOfFame; toggleHOFIcon('person-hof-icon', !!p.hallOfFame); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; }
     function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
     function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hallOfFame; toggleHOFIcon('work-hof-icon', !!w.hallOfFame); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
 
