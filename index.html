@@ -12,7 +12,7 @@
     .fade-in { animation: fadeIn 0.4s ease forwards; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* === 1. 電卓画面 (最前面) === */
+    /* === 1. 電卓画面 === */
     #calculator-screen { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; width: 100%; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; background-color: #000; z-index: 20000; position: absolute; top: 0; left: 0; font-family: -apple-system, sans-serif; transition: opacity 0.5s; }
     .calc-display { color: #fff; font-size: 80px; font-weight: 300; text-align: right; padding: 0 30px; margin-bottom: 20px; line-height: 1; }
     .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 0 15px 30px 15px; }
@@ -40,23 +40,26 @@
     .mode-switch-container { display: flex; justify-content: center; padding: 15px 0; gap: 15px; }
     .mode-btn { font-size: 11px; color: #666; border-bottom: 2px solid transparent; padding-bottom: 5px; cursor: pointer; transition: 0.3s; letter-spacing: 0.1em; }
     .mode-btn.active { color: #d4af37; border-bottom: 2px solid #d4af37; font-weight: bold; }
+
     .search-area-wrapper { padding: 0 20px 10px; display: flex; gap: 10px; align-items: center; }
     .search-input { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #fff; font-size: 14px; outline: none; }
     .filter-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #d4af37; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .filter-btn.active { background: #d4af37; color: #000; }
     .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+
     .section-title { color: #888; font-size: 12px; margin: 15px 20px 5px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
-    
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
     
     /* Cards */
     .person-card, .work-card, .folder-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .person-card:active, .work-card:active, .folder-card:active { transform: scale(0.96); border-color: #d4af37; }
     .person-card.hof, .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb-placeholder { color: #333; font-size: 10px; }
     .info-area { padding: 10px; }
-    .name, .work-card-title, .folder-name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
+    .name, .work-card-title, .folder-name { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
     .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
     .count { color: #d4af37; font-size: 11px; }
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
@@ -87,6 +90,7 @@
     /* === FAB === */
     .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 9999; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
     .fab:active { transform: scale(0.9); }
+    #detail-screen .fab, #gallery-folder-screen .fab { z-index: 9999; }
 
     /* === Bottom Nav === */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
@@ -104,6 +108,7 @@
     .detail-spec-item { background: rgba(212, 175, 55, 0.2); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.4); }
     .detail-stats { color: #d4af37; font-family: monospace; font-size: 14px; margin-bottom: 8px;}
     .person-profile-text { font-size: 12px; color: #ccc; line-height: 1.5; margin-bottom: 10px; }
+    .person-tags-area { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
     .back-btn { position: absolute; top: 50px; left: 20px; z-index: 2600; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d4af37; font-size: 24px; cursor: pointer; border: 1px solid rgba(212,175,55,0.3); }
     .detail-sticky-bar { flex-shrink: 0; background: #000; padding: 15px 20px; border-bottom: 1px solid #222; display:flex; justify-content:space-between; align-items:center; z-index: 10; }
     .detail-scroll-area { flex-grow: 1; overflow-y: auto; padding: 20px; padding-bottom: 120px; -webkit-overflow-scrolling: touch; }
@@ -124,6 +129,7 @@
     /* Analysis */
     #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
     .stats-area { margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent); border-left: 2px solid #d4af37; border-radius: 0 8px 8px 0; }
+    .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
     .stats-value { font-size: 28px; color: #fff; }
     .stats-unit { font-size: 14px; margin-left: 5px; color: #aaa; }
     .ranking-list { margin-top: 10px; margin-bottom: 30px; }
@@ -131,7 +137,6 @@
     .rank-num { font-family: "Times New Roman", serif; font-size: 20px; color: #d4af37; width: 30px; font-style: italic; }
     .rank-name { flex-grow: 1; font-size: 14px; }
     .rank-count { font-size: 12px; color: #888; }
-    /* ... Analysis CSS from Ver 17 ... */
     .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .cal-month { font-family: "Times New Roman", serif; font-size: 18px; color: #d4af37; }
@@ -250,19 +255,16 @@
             <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE</div>
             <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY</div>
         </div>
-
         <div class="search-area-wrapper">
             <input type="search" class="search-input" id="search-input" placeholder="Search..." oninput="filterHomeList()">
             <div class="filter-btn" id="filter-btn" onclick="openTagFilterModal()">🏷️</div>
             <div class="sort-btn" id="sort-btn" onclick="toggleSortMenu('home')" style="margin-left:10px;">⇅</div>
         </div>
-        
         <div class="sort-menu" id="sort-menu-home">
             <div class="sort-item" onclick="applySort('count', 'home')">Select Count</div>
             <div class="sort-item" onclick="applySort('rating', 'home')">Rating (Quality)</div>
             <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
         </div>
-
         <div class="section-title" id="home-list-title">登録済みのミューズ</div>
         <div class="card-list" id="person-list"></div>
         <div class="card-list" id="work-list-home" style="display:none;"></div>
@@ -284,8 +286,8 @@
         <div class="calendar-container"><div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div><div class="cal-grid" id="calendar-grid"></div></div>
         <div class="section-title">QUALITY ANALYSIS</div>
         <div class="pie-chart-container" id="pie-rated"></div>
-        <div class="section-title">MUSE TYPES (Actress Tags)</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
-        <div class="section-title">SCENE TRENDS (Work Tags)</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">MUSE TYPES</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">SCENE TRENDS</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
         <div class="champion-area" id="champion-area"></div>
         <div class="gobusata-area" id="gobusata-area"><div class="section-title">Long Time No See...</div><div class="gobusata-scroller" id="gobusata-list"></div></div>
         <div class="section-title">TOP RANKING</div><div class="ranking-list" id="ranking-list"></div>
@@ -328,7 +330,7 @@
         <div class="header-btn left" onclick="closeGalleryFolder()">←</div>
         <div class="header-center"><h1 id="gallery-folder-title">FOLDER</h1></div>
     </div>
-    <div class="gallery-grid" id="gallery-grid"></div>
+    <div class="gallery-grid" id="gallery-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:15px; overflow-y:auto; padding-bottom:100px;"></div>
     <div class="fab" style="z-index:3500;" onclick="openAddImageModal()">＋</div>
 </div>
 
@@ -360,7 +362,7 @@
         <div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">CANCEL</button><button class="btn btn-save" onclick="saveGalleryImages()">SAVE</button></div>
     </div>
 </div>
-<div class="modal-overlay" id="add-folder-modal"><div class="modal-content"><div class="modal-title">NEW FOLDER</div><input type="text" id="new-folder-name" placeholder="Folder Name"><label class="file-select-btn">Cover Image <input type="file" onchange="previewImage(this,'folder-preview-img')"></label><div class="preview-container" style="height:150px; margin:10px auto;"><img id="folder-preview-img" class="preview-img" style="display:none;"></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-folder-modal')">CANCEL</button><button class="btn btn-save" onclick="saveFolder()">CREATE</button></div></div></div>
+<div class="modal-overlay" id="add-folder-modal"><div class="modal-content"><div class="modal-title">NEW FOLDER</div><input type="text" id="new-folder-name" placeholder="Folder Name"><label class="file-select-btn">Cover Image <input type="file" onchange="previewImage(this,'folder-preview-img','folder-focus-point')"></label><div class="preview-container" style="height:150px; margin:10px auto;"><img id="folder-preview-img" class="preview-img" style="display:none;"><div id="folder-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-folder-modal')">CANCEL</button><button class="btn btn-save" onclick="saveFolder()">CREATE</button></div></div></div>
 <div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><div style="flex:2;"><div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div><input type="date" id="new-person-birthday"></div></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:10px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags (space separated)"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img" class="preview-img"><div id="focus-point" class="focus-point"></div><div style="color:#666; font-size:12px;">No Image Selected</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">DELETE</button></div></div>
 <div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div><div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')" style="margin:10px 0;"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div><div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">DELETE</button></div></div>
 <div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> Exact Match</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
@@ -372,8 +374,11 @@
     const appHeader=document.getElementById('app-header'); const bottomNav=document.querySelector('.bottom-nav');
     const homeScreen=document.getElementById('home-screen'); const galleryScreen=document.getElementById('gallery-root-screen'); const analysisScreen=document.getElementById('analysis-screen');
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
-    let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
+    let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let folderCurrentFocus={x:50,y:50};
+    let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
     let currentRating=0; let isScrolling=false; let lastTap=0;
+    
+    // Gallery
     let currentGalleryImages=[]; let currentGalleryIndex=0;
 
     function updateDisplay(){ display.innerText=currentInput; }
@@ -390,9 +395,9 @@
     }
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
-    // DB (Ver 200)
+    // DB (Ver 202)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 200);
+        const r=indexedDB.open("SecretMuseumDB", 202);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -470,7 +475,8 @@
         const con=document.getElementById('work-list-home'); con.innerHTML="";
         list.forEach(w=>{
             const div=document.createElement('div'); div.className='work-card';
-            const img=w.image?`<img src="${w.image}" style="width:100%;height:100%;object-fit:cover;object-position:${w.focusX||50}% ${w.focusY||50}%">`:'';
+            if(w.hallOfFame) div.classList.add('hof');
+            const img=w.image?`<img src="${w.image}" style="width:100%;height:100%;object-fit:cover;object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
             const crown=w.hallOfFame?'<div class="card-crown">👑</div>':'';
             let stars="";if(w.rating>0){stars='<div class="rating-stars-sm">';for(let i=0;i<w.rating;i++)stars+='<span class="on">★</span>';stars+='</div>';}
             div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count||0} SELECTIONS</div></div>`;
@@ -486,8 +492,10 @@
         const s=document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             const p=e.target.result;
+            if(!p) return;
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
+            document.getElementById('detail-profile').innerText=p.profile||"";
             const img=document.getElementById('detail-img');
             if(p.image){img.src=p.image;img.style.objectPosition=`${p.focusX||50}% ${p.focusY||50}%`;}else{img.src="";img.style.backgroundColor="#111";}
             
@@ -500,6 +508,8 @@
                 sp+=`<span class="detail-spec-item">${a}歳 (${p.birthday.replace(/-/g,'/')})</span>`;
             }
             document.getElementById('detail-specs').innerHTML=sp;
+            
+            // Tags
             let tg=""; if(p.tags) p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); 
             document.getElementById('detail-person-tags').innerHTML=tg;
         };
@@ -522,7 +532,7 @@
             let crown=w.hallOfFame?'👑':'';
             let stars="";if(w.rating>0){for(let i=0;i<w.rating;i++)stars+='<span style="color:#d4af37;font-size:10px;">★</span>';}
             
-            div.innerHTML=`${thumb}<div class="work-info"><h3>${crown} ${w.title}</h3><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
+            div.innerHTML=`${thumb}<div class="work-info"><div class="work-title">${crown}${w.title}</div><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
             div.onclick=()=>openWorkDetail(w);
             let timer;
             div.addEventListener('touchstart',()=>{timer=setTimeout(()=>{timer=null;openEditWorkModal(w);},600);});
@@ -570,6 +580,11 @@
             if(document.getElementById('detail-screen').style.display==='flex') loadDetailWorks();
         };
     }
+    function randomPick(){
+        db.transaction(["people"],"readonly").objectStore("people").getAll().onsuccess=e=>{
+            const arr=e.target.result; if(arr.length) openDetail(arr[Math.floor(Math.random()*arr.length)].id);
+        }
+    }
 
     // === GALLERY (Independent) ===
     function loadGalleryFolders(){
@@ -580,7 +595,7 @@
             if(list.length===0){con.innerHTML="<div style='color:#555;'>No Folders</div>";return;}
             list.forEach(f=>{
                 const div=document.createElement('div'); div.className='person-card'; 
-                const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;">`:'<div class="thumb-placeholder">NO IMG</div>';
+                const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;object-position:${f.focusX||50}% ${f.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
                 div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div>`;
                 div.onclick=()=>openFolder(f.id, f.name);
                 con.appendChild(div);
@@ -618,7 +633,7 @@
         const n=document.getElementById('new-folder-name').value; if(!n)return;
         const tx=db.transaction(["folders"],"readwrite");
         const data={name:n};
-        const img=document.getElementById('folder-preview-img'); if(img.style.display==='block') data.image=img.src;
+        const img=document.getElementById('folder-preview-img'); if(img.style.display==='block') { data.image=img.src; data.focusX=folderCurrentFocus.x; data.focusY=folderCurrentFocus.y; }
         tx.objectStore("folders").add(data);
         tx.oncomplete=()=>{ closeModal('add-folder-modal'); loadGalleryFolders(); };
     }
@@ -627,26 +642,17 @@
     function saveGalleryImages(){
         const input=document.getElementById('new-gallery-img');
         if(input.files.length===0)return;
-        
-        const files = Array.from(input.files);
-        let loaded = 0;
-        
-        // Sequential save to avoid transaction closure
-        const saveNext = (index) => {
-            if(index >= files.length) {
-                closeModal('add-image-modal');
-                setTimeout(loadFolderImages, 300);
-                return;
-            }
-            const r = new FileReader();
-            r.onload = e => {
-                const tx = db.transaction(["images"], "readwrite");
-                tx.objectStore("images").add({ folderId: parseInt(currentFolderId), data: e.target.result, createdAt: new Date() });
-                tx.oncomplete = () => saveNext(index + 1);
+        const tx=db.transaction(["images"],"readwrite");
+        const store=tx.objectStore("images");
+        let count=0;
+        Array.from(input.files).forEach(f=>{
+            const r=new FileReader();
+            r.onload=e=>{
+                store.add({folderId:parseInt(currentFolderId), data:e.target.result, createdAt:new Date()});
+                count++; if(count===input.files.length){ closeModal('add-image-modal'); setTimeout(loadFolderImages,300); }
             };
-            r.readAsDataURL(files[index]);
-        };
-        saveNext(0);
+            r.readAsDataURL(f);
+        });
     }
     
     // Viewer
@@ -679,8 +685,8 @@
     function toggleHOFInput(type) { const id = type === 'person' ? 'new-person-hof' : 'new-work-hof'; const iconId = type === 'person' ? 'person-hof-icon' : 'work-hof-icon'; const box = document.getElementById(id); box.checked = !box.checked; toggleHOFIcon(iconId, box.checked); }
     function toggleHOFIcon(id, isOn) { const el = document.getElementById(id); if(isOn) el.style.color = 'gold'; else el.style.color = '#ccc'; }
     function setRating(r) { currentRating = r; const spans = document.querySelectorAll('#work-rating-input span'); spans.forEach((s, idx) => { if(idx < r) s.classList.add('on'); else s.classList.remove('on'); }); }
-    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); }
-    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hallOfFame; toggleHOFIcon('person-hof-icon', !!p.hallOfFame); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; }
+    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); loadTagSuggestions('person'); }
+    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hallOfFame; toggleHOFIcon('person-hof-icon', !!p.hallOfFame); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
     function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
     function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hallOfFame; toggleHOFIcon('work-hof-icon', !!w.hallOfFame); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
 
@@ -716,23 +722,46 @@
              x = ((e.clientX - rect.left)/rect.width)*100; y = ((e.clientY - rect.top)/rect.height)*100;
         }
         if(x<0)x=0; if(x>100)x=100; if(y<0)y=0; if(y>100)y=100;
-        if(imgId==='work-preview-img') workCurrentFocus={x,y}; else currentFocus={x,y};
+        if(imgId==='work-preview-img') workCurrentFocus={x,y}; else if(imgId==='folder-preview-img') folderCurrentFocus={x,y}; else currentFocus={x,y};
         const pt = document.getElementById(focusId);
-        pt.style.left=x+"%"; pt.style.top=y+"%"; pt.style.display='block';
+        if(pt) { pt.style.left=x+"%"; pt.style.top=y+"%"; pt.style.display='block'; }
     }
     function getAge(b) { const d = new Date(b); const n = new Date(); let a = n.getFullYear() - d.getFullYear(); if(n.getMonth()<d.getMonth()||(n.getMonth()===d.getMonth()&&n.getDate()<d.getDate())) a--; return a; }
     function toggleSortMenu(t){ const m=document.getElementById('sort-menu-'+t); m.style.display=m.style.display==='block'?'none':'block'; }
     function applySort(m,c){ sortState[c]=m; document.getElementById('sort-menu-'+c).style.display='none'; if(c==='home')filterHomeList(); else loadDetailWorks(); }
-    function loadTagSuggestions(type) { /* Simplified */ }
+    function loadTagSuggestions(type) {
+        const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions'); container.innerHTML = "";
+        const tags = new Set();
+        if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
+        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
+        const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
+        Array.from(tags).sort().forEach(tag => {
+            const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
+            chip.onclick = () => { const input = document.getElementById(inputId); let val = input.value.trim(); if(!val.includes(tag)) { input.value = val + (val ? " " : "") + tag; } };
+            container.appendChild(chip);
+        });
+    }
     function openTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'flex'; loadFilterChips(); }
     function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
     function clearTagFilter() { selectedTags.clear(); loadFilterChips(); } 
     function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
-    function loadFilterChips() { /* Simplified */ }
+    function loadFilterChips() {
+        const con = document.getElementById('filter-tag-container'); con.innerHTML = "";
+        const tags = new Set();
+        const storeName = homeMode==='people'?'people':'works';
+        db.transaction([storeName], "readonly").objectStore(storeName).getAll().onsuccess = (e) => {
+            e.target.result.forEach(i => { if(i.tags) i.tags.forEach(t => tags.add(t)); });
+            Array.from(tags).sort().forEach(t => {
+                const d = document.createElement('div'); d.className = 'filter-chip' + (selectedTags.has(t)?' selected':'');
+                d.innerText = t; d.onclick = () => { if(selectedTags.has(t)) selectedTags.delete(t); else selectedTags.add(t); loadFilterChips(); };
+                con.appendChild(d);
+            });
+        };
+    }
 
-    function exportData() { const tx = db.transaction(["people", "works", "logs"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
-    function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
-    function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
+    function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
+    function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.gallery) data.gallery.forEach(i => tx.objectStore("gallery").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
+    function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
 
     function renderAnalysis(){
         const tx=db.transaction(["logs","people","works"],"readonly");
@@ -748,7 +777,6 @@
             people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
                 list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
             });
-            // Detailed analysis restored
             const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
             let highTags={}; let hTotal=0;
             works.forEach(w=>{if((w.rating>=4||w.hallOfFame)&&w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
