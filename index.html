@@ -48,13 +48,16 @@
     .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
     .section-title { color: #888; font-size: 12px; margin: 15px 20px 5px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
-    
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
+    
+    /* Cards */
     .person-card, .work-card, .folder-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .person-card:active, .work-card:active, .folder-card:active { transform: scale(0.96); border-color: #d4af37; }
     .person-card.hof, .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
+    .thumb-placeholder { color: #333; font-size: 10px; }
     .info-area { padding: 10px; }
     .name, .work-card-title, .folder-name { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
     .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
@@ -80,6 +83,12 @@
     #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
     .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; }
     .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
+    
+    .gallery-item { position: relative; }
+    .gallery-item.selected img { border: 2px solid #d4af37; opacity: 0.7; }
+    .gallery-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: #d4af37; color: #000; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; z-index: 10; font-size: 14px; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+    .gallery-item.selected .gallery-check { display: flex; }
+
     #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
     #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
@@ -211,25 +220,8 @@
 
 <div id="toast">RECORDED<br><span style="font-size:12px; color:#fff;">賢者タイムに入ります</span></div>
 
-<script>
-    let calcInput = '0';
-    const SECRET_CODE = '4519';
-    function updateCalcDisplay() { document.querySelector('.calc-display').innerText = calcInput; }
-    function inputNum(n) { if (calcInput === '0') calcInput = n; else calcInput += n; updateCalcDisplay(); }
-    function clearCalc() { calcInput = '0'; updateCalcDisplay(); }
-    function calculate() { if (calcInput === SECRET_CODE) unlockApp(); else { calcInput = '0'; updateCalcDisplay(); } }
-    function unlockApp() {
-        document.getElementById('calculator-screen').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('calculator-screen').style.display = 'none';
-            document.getElementById('app-container').style.display = 'block';
-            window.setHomeMode('people');
-        }, 500);
-    }
-</script>
-
 <div id="calculator-screen">
-    <div class="calc-display">0</div>
+    <div class="calc-display" id="calc-display">0</div>
     <div class="calc-buttons">
         <button class="calc-btn grey" onclick="clearCalc()">AC</button>
         <button class="calc-btn grey">+/-</button>
@@ -313,7 +305,7 @@
         <div class="section-title">TOP RANKING</div><div class="ranking-list" id="ranking-list"></div>
     </div>
 
-    <nav class="bottom-nav" id="bottom-nav">
+    <nav class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('home')"><div class="nav-icon">🏛️</div><div>MUSEUM</div></div>
         <div class="nav-item" onclick="switchTab('gallery')"><div class="nav-icon">🖼️</div><div>GALLERY</div></div>
         <div class="nav-item" onclick="switchTab('analysis')"><div class="nav-icon">📊</div><div>ANALYSIS</div></div>
@@ -364,9 +356,11 @@
     <div class="app-header" style="position:relative;">
         <div class="header-btn left" onclick="closeGalleryFolder()">←</div>
         <div class="header-center"><h1 id="gallery-folder-title">FOLDER</h1></div>
+        <div class="header-btn right" id="gallery-select-btn" onclick="toggleGallerySelectMode()">☑</div>
     </div>
     <div class="gallery-grid" id="gallery-grid"></div>
-    <div class="fab" style="z-index:3500;" onclick="openAddImageModal()">＋</div>
+    <div class="fab" id="gallery-fab" style="z-index:3500;" onclick="openAddImageModal()">＋</div>
+    <div class="fab" id="gallery-delete-fab" style="z-index:3500; display:none; background:#800;" onclick="deleteSelectedGalleryImages()">🗑️</div>
 </div>
 
 <div id="image-viewer-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:5000; align-items:center; justify-content:center;">
@@ -382,27 +376,42 @@
         <div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">CANCEL</button><button class="btn btn-save" onclick="saveGalleryImages()">SAVE</button></div>
     </div>
 </div>
-<div class="modal-overlay" id="add-folder-modal"><div class="modal-content"><div class="modal-title">NEW FOLDER</div><input type="text" id="new-folder-name" placeholder="Folder Name"><label class="file-select-btn">Cover Image <input type="file" onchange="previewImage(this,'folder-preview-img')"></label><div class="preview-container" style="height:150px; margin:10px auto;"><img id="folder-preview-img" class="preview-img" style="display:none;"></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-folder-modal')">CANCEL</button><button class="btn btn-save" onclick="saveFolder()">CREATE</button></div></div></div>
+<div class="modal-overlay" id="add-folder-modal"><div class="modal-content"><div class="modal-title">NEW FOLDER</div><input type="text" id="new-folder-name" placeholder="Folder Name"><label class="file-select-btn">Cover Image <input type="file" onchange="previewImage(this,'folder-preview-img','folder-focus-point')"></label><div class="preview-container" style="height:150px; margin:10px auto;" onclick="setFocus(event, 'folder-preview-img', 'folder-focus-point')"><img id="folder-preview-img" class="preview-img" style="display:none;"><div id="folder-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-folder-modal')">CANCEL</button><button class="btn btn-save" onclick="saveFolder()">CREATE</button></div></div></div>
 <div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><div style="flex:2;"><div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div><input type="date" id="new-person-birthday"></div></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:10px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags (space separated)"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img" class="preview-img"><div id="focus-point" class="focus-point"></div><div style="color:#666; font-size:12px;">No Image Selected</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">DELETE</button></div></div>
 <div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div><div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')" style="margin:10px 0;"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div><div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">DELETE</button></div></div>
 <div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> Exact Match</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">RESTORE<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
 
 <script>
+    let currentInput='0'; const SECRET_CODE='4519';
+    const display=document.getElementById('calc-display'); const calcScreen=document.getElementById('calculator-screen');
     const appHeader=document.getElementById('app-header'); const bottomNav=document.querySelector('.bottom-nav');
     const homeScreen=document.getElementById('home-screen'); const galleryScreen=document.getElementById('gallery-root-screen'); const analysisScreen=document.getElementById('analysis-screen');
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
-    let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
+    let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let folderCurrentFocus={x:50,y:50};
+    let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
     let currentRating=0; let isScrolling=false; let lastTap=0;
     
     // Gallery
-    let currentGalleryImages=[]; let currentGalleryIndex=0;
+    let currentGalleryImages=[]; let currentGalleryIndex=0; let isGallerySelectMode=false; let selectedGalleryImages=new Set();
 
+    function updateDisplay(){ display.innerText=currentInput; }
+    function inputNum(n){ if(currentInput==='0')currentInput=n; else currentInput+=n; updateDisplay(); }
+    function clearCalc(){ currentInput='0'; updateDisplay(); }
+    function calculate(){ if(currentInput===SECRET_CODE) unlockApp(); else { currentInput='0'; updateDisplay(); } }
+    function unlockApp(){
+        calcScreen.style.opacity='0';
+        setTimeout(()=>{
+            calcScreen.style.display='none';
+            document.getElementById('app-container').style.display='block';
+            switchTab('home');
+        },500);
+    }
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
-    // DB (Ver 212)
+    // DB (Ver 300)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 212);
+        const r=indexedDB.open("SecretMuseumDB", 300);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -411,7 +420,7 @@
             if(!db.objectStoreNames.contains("folders")){db.createObjectStore("folders",{keyPath:"id",autoIncrement:true});}
             if(!db.objectStoreNames.contains("images")){const is=db.createObjectStore("images",{keyPath:"id",autoIncrement:true});is.createIndex("folderId","folderId",{unique:false});}
         };
-        r.onsuccess=(e)=>{db=e.target.result; window.loadHomeData();}; // Force load on init if unlocked
+        r.onsuccess=(e)=>{db=e.target.result; loadHomeData();};
     };
 
     function switchTab(t){
@@ -434,8 +443,8 @@
         document.getElementById('home-list-title').innerText=m==='people'?"登録済みのミューズ":"すべての作品";
         loadHomeData();
     }
-    window.loadHomeData = function(){
-        if(!db){setTimeout(window.loadHomeData,100);return;}
+    function loadHomeData(){
+        if(!db){setTimeout(loadHomeData,100);return;}
         const tx = db.transaction(["people","works"], "readonly");
         Promise.all([
             new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
@@ -455,7 +464,6 @@
             document.getElementById('person-list').style.display='grid';
             document.getElementById('work-list-home').style.display='none';
             let res=allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
-            // Tag Filter
             if(selectedTags.size>0){
                 const exact=document.getElementById('tag-exact-match').checked;
                 res=res.filter(p=>{
@@ -525,7 +533,6 @@
         const s=document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             const p=e.target.result;
-            if(!p) return;
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
             document.getElementById('detail-profile').innerText=p.profile||"";
@@ -628,7 +635,7 @@
             if(list.length===0){con.innerHTML="<div style='color:#555;'>No Folders</div>";return;}
             list.forEach(f=>{
                 const div=document.createElement('div'); div.className='person-card'; 
-                const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;">`:'<div class="thumb-placeholder">NO IMG</div>';
+                const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;object-position:${f.focusX||50}% ${f.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
                 div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div>`;
                 div.onclick=()=>openFolder(f.id, f.name);
                 con.appendChild(div);
@@ -640,6 +647,7 @@
         document.getElementById('gallery-root-screen').style.display='none';
         document.getElementById('gallery-folder-screen').style.display='flex';
         document.getElementById('gallery-folder-title').innerText=fname;
+        isGallerySelectMode = false; selectedGalleryImages.clear(); updateGalleryUI();
         loadFolderImages();
     }
     function closeGalleryFolder(){
@@ -655,18 +663,61 @@
             currentGalleryImages=imgs;
             if(imgs.length===0)grid.innerHTML="<div style='grid-column:span 2;text-align:center;color:#555;'>No Images</div>";
             imgs.forEach((img,i)=>{
-                const el=document.createElement('img'); el.className='gallery-thumb'; el.src=img.data;
-                el.onclick=()=>openImageViewer(i);
+                const el=document.createElement('div'); el.className='gallery-item';
+                const chk = isGallerySelectMode && selectedGalleryImages.has(img.id) ? ' selected' : '';
+                el.innerHTML = `<img src="${img.data}" class="gallery-thumb"><div class="gallery-check">✓</div>`;
+                if(chk) el.classList.add('selected');
+                
+                el.onclick=()=>{
+                    if(isGallerySelectMode){
+                        if(selectedGalleryImages.has(img.id)) { selectedGalleryImages.delete(img.id); el.classList.remove('selected'); }
+                        else { selectedGalleryImages.add(img.id); el.classList.add('selected'); }
+                    } else {
+                        openImageViewer(i);
+                    }
+                };
                 grid.appendChild(el);
             });
         };
     }
+    
+    function toggleGallerySelectMode(){
+        isGallerySelectMode = !isGallerySelectMode;
+        selectedGalleryImages.clear();
+        updateGalleryUI();
+        loadFolderImages(); // Re-render to show/hide checks
+    }
+    function updateGalleryUI(){
+        const fab = document.getElementById('gallery-fab');
+        const delFab = document.getElementById('gallery-delete-fab');
+        const checkBtn = document.getElementById('gallery-select-btn');
+        if(isGallerySelectMode){
+            fab.style.display = 'none'; delFab.style.display = 'flex';
+            checkBtn.style.color = '#d4af37';
+        } else {
+            fab.style.display = 'flex'; delFab.style.display = 'none';
+            checkBtn.style.color = '#fff';
+        }
+    }
+    function deleteSelectedGalleryImages(){
+        if(selectedGalleryImages.size === 0) return;
+        if(!confirm(`Delete ${selectedGalleryImages.size} images?`)) return;
+        const tx = db.transaction(["images"], "readwrite");
+        const store = tx.objectStore("images");
+        selectedGalleryImages.forEach(id => store.delete(id));
+        tx.oncomplete = () => {
+            isGallerySelectMode = false;
+            updateGalleryUI();
+            loadFolderImages();
+        };
+    }
+
     function openAddFolderModal(){ document.getElementById('add-folder-modal').style.display='flex'; document.getElementById('new-folder-name').value=""; document.getElementById('folder-preview-img').style.display='none'; }
     function saveFolder(){
         const n=document.getElementById('new-folder-name').value; if(!n)return;
         const tx=db.transaction(["folders"],"readwrite");
         const data={name:n};
-        const img=document.getElementById('folder-preview-img'); if(img.style.display==='block') data.image=img.src;
+        const img=document.getElementById('folder-preview-img'); if(img.style.display==='block') { data.image=img.src; data.focusX=folderCurrentFocus.x; data.focusY=folderCurrentFocus.y; }
         tx.objectStore("folders").add(data);
         tx.oncomplete=()=>{ closeModal('add-folder-modal'); loadGalleryFolders(); };
     }
@@ -715,7 +766,8 @@
     });
     v.addEventListener('click',e=>{
         if(e.target.className==='viewer-close')return;
-        if(e.clientX>window.innerWidth/2) nextImage(); else prevImage();
+        if(e.clientX>window.innerWidth/2){if(currentGalleryIndex<currentGalleryImages.length-1){currentGalleryIndex++;updateImageViewer();}}
+        else{if(currentGalleryIndex>0){currentGalleryIndex--;updateImageViewer();}}
     });
     function nextImage(){if(currentGalleryIndex<currentGalleryImages.length-1){currentGalleryIndex++;updateImageViewer();}}
     function prevImage(){if(currentGalleryIndex>0){currentGalleryIndex--;updateImageViewer();}}
@@ -768,9 +820,9 @@
              x = ((e.clientX - rect.left)/rect.width)*100; y = ((e.clientY - rect.top)/rect.height)*100;
         }
         if(x<0)x=0; if(x>100)x=100; if(y<0)y=0; if(y>100)y=100;
-        if(imgId==='work-preview-img') workCurrentFocus={x,y}; else currentFocus={x,y};
+        if(imgId==='work-preview-img') workCurrentFocus={x,y}; else if(imgId==='folder-preview-img') folderCurrentFocus={x,y}; else currentFocus={x,y};
         const pt = document.getElementById(focusId);
-        pt.style.left=x+"%"; pt.style.top=y+"%"; pt.style.display='block';
+        if(pt) { pt.style.left=x+"%"; pt.style.top=y+"%"; pt.style.display='block'; }
     }
     function getAge(b) { const d = new Date(b); const n = new Date(); let a = n.getFullYear() - d.getFullYear(); if(n.getMonth()<d.getMonth()||(n.getMonth()===d.getMonth()&&n.getDate()<d.getDate())) a--; return a; }
     function toggleSortMenu(t){ const m=document.getElementById('sort-menu-'+t); m.style.display=m.style.display==='block'?'none':'block'; }
@@ -805,7 +857,7 @@
         };
     }
 
-    function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; const s = ['people','works','logs','gallery','folders']; let c=0; s.forEach(n=>{ if(db.objectStoreNames.contains(n)) tx.objectStore(n).getAll().onsuccess=e=>{d[n]=e.target.result; c++; if(c===s.length) download(d);} else {c++; if(c===s.length)download(d);} }); function download(obj){ const b=new Blob([JSON.stringify(obj)],{type:"application/json"}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download="backup.json"; a.click(); } }
+    function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.gallery) data.gallery.forEach(i => tx.objectStore("gallery").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
     function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
 
@@ -820,27 +872,13 @@
             let t=0; people.forEach(x=>t+=(x.count||0));
             document.getElementById('total-usage-display').innerHTML=t+'<span class="stats-unit">回</span>';
             const list=document.getElementById('ranking-list'); list.innerHTML="";
-            // Ranking based on COUNT (Selected)
-            const rankedPeople = people.filter(p => p.count > 0).sort((a,b)=>(b.count||0)-(a.count||0));
-            
-            if(rankedPeople.length > 0) {
-                rankedPeople.slice(0,5).forEach((x,i)=>{
-                    list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
-                });
-            } else {
-                list.innerHTML="<div style='text-align:center; color:#555;'>No Data</div>";
-            }
-            
-            // Detailed analysis (Weighted by Count)
+            people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
+                list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
+            });
+            // Detailed analysis
             const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
             let highTags={}; let hTotal=0;
-            // Only count tags from works that have been PLAYED (count > 0)
-            works.forEach(w=>{
-                if(w.count > 0 && (w.rating>=4||w.hallOfFame)&&w.tags) {
-                     // Multiply by count to reflect usage
-                     w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+w.count; hTotal+=w.count;})
-                }
-            });
+            works.forEach(w=>{if((w.rating>=4||w.hallOfFame)&&w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
             if(hTotal>0){
                 const sorted=Object.entries(highTags).sort((a,b)=>b[1]-a[1]).slice(0,5);
                 let grad="", deg=0, leg='<div class="pie-legend">';
@@ -857,17 +895,17 @@
             } else pieCon.innerHTML="<div style='color:#555;font-size:10px;'>No Data</div>";
             
             const tList=document.getElementById('person-tag-ranking'); tList.innerHTML="";
-            const tagMap={}; people.forEach(p=>{if(p.count > 0 && p.tags) p.tags.forEach(t=>tagMap[t]=(tagMap[t]||0)+(p.count||0));});
+            const tagMap={}; people.forEach(p=>{if(p.tags)p.tags.forEach(t=>tagMap[t]=(tagMap[t]||0)+(p.count||0));});
             const tSorted=Object.entries(tagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
-            if(tSorted.length>0){const max=tSorted[0][1]; tSorted.forEach(t=>{const per=(t[1]/max)*100; tList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});} else tList.innerHTML="<div style='color:#555;font-size:10px;text-align:center;'>No Data</div>";
+            if(tSorted.length>0){const max=tSorted[0][1]; tSorted.forEach(t=>{const per=(t[1]/max)*100; tList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
             
             const wList=document.getElementById('tag-ranking'); wList.innerHTML="";
-            const wTagMap={}; works.forEach(w=>{if(w.count > 0 && w.tags) w.tags.forEach(t=>wTagMap[t]=(wTagMap[t]||0)+(w.count||0));});
+            const wTagMap={}; works.forEach(w=>{if(w.tags)w.tags.forEach(t=>wTagMap[t]=(wTagMap[t]||0)+(w.count||0));});
             const wSorted=Object.entries(wTagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
-            if(wSorted.length>0){const max=wSorted[0][1]; wSorted.forEach(t=>{const per=(t[1]/max)*100; wList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});} else wList.innerHTML="<div style='color:#555;font-size:10px;text-align:center;'>No Data</div>";
+            if(wSorted.length>0){const max=wSorted[0][1]; wSorted.forEach(t=>{const per=(t[1]/max)*100; wList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
             
-            if(rankedPeople.length>0 && rankedPeople[0].count>0){
-                const c=rankedPeople[0]; const area=document.getElementById('champion-area');
+            if(people.length>0 && people[0].count>0){
+                const c=people[0]; const area=document.getElementById('champion-area');
                 area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${c.image||''}" class="champion-img" style="${c.image?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${c.count} Selections</div></div>`;
                 area.style.display='block';
             } else document.getElementById('champion-area').style.display='none';
