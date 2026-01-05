@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Calculator</title>
+<title>MUSEUM</title>
 <style>
     /* === 共通設定 (Ver 17.0 Base) === */
     body { margin: 0; padding: 0; font-family: "YuMincho", "Hiragino Mincho ProN", serif; background-color: #000; color: #fff; overflow: hidden; height: 100vh; width: 100vw; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
@@ -13,7 +13,7 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes spinSlow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-    /* === 電卓画面 === */
+    /* === 1. 電卓画面 === */
     #calculator-screen { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; width: 100%; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; background-color: #000; z-index: 2000; position: absolute; top: 0; left: 0; font-family: -apple-system, sans-serif; transition: opacity 0.5s; }
     .calc-display { color: #fff; font-size: 80px; font-weight: 300; text-align: right; padding: 0 30px; margin-bottom: 20px; line-height: 1; }
     .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 0 15px 30px 15px; }
@@ -46,22 +46,31 @@
     .search-input { flex-grow: 1; padding: 10px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #fff; font-size: 14px; outline: none; }
     .filter-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #d4af37; font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .filter-btn.active { background: #d4af37; color: #000; }
+    
+    /* Sort Button */
     .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
     .section-title { color: #888; font-size: 12px; margin: 25px 20px 10px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
     
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
-    .person-card, .work-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
-    .person-card:active, .work-card:active { transform: scale(0.96); border-color: #d4af37; }
+    .person-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
+    .person-card:active { transform: scale(0.96); border-color: #d4af37; }
     .person-card.pressing { transform: scale(0.95); border-color: #ff4444; }
-    .person-card.hof, .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    .person-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
     .info-area { padding: 10px; }
-    .name, .work-card-title { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-    .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
+    .name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
     .count { color: #d4af37; font-size: 11px; }
+
+    .work-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
+    .work-card:active { transform: scale(0.96); border-color: #d4af37; }
+    .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    .work-card-title { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; height: 2.8em; }
+    
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
+    .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
+    .rating-stars-sm .on { color: #d4af37; }
 
     /* === Analysis Screen === */
     #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
@@ -69,16 +78,56 @@
     .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
     .stats-value { font-size: 28px; color: #fff; }
     .stats-unit { font-size: 14px; margin-left: 5px; color: #aaa; }
+
     .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .cal-month { font-family: "Times New Roman", serif; font-size: 18px; color: #d4af37; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; }
+    .cal-day-label { font-size: 10px; color: #666; margin-bottom: 5px; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; position: relative; }
     .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
+    .cal-day.today { border: 1px solid #666; }
+
     .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
     .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
     .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
     .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
     .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
+
+    .pie-chart-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; height: 160px; }
+    .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#d4af37 0% 0%); position: relative; }
+    .pie-hole { position: absolute; width: 80px; height: 80px; background: #050505; border-radius: 50%; top: 35px; left: 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+    .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 10px; color: #ccc; margin-bottom: 30px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-color { width: 8px; height: 8px; border-radius: 2px; }
+
+    .champion-area { margin-bottom: 30px; display: none; }
+    .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
+    .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; position: relative; z-index: 2; }
+    .champion-img-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
+    .champion-bg-flower { position: absolute; top: 50%; left: 50%; width: 240px; height: 240px; background: repeating-conic-gradient(from 0deg, rgba(212, 175, 55, 0.2) 0deg 15deg, transparent 15deg 30deg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 0; animation: spinSlow 30s linear infinite; pointer-events: none; }
+    .champion-bg-flower::before { content: ""; position: absolute; inset: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%); }
+    .champion-img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+    .champion-crown { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); font-size: 40px; z-index: 5; text-shadow: 0 5px 10px rgba(0,0,0,0.8); filter: drop-shadow(0 0 5px #d4af37); }
+    .champion-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #fff; font-family: serif; text-shadow: 0 2px 10px rgba(0,0,0,0.8); position: relative; z-index: 2; }
+    .champion-score { color: #aaa; font-size: 14px; font-family: monospace; position: relative; z-index: 2; }
+
+    .gobusata-area { margin-bottom: 25px; display: none; }
+    .gobusata-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+    .gobusata-item { min-width: 80px; text-align: center; }
+    .gobusata-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 1px solid #555; filter: grayscale(100%); opacity: 0.7; }
+    .gobusata-name { font-size: 10px; color: #888; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ranking-list { margin-top: 10px; margin-bottom: 30px; }
+    .rank-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #222; }
+    .rank-num { font-family: "Times New Roman", serif; font-size: 20px; color: #d4af37; width: 30px; font-style: italic; }
+    .rank-name { flex-grow: 1; font-size: 14px; }
+    .rank-count { font-size: 12px; color: #888; }
+
+    /* === Bottom Nav === */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 10px; transition: color 0.3s; }
+    .nav-item.active { color: #d4af37; }
+    .nav-icon { font-size: 20px; margin-bottom: 4px; }
 
     /* === Detail Screen === */
     #detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2500; flex-direction: column; }
@@ -98,7 +147,7 @@
     .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; position: relative; }
     .work-item.pressing { background: rgba(100, 30, 30, 0.6); }
     .work-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
-    .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
+    .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; }
     .work-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
     .work-info h3 { margin: 0 0 5px 0; font-size: 16px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
     .work-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 5px; }
@@ -122,28 +171,25 @@
     .wd-link { background: #333; color: #fff; border: 1px solid #555; }
 
     /* === Gallery Screen (New) === */
-    #gallery-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
-    .gallery-header { padding: 15px; display:flex; align-items:center; justify-content:center; position:relative; background:rgba(0,0,0,0.8); }
-    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 10px; overflow-y: auto; padding-bottom: 100px; flex-grow: 1; }
-    .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; transition: transform 0.1s; }
-    .gallery-thumb:active { transform: scale(0.96); border-color:#d4af37; }
+    #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
+    .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; }
+    .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
     
-    #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
+    /* Image Viewer */
+    #image-viewer-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
     #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
 
     /* === FAB === */
     .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 2700; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
     .fab:active { transform: scale(0.9); }
-    #detail-screen .fab { z-index: 9999; }
+    #detail-screen .fab, #gallery-folder-screen .fab { z-index: 3500; }
 
-    /* === Bottom Nav === */
-    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
-    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 10px; transition: color 0.3s; }
-    .nav-item.active { color: #d4af37; }
-    .nav-icon { font-size: 20px; margin-bottom: 4px; }
+    /* === Toast === */
+    #toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: rgba(0,0,0,0.9); border: 1px solid #d4af37; padding: 20px 40px; border-radius: 8px; color: #d4af37; font-family: serif; font-size: 20px; letter-spacing: 0.1em; pointer-events: none; opacity: 0; transition: all 0.3s; z-index: 9999; box-shadow: 0 0 30px rgba(212,175,55,0.3); text-align: center; }
+    #toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-    /* Modals & Utils */
+    /* === Modals === */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); z-index: 4000; align-items: center; justify-content: center; }
     .modal-content { background: #1a1a2e; border: 1px solid #d4af37; padding: 20px; width: 85%; max-height: 80vh; overflow-y: auto; border-radius: 10px; text-align: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
     .modal-title { color: #d4af37; margin-bottom: 20px; font-size: 18px; }
@@ -152,28 +198,41 @@
     textarea { height: 80px; resize: none; font-family: inherit; }
     input[type="file"] { display: none; }
     .file-select-btn { display: inline-block; padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid #666; color: #ccc; border-radius: 4px; margin-bottom: 10px; font-size: 12px; cursor: pointer; }
+    .input-with-btn { display: flex; gap: 8px; margin-bottom: 15px; }
+    .input-with-btn input { margin-bottom: 0; }
+    .mini-btn { background: #444; border: 1px solid #666; color: #fff; border-radius: 5px; width: 60px; cursor: pointer; font-size: 10px; display:flex; align-items:center; justify-content:center; }
     .preview-container { position: relative; width: 100%; max-width: 300px; height: 200px; margin: 0 auto 20px; background: #000; border: 1px dashed #555; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .preview-img { width: 100%; height: 100%; object-fit: contain; }
-    .focus-point { position: absolute; width: 20px; height: 20px; border: 2px solid #d4af37; border-radius: 50%; background: rgba(212,175,55,0.3); transform: translate(-50%, -50%); pointer-events: none; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+    .focus-point { position: absolute; width: 20px; height: 20px; background: rgba(212, 175, 55, 0.6); border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
     .btn-group { display: flex; gap: 10px; justify-content: center; }
     .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: serif; }
-    .btn-save { background: #d4af37; color: #000; font-weight: bold; }
     .btn-cancel { background: #333; color: #fff; }
+    .btn-save { background: #d4af37; color: #000; font-weight: bold; }
     .btn-danger { background: #800; color: #fff; font-size:10px; margin-top:20px; }
-    .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; }
-    .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; }
-    .sort-item:last-child { border: none; }
-    .sort-item:active { background: #444; }
+
     .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; justify-content: center; }
     .filter-chip { padding: 6px 12px; border-radius: 20px; border: 1px solid #555; font-size: 12px; color: #aaa; cursor: pointer; transition: 0.2s; }
     .filter-chip.selected { background: #d4af37; color: #000; border-color: #d4af37; }
     .filter-options { text-align: left; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
     .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 12px; color: #ccc; cursor: pointer; }
     .checkbox-label input { width: auto; margin: 0 8px 0 0; }
+    .tag-suggestions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: -10px; margin-bottom: 15px; }
+    .tag-s-chip { font-size: 10px; background: #333; border: 1px solid #555; padding: 3px 8px; border-radius: 10px; color: #ccc; cursor: pointer; transition:0.2s;}
+    .tag-s-chip:active { background: #d4af37; color: #000; }
 
-    /* Toast */
-    #toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: rgba(0,0,0,0.9); border: 1px solid #d4af37; padding: 20px 40px; border-radius: 8px; color: #d4af37; font-family: serif; font-size: 20px; letter-spacing: 0.1em; pointer-events: none; opacity: 0; transition: all 0.3s; z-index: 9999; box-shadow: 0 0 30px rgba(212,175,55,0.3); text-align: center; }
-    #toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .star-rating { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; font-size: 24px; color: #444; cursor: pointer; }
+    .star-rating span.on { color: #d4af37; }
+    .hof-toggle { text-align: center; margin-bottom: 15px; }
+    .hof-label { font-size: 12px; color: #ccc; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+    .crown-icon { font-size: 14px; }
+    .crown-icon.gold { color: #d4af37; }
+
+    .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; overflow: hidden; }
+    .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; cursor: pointer; }
+    .sort-item:last-child { border-bottom: none; }
+    .sort-item:active { background: #444; }
+    .sort-item.active { color: #d4af37; }
+
 </style>
 </head>
 <body>
@@ -205,19 +264,23 @@
     </div>
 </div>
 
-<div id="app-container">
-    <header class="app-header">
+<div id="app-container" style="display:none;">
+    <header class="app-header" id="app-header">
         <div class="header-btn left" onclick="openSettingsModal()">⚙</div>
-        <div class="header-center" id="panic-button"><div class="subtitle">PRIVATE COLLECTION</div><h1>MUSEUM</h1></div>
+        <div class="header-center" id="panic-button">
+            <div class="subtitle">PRIVATE COLLECTION</div>
+            <h1>MUSEUM</h1>
+        </div>
         <div class="header-btn right" onclick="randomPick()">🔀</div>
     </header>
 
     <div id="home-screen" class="tab-content">
         <div class="mode-switch-container">
-            <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE</div>
-            <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY</div>
-            <div class="mode-btn" id="mode-gallery" onclick="setHomeMode('gallery')">GALLERY</div>
+            <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE MODE</div>
+            <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY MODE</div>
+            <div class="mode-btn" id="mode-gallery" onclick="setHomeMode('gallery')">GALLERY MODE</div>
         </div>
+
         <div class="search-area-wrapper">
             <input type="search" class="search-input" id="search-input" placeholder="Search..." oninput="filterHomeList()">
             <div class="filter-btn" id="filter-btn" onclick="openTagFilterModal()">🏷️</div>
@@ -230,19 +293,56 @@
             <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
         </div>
 
-        <div class="section-title" id="home-list-title">登録済みのミューズ</div>
+        <div class="section-title" id="home-list-title">登録済みのミューズ (長押しで編集)</div>
+        
         <div class="card-list" id="person-list"></div>
         <div class="card-list" id="work-list-home" style="display:none;"></div>
+
         <div class="fab" onclick="handleFabClick()">＋</div>
     </div>
 
     <div id="analysis-screen" class="tab-content">
-        <div class="stats-area"><div class="stats-title">TOTAL SELECTIONS</div><div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div></div>
+        <div class="stats-area">
+            <div class="stats-title">累計選択回数</div>
+            <div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div>
         </div>
+        <div class="section-title" style="margin-top:0;">ACTIVITY LOG</div>
+        <div class="calendar-container">
+            <div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div>
+            <div class="cal-day-label" style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center;">
+                <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+            </div>
+            <div class="cal-grid" id="calendar-grid"></div>
+        </div>
+        <div class="section-title">QUALITY ANALYSIS</div>
+        <div style="display:flex; justify-content:space-around; margin-bottom:30px;">
+            <div style="text-align:center;">
+                <div style="font-size:10px; color:#aaa; margin-bottom:10px;">HIGH RATED TAGS (★4+)</div>
+                <div class="pie-chart-container" id="pie-rated"></div>
+            </div>
+        </div>
+        <div class="section-title">MUSE TYPES (Actress Tags)</div>
+        <div id="person-tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">SCENE TRENDS (Work Tags)</div>
+        <div id="tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="champion-area" id="champion-area"></div>
+        <div class="gobusata-area" id="gobusata-area">
+            <div class="section-title">Long Time No See...</div>
+            <div class="gobusata-scroller" id="gobusata-list"></div>
+        </div>
+        <div class="section-title">TOP RANKING</div>
+        <div class="ranking-list" id="ranking-list"></div>
+    </div>
 
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('home')"><div class="nav-icon">🏛️</div><div>MUSEUM</div></div>
-        <div class="nav-item" onclick="switchTab('analysis')"><div class="nav-icon">📊</div><div>ANALYSIS</div></div>
+    <nav class="bottom-nav" id="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home')">
+            <div class="nav-icon">🏛️</div>
+            <div>MUSEUM</div>
+        </div>
+        <div class="nav-item" onclick="switchTab('analysis')">
+            <div class="nav-icon">📊</div>
+            <div>ANALYSIS</div>
+        </div>
     </nav>
 </div>
 
@@ -259,90 +359,210 @@
         </div>
     </div>
     <div class="detail-sticky-bar">
-        <div class="section-title" style="margin:0;">COLLECTION</div>
+        <div class="section-title" style="margin:0;">COLLECTION (長押しで編集)</div>
         <div class="sort-btn" onclick="toggleSortMenu('detail')" style="width:30px; height:30px; border:none;">⇅</div>
     </div>
     <div class="sort-menu" id="sort-menu-detail" style="top:55vh;">
         <div class="sort-item" onclick="applySort('count', 'detail')">Select Count</div>
-        <div class="sort-item" onclick="applySort('rating', 'detail')">Rating</div>
+        <div class="sort-item" onclick="applySort('rating', 'detail')">Rating (Quality)</div>
         <div class="sort-item" onclick="applySort('newest', 'detail')">Newest</div>
     </div>
-    <div class="detail-scroll-area"><div id="detail-work-list"></div></div>
+    <div class="detail-scroll-area">
+        <div id="work-list"></div>
+    </div>
     <div class="fab" onclick="openAddWorkModal()">＋</div>
 </div>
 
-<div id="work-detail-screen">
-    <div class="back-btn" onclick="closeWorkDetail()">↓</div>
-    <div class="wd-image-area"><img id="wd-img" class="wd-image"><div id="wd-no-img" style="color:#333; font-size:12px;">NO IMAGE</div></div>
-    <div class="wd-info"><div class="wd-title" id="wd-title"></div><div class="wd-meta" id="wd-meta"></div><div id="wd-rating-display" style="margin-bottom:15px; color:#d4af37; font-size:14px;"></div><div class="wd-tags" id="wd-tags"></div><div class="wd-actions"><div class="wd-btn wd-link" id="wd-link-btn">LINK</div><div class="wd-btn wd-play" id="wd-play-btn">PLAY</div></div></div>
-</div>
-
-<div id="gallery-screen">
+<div id="gallery-folder-screen">
     <div class="app-header">
-        <div class="header-btn left" onclick="closeGallery()">←</div>
+        <div class="header-btn left" onclick="closeGalleryFolder()">←</div>
         <div class="header-center"><h1>IMAGE FOLDER</h1></div>
     </div>
     <div class="gallery-grid" id="gallery-grid"></div>
     <div class="fab" onclick="openAddImageModal()">＋</div>
 </div>
-<div id="image-viewer">
+
+<div id="image-viewer-modal">
     <div class="viewer-close" onclick="closeImageViewer()">×</div>
     <img id="full-img">
 </div>
 
-<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><input type="date" id="new-person-birthday" style="flex:2;"></div><div style="margin:10px 0;text-align:center;"><label style="color:#ccc;font-size:12px;"><input type="checkbox" id="new-person-hof"> 👑 Hall of Fame</label></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img"><div id="focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" onclick="deletePerson()">DELETE</button></div></div>
-<div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div><div style="margin-bottom:10px;text-align:center;"><span id="work-rating-input" style="font-size:24px;cursor:pointer;"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></span><br><label style="color:#ccc;font-size:12px;"><input type="checkbox" id="new-work-hof"> 👑 Hall of Fame</label></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" onclick="deleteWork()">DELETE</button></div></div>
-<div class="modal-overlay" id="add-image-modal"><div class="modal-content"><div class="modal-title">ADD IMAGES</div><label class="file-select-btn" style="width:100%;">Select Images (Multiple) <input type="file" id="new-gallery-img" accept="image/*" multiple style="display:none;" onchange="previewGalleryImage(this)"></label><div id="gallery-preview-count" style="font-size:12px; color:#ccc; margin:10px 0;"></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">CANCEL</button><button class="btn btn-save" onclick="saveGalleryImage()">SAVE</button></div></div></div>
-<div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> Exact Match</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
-<div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%;margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="display:block;">RESTORE <input type="file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;margin-top:10px;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
+<div id="work-detail-screen">
+    <div class="back-btn" onclick="closeWorkDetail()">↓</div>
+    <div class="wd-image-area">
+        <img id="wd-img" class="wd-image" src="" style="display:none;">
+        <div id="wd-no-img" style="color:#333; font-size:12px;">NO IMAGE</div>
+    </div>
+    <div class="wd-info">
+        <div class="wd-title" id="wd-title">Title</div>
+        <div class="wd-meta" id="wd-meta">...</div>
+        <div id="wd-rating-display" style="margin-bottom:15px; color:#d4af37; font-size:14px;"></div>
+        <div class="wd-tags" id="wd-tags"></div>
+        <div class="wd-actions">
+            <div class="wd-btn wd-link" id="wd-link-btn" onclick="">🔗 LINK</div>
+            <div class="wd-btn wd-play" id="wd-play-btn" onclick="">▶ PLAY</div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="add-image-modal">
+    <div class="modal-content">
+        <div class="modal-title">ADD IMAGES</div>
+        <label class="file-select-btn" style="width:100%;">Select Images (Multiple) <input type="file" id="new-gallery-img" accept="image/*" multiple style="display:none;" onchange="previewGalleryImages(this)"></label>
+        <div id="gallery-preview-count" style="font-size:12px; color:#ccc; margin:10px 0;"></div>
+        <div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">CANCEL</button><button class="btn btn-save" onclick="saveGalleryImages()">SAVE</button></div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="tag-filter-modal">
+    <div class="modal-content">
+        <div class="modal-title">FILTER BY TAGS</div>
+        <div class="tag-chips" id="filter-tag-container"></div>
+        <div class="filter-options">
+            <label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> All tags must match (完全一致)</label>
+        </div>
+        <div class="btn-group" style="margin-top:20px;">
+            <button class="btn btn-cancel" style="background:#555;" onclick="clearTagFilter()">Clear All</button>
+            <button class="btn btn-cancel" onclick="closeTagFilterModal()">閉じる</button>
+            <button class="btn btn-save" onclick="applyTagFilter()">適用</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="add-person-modal">
+    <div class="modal-content">
+        <div class="modal-title" id="person-modal-title">人物を追加</div>
+        <input type="hidden" id="edit-person-id">
+        <input type="text" id="new-person-name" placeholder="名前を入力">
+        <div style="display:flex; gap:10px;">
+            <input type="text" id="new-person-cup" placeholder="カップ数" style="flex:1;">
+            <div style="flex:2;">
+                <div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div>
+                <input type="date" id="new-person-birthday">
+            </div>
+        </div>
+        <div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:15px;">
+            <div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame (殿堂入り)</div>
+            <input type="checkbox" id="new-person-hof" style="display:none;">
+        </div>
+        <textarea id="new-person-profile" placeholder="プロフィール・メモ"></textarea>
+        <input type="text" id="new-person-tags" placeholder="タグ (スペース区切り)">
+        <div class="tag-suggestions" id="person-tag-suggestions"></div>
+        <label class="file-select-btn" for="new-person-image" style="margin-top:5px;">画像を選択</label>
+        <input type="file" id="new-person-image" accept="image/*" onchange="previewImage(this, 'preview-img')">
+        <div class="preview-container" id="preview-box" onclick="setFocus(event, 'person')">
+            <img id="preview-img" class="preview-img">
+            <div id="focus-point" class="focus-point"></div>
+            <div style="color:#666; font-size:12px;">No Image Selected</div>
+        </div>
+        <div class="preview-instruction" id="preview-msg">画像をタップして顔の中心を指定</div>
+        <div class="btn-group">
+            <button class="btn btn-cancel" onclick="closeModal('add-person-modal')">キャンセル</button>
+            <button class="btn btn-save" onclick="savePerson()">保存</button>
+        </div>
+        <button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">この人物を削除</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="add-work-modal">
+    <div class="modal-content">
+        <div class="modal-title" id="work-modal-title">作品を追加</div>
+        <input type="hidden" id="edit-work-id">
+        <input type="text" id="new-work-title" placeholder="作品タイトル / 動画名">
+        <div class="input-with-btn">
+            <input type="url" id="new-work-url" placeholder="URL (http://...)">
+            <button class="mini-btn" onclick="pasteUrl()">PASTE</button>
+        </div>
+        <div class="star-rating" id="work-rating-input">
+            <span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span>
+        </div>
+        <div class="hof-toggle" onclick="toggleHOFInput('work')">
+            <div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame (殿堂入り)</div>
+            <input type="checkbox" id="new-work-hof" style="display:none;">
+        </div>
+        <input type="text" id="new-work-tags" placeholder="タグ (スペース区切り)">
+        <div class="tag-suggestions" id="work-tag-suggestions"></div>
+        <label class="file-select-btn" for="new-work-image" style="width:100%; box-sizing:border-box; margin-top:5px;">サムネイル画像を選択</label>
+        <input type="file" id="new-work-image" accept="image/*" onchange="previewImage(this, 'work-preview-img')">
+        <div class="preview-container" style="height:120px; margin-bottom:20px;" onclick="setFocus(event, 'work')">
+            <img id="work-preview-img" class="preview-img">
+            <div id="work-focus-point" class="focus-point"></div>
+            <div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-cancel" onclick="closeModal('add-work-modal')">キャンセル</button>
+            <button class="btn btn-save" onclick="saveWork()">保存</button>
+        </div>
+        <button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">この作品を削除</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="settings-modal">
+    <div class="modal-content">
+        <div class="modal-title">SETTINGS</div>
+        <button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">データ書き出し (Backup)</button>
+        <label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">
+            データ読み込み (Restore)
+            <input type="file" id="import-file" style="display:none;" onchange="importData(this)">
+        </label>
+        <button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">閉じる</button>
+        <button class="btn btn-danger" onclick="resetAllData()">⚠️ 全データを削除 (Reset)</button>
+    </div>
+</div>
 
 <script>
-    // === Init ===
-    let currentInput='0'; const SECRET='4519';
+    let currentInput='0'; const SECRET_CODE='4519';
     const display=document.getElementById('calc-display'); const calcScreen=document.getElementById('calculator-screen');
-    const appHeader=document.getElementById('app-header'); const bottomNav=document.querySelector('.bottom-nav');
+    const appHeader=document.getElementById('app-header'); const bottomNav=document.getElementById('bottom-nav');
     const homeScreen=document.getElementById('home-screen'); const analysisScreen=document.getElementById('analysis-screen');
+    let currentRating=0; let sortMode={home:'count',detail:'count'};
+    let lastTap=0;
     
-    let db; let currentPersonId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
-    let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
-    let currentRating=0; let isScrolling=false;
+    // DB
+    let db; let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50};
+    let currentPersonId=null; let allPeopleCache=[]; let allWorksCache=[]; let selectedTags=new Set();
+    let homeMode='people'; // 'people', 'works', 'gallery'
     
-    // Gallery
-    let currentGalleryImages=[]; let currentGalleryIndex=0;
+    // Gallery State
+    let currentGalleryImages=[]; let currentGalleryIndex=0; let isScrolling=false;
 
     // Calc
-    function updateDisplay(){ display.innerText=currentInput; }
-    function inputNum(n){ if(currentInput==='0')currentInput=n; else currentInput+=n; updateDisplay(); }
-    function clearCalc(){ currentInput='0'; updateDisplay(); }
-    function calculate(){ if(currentInput===SECRET) unlock(); else { currentInput='0'; updateDisplay(); } }
-    function unlock(){
+    function updateDisplay(){display.innerText=currentInput;}
+    function inputNum(n){if(currentInput==='0')currentInput=n;else currentInput+=n;updateDisplay();}
+    function clearCalc(){currentInput='0';updateDisplay();}
+    function calculate(){if(currentInput===SECRET_CODE)unlockApp();else{currentInput='0';updateDisplay();}}
+    function unlockApp(){
         calcScreen.style.opacity='0';
-        setTimeout(()=>{ 
-            calcScreen.style.display='none'; 
+        setTimeout(()=>{
+            calcScreen.style.display='none';
             document.getElementById('app-container').style.display='block';
             appHeader.style.display='flex'; bottomNav.style.display='flex'; homeScreen.style.display='block';
-            loadHomeData(); 
-        }, 500);
+            setHomeMode('people'); // Force init load
+        },500);
     }
-    
-    // DB (Ver 12)
+    document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
+
+    // DB Init
     window.onload = ()=>{
-        const r = indexedDB.open("SecretMuseumDB", 12);
-        r.onupgradeneeded = (e)=>{
+        const r=indexedDB.open("SecretMuseumDB", 13); // Ver 13
+        r.onupgradeneeded=(e)=>{
             db=e.target.result;
-            if(!db.objectStoreNames.contains("people")) db.createObjectStore("people", {keyPath:"id", autoIncrement:true});
-            if(!db.objectStoreNames.contains("works")) { const ws=db.createObjectStore("works", {keyPath:"id", autoIncrement:true}); ws.createIndex("personId","personId",{unique:false}); }
-            if(!db.objectStoreNames.contains("logs")) { const ls=db.createObjectStore("logs", {keyPath:"id", autoIncrement:true}); ls.createIndex("timestamp","timestamp",{unique:false}); }
-            if(!db.objectStoreNames.contains("gallery")) { const gs=db.createObjectStore("gallery", {keyPath:"id", autoIncrement:true}); gs.createIndex("personId","personId",{unique:false}); }
+            if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
+            if(!db.objectStoreNames.contains("works")){const ws=db.createObjectStore("works",{keyPath:"id",autoIncrement:true});ws.createIndex("personId","personId",{unique:false});}
+            if(!db.objectStoreNames.contains("logs")){const ls=db.createObjectStore("logs",{keyPath:"id",autoIncrement:true});ls.createIndex("timestamp","timestamp",{unique:false});}
+            if(!db.objectStoreNames.contains("gallery")){const gs=db.createObjectStore("gallery",{keyPath:"id",autoIncrement:true});gs.createIndex("personId","personId",{unique:false});}
         };
-        r.onsuccess = (e)=>{ db=e.target.result; };
+        r.onsuccess=(e)=>{db=e.target.result;};
     };
 
     function switchTab(t){
-        document.querySelectorAll('.tab-content').forEach(e=>e.style.display='none');
-        document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
-        if(t==='home'){ document.getElementById('home-screen').style.display='block'; document.querySelectorAll('.nav-item')[0].classList.add('active'); loadHomeData(); }
-        else{ document.getElementById('analysis-screen').style.display='block'; document.querySelectorAll('.nav-item')[1].classList.add('active'); renderAnalysis(); }
+        document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c=>c.style.display='none');
+        if(t==='home'){
+            homeScreen.style.display='block'; document.querySelectorAll('.nav-item')[0].classList.add('active'); loadHomeData();
+        }else{
+            analysisScreen.style.display='block'; document.querySelectorAll('.nav-item')[1].classList.add('active'); renderAnalysis();
+        }
     }
 
     function setHomeMode(m){
@@ -350,18 +570,19 @@
         document.getElementById('mode-people').className=m==='people'?'mode-btn active':'mode-btn';
         document.getElementById('mode-works').className=m==='works'?'mode-btn active':'mode-btn';
         document.getElementById('mode-gallery').className=m==='gallery'?'mode-btn active':'mode-btn';
-        const title = m==='people'?"MUSE LIST": m==='works'?"LIBRARY": "GALLERY";
-        document.getElementById('home-list-title').innerText = title;
+        
+        let t="MUSE LIST"; if(m==='works')t="LIBRARY"; if(m==='gallery')t="GALLERY FOLDERS";
+        document.getElementById('home-list-title').innerText=t;
         loadHomeData();
     }
 
     function loadHomeData(){
-        if(!db) { setTimeout(loadHomeData, 100); return; } 
-        const tx = db.transaction(["people","works"], "readonly");
+        if(!db){setTimeout(loadHomeData,100);return;}
+        const tx=db.transaction(["people","works"],"readonly");
         Promise.all([
             new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
             new Promise(r=>tx.objectStore("works").getAll().onsuccess=e=>r(e.target.result))
-        ]).then(([ppl, wks])=>{
+        ]).then(([ppl,wks])=>{
             allPeopleCache=ppl.sort((a,b)=>(b.count||0)-(a.count||0));
             allWorksCache=wks.sort((a,b)=>(b.count||0)-(a.count||0));
             filterHomeList();
@@ -369,211 +590,207 @@
     }
 
     function filterHomeList(){
-        const q = document.getElementById('search-input').value.toLowerCase();
-        const filterBtn = document.getElementById('filter-btn');
-        if(selectedTags.size>0) filterBtn.classList.add('active'); else filterBtn.classList.remove('active');
+        const q=document.getElementById('search-input').value.toLowerCase();
+        const btn=document.getElementById('filter-btn');
+        if(selectedTags.size>0)btn.classList.add('active');else btn.classList.remove('active');
 
-        if(homeMode==='people' || homeMode==='gallery'){
+        if(homeMode==='people'||homeMode==='gallery'){
             document.getElementById('person-list').style.display='grid';
             document.getElementById('work-list-home').style.display='none';
-            let filtered = allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
-            // Basic filtering
-            if(selectedTags.size>0) {
-                 const isExact = document.getElementById('tag-exact-match').checked;
-                 filtered = filtered.filter(p=>{
-                    const tags = p.tags||[];
-                    return isExact ? Array.from(selectedTags).every(t=>tags.includes(t)) : tags.some(t=>selectedTags.has(t));
-                 });
+            let res=allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
+            // Apply Tags
+            if(selectedTags.size>0){
+                const exact=document.getElementById('tag-exact-match').checked;
+                res=res.filter(p=>{
+                    const pt=p.tags||[];
+                    // Also check works
+                    const pw=allWorksCache.filter(w=>w.personId===p.id);
+                    const matchP = exact?Array.from(selectedTags).every(t=>pt.includes(t)):pt.some(t=>selectedTags.has(t));
+                    if(matchP)return true;
+                    return pw.some(w=>{
+                        const wt=w.tags||[];
+                        return exact?Array.from(selectedTags).every(t=>wt.includes(t)):wt.some(t=>selectedTags.has(t));
+                    });
+                });
             }
-            if(sortState.home==='count') filtered.sort((a,b)=>(b.count||0)-(a.count||0));
-            else if(sortState.home==='newest') filtered.sort((a,b)=>b.id-a.id);
-            else if(sortState.home==='rating') filtered.sort((a,b)=>((b.hallOfFame?1:0)-(a.hallOfFame?1:0)));
-            renderPeopleList(filtered);
+            if(sortState.home==='count')res.sort((a,b)=>(b.count||0)-(a.count||0));
+            else if(sortState.home==='newest')res.sort((a,b)=>b.id-a.id);
+            else if(sortState.home==='rating')res.sort((a,b)=>((b.hallOfFame?1:0)-(a.hallOfFame?1:0)));
+            renderPeopleList(res);
         } else {
             document.getElementById('person-list').style.display='none';
             document.getElementById('work-list-home').style.display='grid';
-            let filtered = allWorksCache.filter(w=>w.title.toLowerCase().includes(q));
-             if(selectedTags.size>0) {
-                 const isExact = document.getElementById('tag-exact-match').checked;
-                 filtered = filtered.filter(w=>{
-                    const tags = w.tags||[];
-                    return isExact ? Array.from(selectedTags).every(t=>tags.includes(t)) : tags.some(t=>selectedTags.has(t));
-                 });
+            let res=allWorksCache.filter(w=>w.title.toLowerCase().includes(q));
+            if(selectedTags.size>0){
+                const exact=document.getElementById('tag-exact-match').checked;
+                res=res.filter(w=>{
+                    const wt=w.tags||[];
+                    return exact?Array.from(selectedTags).every(t=>wt.includes(t)):wt.some(t=>selectedTags.has(t));
+                });
             }
-            sortWorks(filtered, sortState.home);
-            renderWorkListForHome(filtered);
+            sortWorks(res, sortState.home);
+            renderWorkListForHome(res);
         }
     }
 
     function renderPeopleList(list){
-        const con = document.getElementById('person-list'); con.innerHTML="";
+        const con=document.getElementById('person-list'); con.innerHTML="";
         if(list.length===0){con.innerHTML="<div style='grid-column:span 2;text-align:center;color:#555;'>No Data</div>";return;}
         list.forEach(p=>{
             const div=document.createElement('div'); div.className='person-card';
             if(p.hallOfFame) div.classList.add('hof');
-            const imgHtml = p.image ? `<img src="${p.image}" style="object-position:${p.focusX||50}% ${p.focusY||50}%">` : '<div class="thumb-placeholder">NO IMG</div>';
-            const crown = p.hallOfFame ? '<div class="card-crown">👑</div>' : '';
-            div.innerHTML = `<div class="thumb-area">${imgHtml}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
+            const img=p.image?`<img src="${p.image}" style="object-position:${p.focusX||50}% ${p.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
+            const crown=p.hallOfFame?'<div class="card-crown">👑</div>':'';
+            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
             
             let pressTimer;
-            div.addEventListener('touchstart', ()=>{ isScrolling=false; pressTimer=setTimeout(()=>{ pressTimer=null; if(homeMode==='people') openEditPersonModal(p); },600); });
-            div.addEventListener('touchmove', ()=>{ isScrolling=true; if(pressTimer) clearTimeout(pressTimer); });
-            div.addEventListener('touchend', ()=>{ 
-                if(pressTimer){ 
-                    clearTimeout(pressTimer); 
-                    if(!isScrolling) handleClickPerson(p); 
-                } 
+            div.addEventListener('touchstart',()=>{ isScrolling=false; pressTimer=setTimeout(()=>{ pressTimer=null; if(homeMode==='people') openEditPersonModal(p); },600); });
+            div.addEventListener('touchmove',()=>{ isScrolling=true; if(pressTimer) clearTimeout(pressTimer); });
+            div.addEventListener('touchend',()=>{
+                if(pressTimer){ clearTimeout(pressTimer); if(!isScrolling) handleClickPerson(p); }
             });
+            div.onclick=()=>{if(!('ontouchstart' in window))handleClickPerson(p);}; // PC fallback
             con.appendChild(div);
         });
     }
-    
+
     function handleClickPerson(p){
         if(homeMode==='people') openDetail(p.id);
-        else if(homeMode==='gallery') openGallery(p.id);
+        else if(homeMode==='gallery') openGalleryFolder(p.id);
     }
 
-    // Grid for Home Library (Ver 17)
-    function renderWorkListForHome(works) {
-        const container = document.getElementById('work-list-home'); container.innerHTML = "";
-        if (works.length === 0) { container.innerHTML = "<div style='grid-column:span 2;text-align:center;color:#555;'>No Works</div>"; return; }
-        works.forEach(w => {
-            const div = document.createElement('div'); div.className = 'work-card';
+    function renderWorkListForHome(list){
+        const con=document.getElementById('work-list-home'); con.innerHTML="";
+        if(list.length===0){con.innerHTML="<div style='grid-column:span 2;text-align:center;color:#555;'>No Data</div>";return;}
+        list.forEach(w=>{
+            const div=document.createElement('div'); div.className='work-card';
             if(w.hallOfFame) div.classList.add('hof');
-            let crown = w.hallOfFame ? '<div class="card-crown">👑</div>' : '';
-            let thumbHtml = w.image ? `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">` : '<div class="thumb-placeholder">NO IMG</div>';
-            let stars = ""; if(w.rating > 0) { stars = '<div class="rating-stars-sm">'; for(let i=0; i<w.rating; i++) stars += '<span class="on">★</span>'; stars += '</div>'; }
-            div.innerHTML = `<div class="thumb-area">${thumbHtml}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count || 0} SELECTIONS</div></div>`;
-            div.onclick = () => openWorkDetail(w);
-            container.appendChild(div);
-        });
-    }
-
-    // List for Detail (Ver 17)
-    function renderDetailWorkList(works){
-        const con = document.getElementById('detail-work-list'); con.innerHTML="";
-        if(works.length===0){con.innerHTML="<div style='text-align:center;color:#555;'>No Works</div>";return;}
-        works.forEach(w=>{
-            const div=document.createElement('div'); div.className='work-item';
-            if(w.hallOfFame) div.classList.add('hof');
-            let crown = w.hallOfFame ? '👑 ' : '';
-            const thumb = w.image ? `<img src="${w.image}" class="work-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">` : `<div class="work-thumb"></div>`;
-            let stars = ""; if(w.rating > 0) { for(let i=0; i<w.rating; i++) stars += '<span style="color:#d4af37; font-size:10px;">★</span>'; }
-            
-            div.innerHTML = `${thumb}<div class="work-info"><div class="work-title">${crown}${w.title}</div><div class="work-tags" style="margin-bottom:2px;">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>`;
-            
-            let pressTimer;
-            div.addEventListener('touchstart', (e)=>{ if(e.target.classList.contains('play-btn'))return; isScrolling=false; pressTimer=setTimeout(()=>{ pressTimer=null; openEditWorkModal(w); },600); });
-            div.addEventListener('touchmove', ()=>{ isScrolling=true; if(pressTimer) clearTimeout(pressTimer); });
-            div.addEventListener('touchend', ()=>{ if(pressTimer){ clearTimeout(pressTimer); if(!isScrolling) openWorkDetail(w); } });
+            const img=w.image?`<img src="${w.image}" style="width:100%;height:100%;object-fit:cover;object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
+            const crown=w.hallOfFame?'<div class="card-crown">👑</div>':'';
+            let stars="";if(w.rating>0){stars='<div class="rating-stars-sm">';for(let i=0;i<w.rating;i++)stars+='<span class="on">★</span>';stars+='</div>';}
+            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count||0} SELECTIONS</div></div>`;
+            div.onclick=()=>openWorkDetail(w);
             con.appendChild(div);
         });
     }
 
-    // === Gallery Logic ===
-    function openGallery(pid){
-        currentPersonId = parseInt(pid);
+    // === Gallery Logic (Added) ===
+    function openGalleryFolder(pid){
+        currentPersonId=parseInt(pid);
         document.getElementById('home-screen').style.display='none';
-        document.getElementById('gallery-screen').style.display='flex';
+        document.getElementById('gallery-folder-screen').style.display='flex';
         loadGalleryGrid();
     }
-    function closeGallery(){
-        document.getElementById('gallery-screen').style.display='none';
+    function closeGalleryFolder(){
+        document.getElementById('gallery-folder-screen').style.display='none';
         document.getElementById('home-screen').style.display='block';
-        currentPersonId = null;
+        currentPersonId=null;
     }
-    
     function loadGalleryGrid(){
-        const pid = parseInt(currentPersonId);
-        const tx = db.transaction(["gallery"], "readonly");
-        const idx = tx.objectStore("gallery").index("personId");
-        const grid = document.getElementById('gallery-grid'); grid.innerHTML="";
-        idx.getAll(pid).onsuccess = (e)=>{
-            const images = e.target.result;
-            currentGalleryImages = images; 
-            if(images.length===0) grid.innerHTML="<div style='grid-column:span 2;text-align:center;color:#555;'>No Images</div>";
-            images.forEach((img, index)=>{
-                const el = document.createElement('img'); el.className='gallery-thumb';
-                el.src = img.data;
-                el.onclick = ()=>openImageViewer(index);
+        const pid=parseInt(currentPersonId);
+        const tx=db.transaction(["gallery"],"readonly");
+        const idx=tx.objectStore("gallery").index("personId");
+        const grid=document.getElementById('gallery-grid'); grid.innerHTML="";
+        idx.getAll(pid).onsuccess=e=>{
+            const imgs=e.target.result;
+            currentGalleryImages=imgs;
+            if(imgs.length===0)grid.innerHTML="<div style='grid-column:span 2;text-align:center;color:#555;'>No Images</div>";
+            imgs.forEach((img,i)=>{
+                const el=document.createElement('img'); el.className='gallery-thumb'; el.src=img.data;
+                el.onclick=()=>openImageViewer(i);
                 grid.appendChild(el);
             });
         };
     }
-    
-    function openImageViewer(index){ currentGalleryIndex = index; updateImageViewer(); document.getElementById('image-viewer').style.display='flex'; }
-    function updateImageViewer(){ if(currentGalleryImages[currentGalleryIndex]){ document.getElementById('full-img').src = currentGalleryImages[currentGalleryIndex].data; } }
-    function nextImage(e){ if(e)e.stopPropagation(); if(currentGalleryIndex < currentGalleryImages.length-1) { currentGalleryIndex++; updateImageViewer(); } }
-    function prevImage(e){ if(e)e.stopPropagation(); if(currentGalleryIndex > 0) { currentGalleryIndex--; updateImageViewer(); } }
+    function openImageViewer(i){ currentGalleryIndex=i; updateImageViewer(); document.getElementById('image-viewer').style.display='flex'; }
+    function updateImageViewer(){ if(currentGalleryImages[currentGalleryIndex]) document.getElementById('full-img').src=currentGalleryImages[currentGalleryIndex].data; }
     function closeImageViewer(){ document.getElementById('image-viewer').style.display='none'; }
-
-    let touchStartX = 0;
-    document.getElementById('image-viewer').addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
-    document.getElementById('image-viewer').addEventListener('touchend', e => {
-        let touchEndX = e.changedTouches[0].screenX;
-        if(touchEndX < touchStartX - 50) nextImage();
-        if(touchEndX > touchStartX + 50) prevImage();
+    
+    // Swipe
+    let touchStartX=0;
+    const v=document.getElementById('image-viewer');
+    v.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;});
+    v.addEventListener('touchend',e=>{
+        let endX=e.changedTouches[0].screenX;
+        if(endX<touchStartX-50) nextImage();
+        if(endX>touchStartX+50) prevImage();
     });
-    document.getElementById('image-viewer').addEventListener('click', e => {
-        if(e.target.className === 'viewer-close') return;
-        if(e.clientX > window.innerWidth / 2) nextImage(); else prevImage();
+    v.addEventListener('click',e=>{
+        if(e.target.className==='viewer-close')return;
+        if(e.clientX>window.innerWidth/2) nextImage(); else prevImage();
     });
+    function nextImage(){if(currentGalleryIndex<currentGalleryImages.length-1){currentGalleryIndex++;updateImageViewer();}}
+    function prevImage(){if(currentGalleryIndex>0){currentGalleryIndex--;updateImageViewer();}}
 
     function openAddImageModal(){ document.getElementById('add-image-modal').style.display='flex'; document.getElementById('gallery-preview-count').innerText=""; }
-    function previewGalleryImage(input){
-        const files = input.files;
-        if(files.length > 0) document.getElementById('gallery-preview-count').innerText = `${files.length} images selected`;
+    function previewGalleryImages(input){
+        if(input.files.length>0) document.getElementById('gallery-preview-count').innerText=`${input.files.length} images selected`;
     }
-    function saveGalleryImage(){
-        const input = document.getElementById('new-gallery-img');
-        const files = input.files;
-        if(files.length === 0) return;
-        const tx = db.transaction(["gallery"], "readwrite");
-        const store = tx.objectStore("gallery");
-        let loaded = 0;
-        Array.from(files).forEach(f => {
-            const r = new FileReader();
-            r.onload = e => {
-                store.add({ personId: parseInt(currentPersonId), data: e.target.result, createdAt: new Date() });
-                loaded++;
-                if(loaded === files.length) { closeModal('add-image-modal'); setTimeout(loadGalleryGrid, 300); }
+    function saveGalleryImages(){
+        const input=document.getElementById('new-gallery-img');
+        if(input.files.length===0)return;
+        const tx=db.transaction(["gallery"],"readwrite");
+        const s=tx.objectStore("gallery");
+        let count=0;
+        Array.from(input.files).forEach(f=>{
+            const r=new FileReader();
+            r.onload=e=>{
+                s.add({personId:parseInt(currentPersonId), data:e.target.result, createdAt:new Date()});
+                count++;
+                if(count===input.files.length){ closeModal('add-image-modal'); setTimeout(loadGalleryGrid,300); }
             };
             r.readAsDataURL(f);
         });
     }
 
-    // === Detail Screen ===
+    // === Detail Screen (Ver 17 Original) ===
     function openDetail(id){
         currentPersonId=parseInt(id);
         document.getElementById('home-screen').style.display='none';
-        const s = document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
+        const s=document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             const p=e.target.result;
-            if(!p) return;
+            if(!p)return;
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-count').innerText=`Selection: ${p.count||0}`;
             document.getElementById('detail-profile').innerText=p.profile||"";
             const img=document.getElementById('detail-img');
-            if(p.image){ img.src=p.image; img.style.objectPosition=`${p.focusX||50}% ${p.focusY||50}%`; } else img.src="";
-            let sp=""; 
-            if(p.hallOfFame) sp+=`<span class="detail-spec-item" style="color:#d4af37;border-color:#d4af37;">👑 HOF</span> `;
-            if(p.cup) sp+=`<span class="detail-spec-item">${p.cup} cup</span> `;
-            if(p.birthday) {
-                const b=new Date(p.birthday); const n=new Date(); let a=n.getFullYear()-b.getFullYear();
-                if(n.getMonth()<b.getMonth()||(n.getMonth()===b.getMonth()&&n.getDate()<b.getDate())) a--;
-                sp+=`<span class="detail-spec-item">${a}歳 (${p.birthday.replace(/-/g,'/')})</span>`;
-            }
+            if(p.image){img.src=p.image;img.style.objectPosition=`${p.focusX||50}% ${p.focusY||50}%`;}else img.src="";
+            let sp="";
+            if(p.hallOfFame) sp+=`<span class="detail-spec-item" style="border-color:#d4af37;color:#d4af37;">👑 HOF</span>`;
+            if(p.cup) sp+=`<span class="detail-spec-item">${p.cup} cup</span>`;
+            if(p.birthday){const a=getAge(p.birthday);sp+=`<span class="detail-spec-item">${a}歳</span>`;}
             document.getElementById('detail-specs').innerHTML=sp;
-            let tg=""; if(p.tags) p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); document.getElementById('detail-person-tags').innerHTML=tg;
+            let tg=""; if(p.tags)p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); document.getElementById('detail-person-tags').innerHTML=tg;
         };
         loadDetailWorks();
     }
     function loadDetailWorks(){
         db.transaction(["works"],"readonly").objectStore("works").index("personId").getAll(currentPersonId).onsuccess=e=>{
-            let works=e.target.result;
-            sortWorks(works, sortMode.detail);
-            renderDetailWorkList(works); 
+            let w=e.target.result;
+            sortWorks(w, sortMode.detail);
+            renderDetailWorkList(w);
         };
+    }
+    function renderDetailWorkList(works){
+        const con=document.getElementById('work-list'); con.innerHTML="";
+        if(works.length===0){con.innerHTML="<div style='text-align:center;color:#555;'>No Works</div>";return;}
+        works.forEach(w=>{
+            const div=document.createElement('div'); div.className='work-item';
+            if(w.hallOfFame)div.classList.add('hof');
+            let thumb=w.image?`<img src="${w.image}" class="work-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="work-thumb"></div>';
+            let crown=w.hallOfFame?'👑':'';
+            let stars="";if(w.rating>0){for(let i=0;i<w.rating;i++)stars+='<span style="color:#d4af37;font-size:10px;">★</span>';}
+            
+            div.innerHTML=`${thumb}<div class="work-info"><h3>${crown} ${w.title}</h3><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
+            
+            let pressTimer;
+            div.addEventListener('touchstart',(e)=>{if(e.target.classList.contains('play-btn'))return;isScrolling=false;pressTimer=setTimeout(()=>{pressTimer=null;openEditWorkModal(w);},600);});
+            div.addEventListener('touchmove',()=>{isScrolling=true;if(pressTimer)clearTimeout(pressTimer);});
+            div.addEventListener('touchend',()=>{if(pressTimer){clearTimeout(pressTimer);if(!isScrolling)openWorkDetail(w);}});
+            div.onclick=(e)=>{if(!('ontouchstart' in window)&&!e.target.classList.contains('play-btn'))openWorkDetail(w);};
+            con.appendChild(div);
+        });
     }
     function sortWorks(works, mode) {
         if(mode === 'count') works.sort((a,b) => (b.count||0) - (a.count||0));
@@ -587,7 +804,7 @@
         document.getElementById('wd-title').innerText=w.title;
         document.getElementById('wd-meta').innerText=`Selection: ${w.count||0}`;
         let tg=""; if(w.tags) w.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); document.getElementById('wd-tags').innerHTML=tg;
-        let ratingHtml = ""; if(w.hallOfFame) ratingHtml += "👑 Hall of Fame "; if(w.rating) { for(let i=0;i<w.rating;i++) ratingHtml += "★"; }
+        let ratingHtml = ""; if(w.hallOfFame) ratingHtml += "👑 HOF "; if(w.rating) { for(let i=0;i<w.rating;i++) ratingHtml += "★"; }
         document.getElementById('wd-rating-display').innerHTML = ratingHtml;
         const img=document.getElementById('wd-img'); const ni=document.getElementById('wd-no-img');
         if(w.image){ img.src=w.image; img.style.objectPosition=`${w.focusX||50}% ${w.focusY||50}%`; img.style.display='block'; ni.style.display='none'; }
@@ -619,23 +836,21 @@
         };
     }
 
-    // === Modals & Misc ===
-    function handleFabClick(){ if(homeMode==='people') openAddPersonModal(); else if(homeMode==='works') alert("Add works via Muse detail"); else if(homeMode==='gallery') alert("Select a Muse to add photos"); }
+    // === Helpers, Modals, Sort ===
+    function handleFabClick(){ if(homeMode==='people') openAddPersonModal(); else if(homeMode==='works') alert("Add works via Muse detail"); else if(homeMode==='gallery') alert("Select a Muse to add photos"); else if(document.getElementById('detail-screen').style.display==='flex') openAddWorkModal(); }
     function openAddPersonModal(){ clearForm(); document.getElementById('add-person-modal').style.display='flex'; }
     function openEditPersonModal(p){ fillForm(p); document.getElementById('add-person-modal').style.display='flex'; }
     function openAddWorkModal(){ clearFormWork(); document.getElementById('add-work-modal').style.display='flex'; }
     function openEditWorkModal(w){ fillFormWork(w); document.getElementById('add-work-modal').style.display='flex'; }
     function closeModal(id){ document.getElementById(id).style.display='none'; }
     function openSettingsModal(){ document.getElementById('settings-modal').style.display='flex'; }
-    
+    function toggleHOFInput(type) { const id = type === 'person' ? 'new-person-hof' : 'new-work-hof'; const iconId = type === 'person' ? 'person-hof-icon' : 'work-hof-icon'; const box = document.getElementById(id); box.checked = !box.checked; toggleHOFIcon(iconId, box.checked); }
+    function toggleHOFIcon(id, isOn) { const el = document.getElementById(id); if(isOn) el.style.color = 'gold'; else el.style.color = '#ccc'; }
+    function setRating(r) { currentRating = r; const spans = document.querySelectorAll('#work-rating-input span'); spans.forEach((s, idx) => { if(idx < r) s.classList.add('on'); else s.classList.remove('on'); }); }
     function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); }
     function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hallOfFame; toggleHOFIcon('person-hof-icon', !!p.hallOfFame); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; }
     function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
     function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hallOfFame; toggleHOFIcon('work-hof-icon', !!w.hallOfFame); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
-
-    function setRating(r) { currentRating = r; const spans = document.querySelectorAll('#work-rating-input span'); spans.forEach((s, idx) => { if(idx < r) s.classList.add('on'); else s.classList.remove('on'); }); }
-    function toggleHOFInput(type) { const id = type === 'person' ? 'new-person-hof' : 'new-work-hof'; const iconId = type === 'person' ? 'person-hof-icon' : 'work-hof-icon'; const box = document.getElementById(id); box.checked = !box.checked; toggleHOFIcon(iconId, box.checked); }
-    function toggleHOFIcon(id, isOn) { const el = document.getElementById(id); if(isOn) el.style.color = 'gold'; else el.style.color = '#ccc'; }
 
     function savePerson(){
         const name = document.getElementById('new-person-name').value; if(!name)return alert("Name req");
@@ -673,12 +888,7 @@
         const pt = document.getElementById(focusId);
         pt.style.left=x+"%"; pt.style.top=y+"%"; pt.style.display='block';
     }
-    
-    function randomPick(){
-        db.transaction(["people"],"readonly").objectStore("people").getAll().onsuccess=e=>{
-            const arr=e.target.result; if(arr.length) openDetail(arr[Math.floor(Math.random()*arr.length)].id);
-        }
-    }
+    function getAge(b) { const d = new Date(b); const n = new Date(); let a = n.getFullYear() - d.getFullYear(); if(n.getMonth()<d.getMonth()||(n.getMonth()===d.getMonth()&&n.getDate()<d.getDate())) a--; return a; }
     function toggleSortMenu(t){ const m=document.getElementById('sort-menu-'+t); m.style.display=m.style.display==='block'?'none':'block'; }
     function applySort(m,c){ sortState[c]=m; document.getElementById('sort-menu-'+c).style.display='none'; if(c==='home')filterHomeList(); else loadDetailWorks(); }
     function loadTagSuggestions(type) {
@@ -710,7 +920,6 @@
             });
         };
     }
-
     function exportData() { const tx = db.transaction(["people", "works", "logs"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
     function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
@@ -753,7 +962,6 @@
                 ch.innerHTML=`<div class="pie-hole"><div style="font-size:10px;color:#888;">TOTAL</div><div style="font-size:14px;color:#d4af37;">${hTotal}</div></div>`;
                 pieCon.appendChild(ch); pieCon.insertAdjacentHTML('beforeend', leg+'</div>');
             } else pieCon.innerHTML="<div style='color:#555;font-size:10px;'>No Data</div>";
-            // Rankings and other analysis (Simplified for length)
             const rList=document.getElementById('ranking-list'); rList.innerHTML="";
             people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
                 rList.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
