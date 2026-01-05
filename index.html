@@ -50,25 +50,20 @@
     .section-title { color: #888; font-size: 12px; margin: 15px 20px 5px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
     
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
-    
-    /* Cards */
     .person-card, .work-card, .folder-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
     .person-card:active, .work-card:active, .folder-card:active { transform: scale(0.96); border-color: #d4af37; }
     .person-card.hof, .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-    
-    .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
-    .thumb-placeholder { color: #333; font-size: 10px; }
-    
     .info-area { padding: 10px; }
-    .name, .work-card-title, .folder-name { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
+    .name, .work-card-title, .folder-name { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
     .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
     .count { color: #d4af37; font-size: 11px; }
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
 
-    /* Work Item (List) */
+    /* Work Item (List) for Detail */
     .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
     .work-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
     .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
@@ -80,18 +75,11 @@
     .play-btn { width: 40px; height: 40px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
     .play-btn:active { transform: scale(0.9); background: #fff; }
 
-    /* === Gallery Screen === */
+    /* === Gallery Screen (New) === */
     #gallery-root-screen { display: none; background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%); }
     #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
     .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; }
     .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
-    
-    /* Gallery Item & Selection */
-    .gallery-item { position: relative; }
-    .gallery-item.selected img { border: 2px solid #d4af37; opacity: 0.7; }
-    .gallery-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: #d4af37; color: #000; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; z-index: 10; font-size: 14px; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
-    .gallery-item.selected .gallery-check { display: flex; }
-
     #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
     #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
@@ -99,6 +87,7 @@
     /* === FAB === */
     .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 9999; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
     .fab:active { transform: scale(0.9); }
+    #detail-screen .fab, #gallery-folder-screen .fab { z-index: 9999; }
 
     /* === Bottom Nav === */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
@@ -223,8 +212,25 @@
 
 <div id="toast">RECORDED<br><span style="font-size:12px; color:#fff;">賢者タイムに入ります</span></div>
 
+<script>
+    let calcInput = '0';
+    const SECRET_CODE = '4519';
+    function updateCalcDisplay() { document.querySelector('.calc-display').innerText = calcInput; }
+    function inputNum(n) { if (calcInput === '0') calcInput = n; else calcInput += n; updateCalcDisplay(); }
+    function clearCalc() { calcInput = '0'; updateCalcDisplay(); }
+    function calculate() { if (calcInput === SECRET_CODE) unlockApp(); else { calcInput = '0'; updateCalcDisplay(); } }
+    function unlockApp() {
+        document.getElementById('calculator-screen').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('calculator-screen').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+            window.loadHomeData(); // Trigger Main App Load
+        }, 500);
+    }
+</script>
+
 <div id="calculator-screen">
-    <div class="calc-display" id="calc-display">0</div>
+    <div class="calc-display">0</div>
     <div class="calc-buttons">
         <button class="calc-btn grey" onclick="clearCalc()">AC</button>
         <button class="calc-btn grey">+/-</button>
@@ -294,15 +300,11 @@
     <div id="analysis-screen" class="tab-content" style="display:none;">
         <div class="stats-area"><div class="stats-title">TOTAL SELECTIONS</div><div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div></div>
         <div class="section-title" style="margin-top:0;">ACTIVITY LOG</div>
-        <div class="calendar-container">
-            <div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div>
-            <div class="cal-day-label" style="display:grid; grid-template-columns:repeat(7,1fr); text-align:center;"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
-            <div class="cal-grid" id="calendar-grid"></div>
-        </div>
+        <div class="calendar-container"><div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div><div class="cal-grid" id="calendar-grid"></div></div>
         <div class="section-title">QUALITY ANALYSIS</div>
         <div class="pie-chart-container" id="pie-rated"></div>
-        <div class="section-title">MUSE TYPES (Actress Tags)</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
-        <div class="section-title">SCENE TRENDS (Work Tags)</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">MUSE TYPES</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">SCENE TRENDS</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
         <div class="champion-area" id="champion-area"></div>
         <div class="gobusata-area" id="gobusata-area"><div class="section-title">Long Time No See...</div><div class="gobusata-scroller" id="gobusata-list"></div></div>
         <div class="section-title">TOP RANKING</div><div class="ranking-list" id="ranking-list"></div>
@@ -340,21 +342,6 @@
     <div class="fab" onclick="openAddWorkModal()">＋</div>
 </div>
 
-<div id="work-detail-screen">
-    <div class="back-btn" onclick="closeWorkDetail()">↓</div>
-    <div class="wd-image-area"><img id="wd-img" class="wd-image"><div id="wd-no-img" style="color:#333; font-size:12px;">NO IMAGE</div></div>
-    <div class="wd-info">
-        <div class="wd-title" id="wd-title">Title</div>
-        <div class="wd-meta" id="wd-meta">...</div>
-        <div id="wd-rating-display" style="margin-bottom:15px; color:#d4af37; font-size:14px;"></div>
-        <div class="wd-tags" id="wd-tags"></div>
-        <div class="wd-actions">
-            <div class="wd-btn wd-link" id="wd-link-btn" onclick="">🔗 LINK</div>
-            <div class="wd-btn wd-play" id="wd-play-btn" onclick="">▶ PLAY</div>
-        </div>
-    </div>
-</div>
-
 <div id="gallery-folder-screen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:3000; flex-direction:column;">
     <div class="app-header" style="position:relative;">
         <div class="header-btn left" onclick="closeGalleryFolder()">←</div>
@@ -369,6 +356,21 @@
 <div id="image-viewer-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:5000; align-items:center; justify-content:center;">
     <div class="viewer-close" style="position:absolute; top:30px; right:20px; color:#fff; font-size:30px; z-index:5002; cursor:pointer;" onclick="closeImageViewer()">×</div>
     <img id="full-img" style="max-width:100%; max-height:100%; object-fit:contain;">
+</div>
+
+<div id="work-detail-screen">
+    <div class="back-btn" onclick="closeWorkDetail()">↓</div>
+    <div class="wd-image-area"><img id="wd-img" class="wd-image"><div id="wd-no-img" style="color:#333; font-size:12px;">NO IMAGE</div></div>
+    <div class="wd-info">
+        <div class="wd-title" id="wd-title">Title</div>
+        <div class="wd-meta" id="wd-meta">...</div>
+        <div id="wd-rating-display" style="margin-bottom:15px; color:#d4af37; font-size:14px;"></div>
+        <div class="wd-tags" id="wd-tags"></div>
+        <div class="wd-actions">
+            <div class="wd-btn wd-link" id="wd-link-btn" onclick="">🔗 LINK</div>
+            <div class="wd-btn wd-play" id="wd-play-btn" onclick="">▶ PLAY</div>
+        </div>
+    </div>
 </div>
 
 <div class="modal-overlay" id="add-image-modal">
@@ -386,8 +388,6 @@
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">RESTORE<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
 
 <script>
-    let currentInput='0'; const SECRET_CODE='4519';
-    const display=document.getElementById('calc-display'); const calcScreen=document.getElementById('calculator-screen');
     const appHeader=document.getElementById('app-header'); const bottomNav=document.querySelector('.bottom-nav');
     const homeScreen=document.getElementById('home-screen'); const galleryScreen=document.getElementById('gallery-root-screen'); const analysisScreen=document.getElementById('analysis-screen');
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
@@ -398,21 +398,22 @@
     // Gallery
     let currentGalleryImages=[]; let currentGalleryIndex=0; let isGallerySelectMode=false; let selectedGalleryImages=new Set();
 
-    function updateDisplay(){ display.innerText=currentInput; }
-    function inputNum(n){ if(currentInput==='0')currentInput=n; else currentInput+=n; updateDisplay(); }
-    function clearCalc(){ currentInput='0'; updateDisplay(); }
-    function calculate(){ if(currentInput===SECRET_CODE) unlockApp(); else { currentInput='0'; updateDisplay(); } }
-    function unlockApp(){
-        calcScreen.style.opacity='0';
-        setTimeout(()=>{
-            calcScreen.style.display='none';
-            document.getElementById('app-container').style.display='block';
-            switchTab('home');
-        },500);
-    }
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
     // DB (Ver 210)
+    window.loadHomeData = function(){
+        if(!db){setTimeout(loadHomeData,100);return;}
+        const tx = db.transaction(["people","works"], "readonly");
+        Promise.all([
+            new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
+            new Promise(r=>tx.objectStore("works").getAll().onsuccess=e=>r(e.target.result))
+        ]).then(([ppl, wks])=>{
+            allPeopleCache=ppl.sort((a,b)=>(b.count||0)-(a.count||0));
+            allWorksCache=wks.sort((a,b)=>(b.count||0)-(a.count||0));
+            filterHomeList();
+        });
+    }
+
     window.onload=()=>{
         const r=indexedDB.open("SecretMuseumDB", 210);
         r.onupgradeneeded=(e)=>{
@@ -423,7 +424,7 @@
             if(!db.objectStoreNames.contains("folders")){db.createObjectStore("folders",{keyPath:"id",autoIncrement:true});}
             if(!db.objectStoreNames.contains("images")){const is=db.createObjectStore("images",{keyPath:"id",autoIncrement:true});is.createIndex("folderId","folderId",{unique:false});}
         };
-        r.onsuccess=(e)=>{db=e.target.result; loadHomeData();};
+        r.onsuccess=(e)=>{db=e.target.result;};
     };
 
     function switchTab(t){
@@ -446,18 +447,7 @@
         document.getElementById('home-list-title').innerText=m==='people'?"登録済みのミューズ":"すべての作品";
         loadHomeData();
     }
-    function loadHomeData(){
-        if(!db){setTimeout(loadHomeData,100);return;}
-        const tx = db.transaction(["people","works"], "readonly");
-        Promise.all([
-            new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
-            new Promise(r=>tx.objectStore("works").getAll().onsuccess=e=>r(e.target.result))
-        ]).then(([ppl, wks])=>{
-            allPeopleCache=ppl.sort((a,b)=>(b.count||0)-(a.count||0));
-            allWorksCache=wks.sort((a,b)=>(b.count||0)-(a.count||0));
-            filterHomeList();
-        });
-    }
+
     function filterHomeList(){
         const q=document.getElementById('search-input').value.toLowerCase();
         const btn=document.getElementById('filter-btn');
@@ -537,7 +527,6 @@
         const s=document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             const p=e.target.result;
-            if(!p) return;
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
             document.getElementById('detail-profile').innerText=p.profile||"";
@@ -577,7 +566,7 @@
             let crown=w.hallOfFame?'👑':'';
             let stars="";if(w.rating>0){for(let i=0;i<w.rating;i++)stars+='<span style="color:#d4af37;font-size:10px;">★</span>';}
             
-            div.innerHTML=`${thumb}<div class="work-info"><h3>${crown} ${w.title}</h3><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
+            div.innerHTML=`${thumb}<div class="work-info"><div class="work-title">${crown}${w.title}</div><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
             div.onclick=()=>openWorkDetail(w);
             let timer;
             div.addEventListener('touchstart',()=>{timer=setTimeout(()=>{timer=null;openEditWorkModal(w);},600);});
@@ -760,7 +749,6 @@
         const files = Array.from(input.files);
         let loaded = 0;
         
-        // Use Promise.all to ensure all files read before transaction
         const promises = files.map(file => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -889,7 +877,7 @@
         };
     }
 
-    function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; const s = ['people','works','logs','gallery','folders']; let c=0; s.forEach(n=>{ if(db.objectStoreNames.contains(n)) tx.objectStore(n).getAll().onsuccess=e=>{d[n]=e.target.result; c++; if(c===s.length) download(d);} else {c++; if(c===s.length)download(d);} }); function download(obj){ const b=new Blob([JSON.stringify(obj)],{type:"application/json"}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download="backup.json"; a.click(); } }
+    function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.gallery) data.gallery.forEach(i => tx.objectStore("gallery").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
     function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
 
