@@ -48,61 +48,86 @@
     .filter-btn.active { background: #d4af37; color: #000; }
     .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-    .section-title { color: #888; font-size: 12px; margin: 15px 20px 5px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
+    .section-title { color: #888; font-size: 12px; margin: 25px 20px 10px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
     
-    /* Grid List */
+    /* Grid List (Both People & Works in Home) */
     .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; padding-bottom: 120px; }
-    .work-list-container { display: flex; flex-direction: column; gap: 8px; padding: 0 20px; padding-bottom: 120px; }
-
-    /* Cards */
-    .person-card, .work-card-home, .gallery-item { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
-    .person-card:active, .gallery-item:active { transform: scale(0.96); border-color: #d4af37; }
-    .person-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+    
+    .person-card, .work-card, .gallery-item { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
+    .person-card:active, .work-card:active, .gallery-item:active { transform: scale(0.96); border-color: #d4af37; }
+    .person-card.pressing, .work-card.pressing { transform: scale(0.95); border-color: #ff4444; }
+    .person-card.hof, .work-card.hof { border: 2px solid #d4af37; box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
     
     .thumb-area { height: 140px; background-color: #050505; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
     .thumb-area img { width: 100%; height: 100%; object-fit: cover; }
     .thumb-placeholder { color: #333; font-size: 10px; }
     
     .info-area { padding: 10px; }
-    .name { color: #f0f0f0; font-size: 14px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
+    .name, .work-card-title { color: #f0f0f0; font-size: 15px; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
+    .work-card-title { font-size: 14px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
     .count { color: #d4af37; font-size: 11px; }
 
-    /* Work Item (Compact) */
-    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 8px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; margin-bottom: 8px; }
-    .work-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
-    .work-thumb { width: 45px; height: 45px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
-    .work-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
-    .work-title { margin: 0 0 3px 0; font-size: 13px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .work-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 2px; }
-    .tag { font-size: 9px; background: #333; color: #aaa; padding: 1px 4px; border-radius: 3px; }
-    .play-btn { width: 36px; height: 36px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 14px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
+    .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
+    .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
+    .rating-stars-sm .on { color: #d4af37; }
 
-    /* === Analysis Screen === */
-    #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
+    /* Analysis Elements */
     .stats-area { margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent); border-left: 2px solid #d4af37; border-radius: 0 8px 8px 0; }
     .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
     .stats-value { font-size: 28px; color: #fff; }
-    
+    .stats-unit { font-size: 14px; margin-left: 5px; color: #aaa; }
+
     .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .cal-month { font-family: "Times New Roman", serif; font-size: 18px; color: #d4af37; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; }
+    .cal-day-label { font-size: 10px; color: #666; margin-bottom: 5px; }
+    .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; position: relative; }
     .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
-    
+    .cal-day.today { border: 1px solid #666; }
+
     .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
     .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
     .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
     .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
     .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
 
+    .pie-chart-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; height: 160px; }
+    .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#d4af37 0% 0%); position: relative; }
+    .pie-hole { position: absolute; width: 80px; height: 80px; background: #050505; border-radius: 50%; top: 35px; left: 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+    .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 10px; color: #ccc; margin-bottom: 30px; }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-color { width: 8px; height: 8px; border-radius: 2px; }
+
     /* QUEEN */
     .champion-area { margin-bottom: 30px; display: none; }
     .champion-box { position: relative; background-color: #050505; border: 1px solid #d4af37; border-radius: 12px; padding: 40px 20px 20px; text-align: center; overflow: hidden; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 15px rgba(212, 175, 55, 0.2); }
-    .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; }
+    .champion-title { font-family: "Times New Roman", serif; color: #d4af37; font-size: 12px; letter-spacing: 0.3em; margin-bottom: 30px; text-transform: uppercase; display: inline-block; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 5px; position: relative; z-index: 2; }
     .champion-img-container { position: relative; width: 110px; height: 110px; margin: 0 auto 15px; }
-    .champion-bg-flower { position: absolute; top: 50%; left: 50%; width: 240px; height: 240px; background: repeating-conic-gradient(from 0deg, rgba(212, 175, 55, 0.2) 0deg 15deg, transparent 15deg 30deg); border-radius: 50%; transform: translate(-50%, -50%); animation: spinSlow 30s linear infinite; pointer-events: none; }
+    .champion-bg-flower { position: absolute; top: 50%; left: 50%; width: 240px; height: 240px; background: repeating-conic-gradient(from 0deg, rgba(212, 175, 55, 0.2) 0deg 15deg, transparent 15deg 30deg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 0; animation: spinSlow 30s linear infinite; pointer-events: none; }
+    .champion-bg-flower::before { content: ""; position: absolute; inset: 20px; border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 60%); }
     .champion-img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 20px rgba(212, 175, 55, 0.6); }
+    .champion-crown { position: absolute; top: -50px; left: 50%; transform: translateX(-50%); font-size: 40px; z-index: 5; text-shadow: 0 5px 10px rgba(0,0,0,0.8); filter: drop-shadow(0 0 5px #d4af37); }
     .champion-name { font-size: 24px; font-weight: bold; margin-bottom: 5px; color: #fff; font-family: serif; text-shadow: 0 2px 10px rgba(0,0,0,0.8); position: relative; z-index: 2; }
+    .champion-score { color: #aaa; font-size: 14px; font-family: monospace; position: relative; z-index: 2; }
+
+    /* Gobusata & Ranking */
+    .gobusata-area { margin-bottom: 25px; display: none; }
+    .gobusata-scroller { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+    .gobusata-item { min-width: 80px; text-align: center; }
+    .gobusata-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 1px solid #555; filter: grayscale(100%); opacity: 0.7; }
+    .gobusata-name { font-size: 10px; color: #888; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ranking-list { margin-top: 10px; margin-bottom: 30px; }
+    .rank-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #222; }
+    .rank-num { font-family: "Times New Roman", serif; font-size: 20px; color: #d4af37; width: 30px; font-style: italic; }
+    .rank-name { flex-grow: 1; font-size: 14px; }
+    .rank-count { font-size: 12px; color: #888; }
+
+    /* === Bottom Nav === */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 10px; transition: color 0.3s; }
+    .nav-item.active { color: #d4af37; }
+    .nav-icon { font-size: 20px; margin-bottom: 4px; }
 
     /* === Detail Screen === */
     #detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2500; flex-direction: column; }
@@ -112,15 +137,30 @@
     .detail-name { font-size: 32px; font-weight: bold; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
     .detail-specs { font-size: 13px; color: #fff; margin-bottom: 5px; font-family: sans-serif; display: flex; gap: 10px; align-items: center; }
     .detail-spec-item { background: rgba(212, 175, 55, 0.2); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(212, 175, 55, 0.4); }
+    .detail-stats { color: #d4af37; font-family: monospace; font-size: 14px; margin-bottom: 8px;}
+    .person-profile-text { font-size: 12px; color: #ccc; line-height: 1.5; margin-bottom: 10px; }
+    .person-tags-area { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+    .back-btn { position: absolute; top: 50px; left: 20px; z-index: 2600; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #d4af37; font-size: 24px; cursor: pointer; border: 1px solid rgba(212,175,55,0.3); }
     .detail-sticky-bar { flex-shrink: 0; background: #000; padding: 15px 20px; border-bottom: 1px solid #222; display:flex; justify-content:space-between; align-items:center; z-index: 10; }
     .detail-scroll-area { flex-grow: 1; overflow-y: auto; padding: 20px; padding-bottom: 120px; -webkit-overflow-scrolling: touch; }
     
-    /* === Gallery Screen (New) === */
+    /* WORK LIST ITEM (Ver 17 Style - Spacious) */
+    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 15px; margin-bottom: 15px; border-radius: 0 6px 6px 0; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; position: relative; }
+    .work-item.pressing { background: rgba(100, 30, 30, 0.6); }
+    .work-item.hof { border-color: #d4af37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); background: rgba(40,35,20,0.6); }
+    .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; }
+    .work-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
+    .work-title { margin: 0 0 5px 0; font-size: 16px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
+    .work-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 5px; }
+    .tag { font-size: 10px; background: #333; color: #aaa; padding: 2px 6px; border-radius: 4px; }
+    .work-count { font-size: 11px; color: #888; font-family: monospace; display: flex; align-items: center; gap: 4px; }
+    .play-btn { width: 44px; height: 44px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 18px; box-shadow: 0 0 10px rgba(212,175,55,0.3); flex-shrink: 0; }
+    .play-btn:active { transform: scale(0.9); background: #fff; }
+
+    /* === Gallery Screen (Ver 25 Feature) === */
     #gallery-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
     .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; overflow-y: auto; padding-bottom: 100px; }
     .gallery-thumb { height: 180px; width: 100%; object-fit: cover; border-radius: 8px; border: 1px solid #333; }
-    
-    /* Full Screen Image Viewer */
     #image-viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
     #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; }
@@ -128,28 +168,74 @@
     /* === FAB === */
     .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 2700; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
     .fab:active { transform: scale(0.9); }
+    #detail-screen .fab { z-index: 2900; }
 
-    /* === Bottom Nav === */
-    .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
-    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #666; font-size: 10px; transition: color 0.3s; }
-    .nav-item.active { color: #d4af37; }
-    .nav-icon { font-size: 20px; margin-bottom: 4px; }
+    /* === Toast === */
+    #toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: rgba(0,0,0,0.9); border: 1px solid #d4af37; padding: 20px 40px; border-radius: 8px; color: #d4af37; font-family: serif; font-size: 20px; letter-spacing: 0.1em; pointer-events: none; opacity: 0; transition: all 0.3s; z-index: 9999; box-shadow: 0 0 30px rgba(212,175,55,0.3); text-align: center; }
+    #toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-    /* Modals & Utils */
+    /* === Modals === */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); z-index: 4000; align-items: center; justify-content: center; }
-    .modal-content { background: #1a1a2e; border: 1px solid #d4af37; padding: 20px; width: 85%; max-height: 80vh; overflow-y: auto; border-radius: 10px; text-align: center; }
-    input, textarea { width: 100%; padding: 10px; margin-bottom: 10px; background: #222; border: 1px solid #555; color: #fff; border-radius: 4px; box-sizing: border-box; }
+    .modal-content { background: #1a1a2e; border: 1px solid #d4af37; padding: 20px; width: 85%; max-height: 80vh; overflow-y: auto; border-radius: 10px; text-align: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+    .modal-title { color: #d4af37; margin-bottom: 20px; font-size: 18px; }
+    input[type="text"], input[type="url"], input[type="date"], textarea { width: 100%; padding: 10px; margin-bottom: 15px; background: rgba(255,255,255,0.1); border: 1px solid #555; color: #fff; border-radius: 5px; box-sizing: border-box; }
+    input[type="date"] { font-family: inherit; color: #fff; }
+    textarea { height: 80px; resize: none; font-family: inherit; }
+    input[type="file"] { display: none; }
     .file-select-btn { display: inline-block; padding: 8px 16px; background: rgba(255,255,255,0.1); border: 1px solid #666; color: #ccc; border-radius: 4px; margin-bottom: 10px; font-size: 12px; cursor: pointer; }
-    
-    .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; }
-    .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; }
-    .sort-item:last-child { border: none; }
+    .input-with-btn { display: flex; gap: 8px; margin-bottom: 15px; }
+    .input-with-btn input { margin-bottom: 0; }
+    .mini-btn { background: #444; border: 1px solid #666; color: #fff; border-radius: 5px; width: 60px; cursor: pointer; font-size: 10px; display:flex; align-items:center; justify-content:center; }
+    .preview-container { position: relative; width: 100%; max-width: 300px; height: 200px; margin: 0 auto 20px; background: #000; border: 1px dashed #555; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .preview-img { width: 100%; height: 100%; object-fit: contain; }
+    .focus-point { position: absolute; width: 20px; height: 20px; background: rgba(212, 175, 55, 0.6); border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+    .btn-group { display: flex; gap: 10px; justify-content: center; }
+    .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-family: serif; }
+    .btn-cancel { background: #333; color: #fff; }
+    .btn-save { background: #d4af37; color: #000; font-weight: bold; }
+    .btn-danger { background: #800; color: #fff; font-size:10px; margin-top:20px; }
+
+    .tag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; justify-content: center; }
+    .filter-chip { padding: 6px 12px; border-radius: 20px; border: 1px solid #555; font-size: 12px; color: #aaa; cursor: pointer; transition: 0.2s; }
+    .filter-chip.selected { background: #d4af37; color: #000; border-color: #d4af37; }
+    .filter-options { text-align: left; margin-top: 15px; border-top: 1px solid #333; padding-top: 15px; }
+    .checkbox-label { display: flex; align-items: center; justify-content: center; font-size: 12px; color: #ccc; cursor: pointer; }
+    .checkbox-label input { width: auto; margin: 0 8px 0 0; }
+    .tag-suggestions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: -10px; margin-bottom: 15px; }
+    .tag-s-chip { font-size: 10px; background: #333; border: 1px solid #555; padding: 3px 8px; border-radius: 10px; color: #ccc; cursor: pointer; transition:0.2s;}
+    .tag-s-chip:active { background: #d4af37; color: #000; }
+
+    .star-rating { display: flex; justify-content: center; gap: 5px; margin-bottom: 15px; font-size: 24px; color: #444; cursor: pointer; }
+    .star-rating span.on { color: #d4af37; }
+    .hof-toggle { text-align: center; margin-bottom: 15px; }
+    .hof-label { font-size: 12px; color: #ccc; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+    .crown-icon { font-size: 14px; }
+    .crown-icon.gold { color: #d4af37; }
+
+    .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; overflow: hidden; }
+    .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; cursor: pointer; }
+    .sort-item:last-child { border-bottom: none; }
+    .sort-item:active { background: #444; }
+    .sort-item.active { color: #d4af37; }
+
+    /* Work Detail Screen */
+    #work-detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; overflow-y: auto; }
+    .wd-image-area { width: 100%; height: 45vh; overflow: hidden; display:flex; align-items:center; justify-content:center; background:#111; flex-shrink: 0; }
+    .wd-image { width: 100%; height: 100%; object-fit: cover; }
+    .wd-info { padding: 20px; }
+    .wd-title { font-size: 20px; color: #d4af37; margin-bottom: 15px; line-height: 1.4; font-family: serif; }
+    .wd-meta { font-size: 12px; color: #888; margin-bottom: 20px; border-left: 2px solid #555; padding-left: 10px; }
+    .wd-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 30px; }
+    .wd-actions { display: flex; gap: 15px; justify-content: center; }
+    .wd-btn { flex: 1; padding: 15px; border-radius: 8px; text-align: center; font-size: 14px; font-weight: bold; cursor: pointer; }
+    .wd-play { background: #d4af37; color: #000; }
+    .wd-link { background: #333; color: #fff; border: 1px solid #555; }
 
 </style>
 </head>
 <body>
 
-<div id="toast" style="position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.9); border:1px solid #d4af37; padding:20px; border-radius:8px; color:#d4af37; opacity:0; pointer-events:none; transition:0.3s; z-index:9999; text-align:center;">RECORDED<br><span style="font-size:12px; color:#fff;">賢者タイムに入ります</span></div>
+<div id="toast">RECORDED<br><span style="font-size:12px; color:#fff;">賢者タイムに入ります</span></div>
 
 <div id="calculator-screen">
     <div class="calc-display" id="calc-display">0</div>
@@ -203,7 +289,7 @@
 
         <div class="section-title" id="home-list-title">登録済みのミューズ</div>
         <div class="card-list" id="person-list"></div>
-        <div class="work-list-container" id="work-list-home" style="display:none;"></div>
+        <div class="card-list" id="work-list-home" style="display:none;"></div>
         <div class="fab" onclick="handleFabClick()">＋</div>
     </div>
 
@@ -267,10 +353,10 @@
     <img id="full-img">
 </div>
 
-<div id="work-detail-screen" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:3000; flex-direction:column; overflow-y:auto;">
-    <div class="back-btn" onclick="document.getElementById('work-detail-screen').style.display='none'">↓</div>
+<div id="work-detail-screen">
+    <div class="back-btn" onclick="closeWorkDetail()">↓</div>
     <div class="wd-image-area"><img id="wd-img" class="wd-image"><div id="wd-no-img" style="color:#333; font-size:12px;">NO IMAGE</div></div>
-    <div class="wd-info"><div class="wd-title" id="wd-title"></div><div class="wd-meta" id="wd-meta"></div><div class="wd-tags" id="wd-tags"></div><div class="wd-actions"><div class="wd-btn" style="background:#333;" id="wd-link-btn">LINK</div><div class="wd-btn" style="background:#d4af37; color:#000;" id="wd-play-btn">PLAY</div></div></div>
+    <div class="wd-info"><div class="wd-title" id="wd-title"></div><div class="wd-meta" id="wd-meta"></div><div id="wd-rating-display" style="margin-bottom:15px; color:#d4af37; font-size:14px;"></div><div class="wd-tags" id="wd-tags"></div><div class="wd-actions"><div class="wd-btn wd-link" id="wd-link-btn">LINK</div><div class="wd-btn wd-play" id="wd-play-btn">PLAY</div></div></div>
 </div>
 
 <div class="modal-overlay" id="add-image-modal">
@@ -282,21 +368,19 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><input type="date" id="new-person-birthday" style="flex:2;"></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags"><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img')"></label><div class="preview-container" onclick="setFocus(event, 'person')"><img id="preview-img"><div id="focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div></div></div>
-<div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><input type="url" id="new-work-url" placeholder="URL"><input type="text" id="new-work-tags" placeholder="Tags"><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img')"></label><div class="preview-container" onclick="setFocus(event, 'work')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div></div></div>
+<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><input type="date" id="new-person-birthday" style="flex:2;"></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:10px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img')"></label><div class="preview-container" onclick="setFocus(event, 'person')"><img id="preview-img"><div id="focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" onclick="deletePerson()">DELETE</button></div></div>
+<div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div><div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img')"></label><div class="preview-container" onclick="setFocus(event, 'work')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" onclick="deleteWork()">DELETE</button></div></div>
+<div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER BY TAGS</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> All tags must match</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-cancel" onclick="closeTagFilterModal()">Close</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="display:block;">RESTORE <input type="file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%; margin-top:10px;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
 
 <script>
-    // === Init ===
     let currentInput='0'; const SECRET='4519';
     const display=document.getElementById('calc-display'); const calcScreen=document.getElementById('calculator-screen');
     const appHeader=document.getElementById('app-header'); const bottomNav=document.getElementById('bottom-nav');
     const homeScreen=document.getElementById('home-screen');
-    
     let db; let currentPersonId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
-    let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let allPeopleCache=[], allWorksCache=[];
+    let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let allPeopleCache=[], allWorksCache=[]; let currentRating=0; let selectedTags=new Set();
 
-    // Calc
     function updateDisplay(){ display.innerText=currentInput; }
     function inputNum(n){ if(currentInput==='0')currentInput=n; else currentInput+=n; updateDisplay(); }
     function clearCalc(){ currentInput='0'; updateDisplay(); }
@@ -307,11 +391,10 @@
             calcScreen.style.display='none'; 
             document.getElementById('app-container').style.display='block';
             appHeader.style.display='flex'; bottomNav.style.display='flex'; homeScreen.style.display='block';
-            loadHomeData(); 
+            switchTab('home'); // FORCE RELOAD TO FIX BLANK SCREEN
         }, 500);
     }
     
-    // DB
     window.onload = ()=>{
         const r = indexedDB.open("SecretMuseumDB", 9);
         r.onupgradeneeded = (e)=>{
@@ -324,7 +407,6 @@
         r.onsuccess = (e)=>{ db=e.target.result; };
     };
 
-    // Nav
     function switchTab(t){
         document.querySelectorAll('.tab-content').forEach(e=>e.style.display='none');
         document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
@@ -332,13 +414,11 @@
         else{ document.getElementById('analysis-screen').style.display='block'; document.querySelectorAll('.nav-item')[1].classList.add('active'); renderAnalysis(); }
     }
 
-    // Home Logic
     function setHomeMode(m){
         homeMode=m;
         document.getElementById('mode-people').className=m==='people'?'mode-btn active':'mode-btn';
         document.getElementById('mode-works').className=m==='works'?'mode-btn active':'mode-btn';
         document.getElementById('mode-gallery').className=m==='gallery'?'mode-btn active':'mode-btn';
-        
         const title = m==='people'?"MUSE LIST (Edit: Hold)": m==='works'?"LIBRARY (Detail: Tap)": "GALLERY (Open Folder)";
         document.getElementById('home-list-title').innerText = title;
         loadHomeData();
@@ -358,35 +438,56 @@
 
     function filterHomeList(){
         const q = document.getElementById('search-input').value.toLowerCase();
-        
+        const isExact = document.getElementById('tag-exact-match').checked;
+        const filterBtn = document.getElementById('filter-btn');
+        if(selectedTags.size>0) filterBtn.classList.add('active'); else filterBtn.classList.remove('active');
+
         if(homeMode==='people' || homeMode==='gallery'){
             document.getElementById('person-list').style.display='grid';
             document.getElementById('work-list-home').style.display='none';
-            const filtered = allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
-            // Sort
+            let filtered = allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
+            if(selectedTags.size>0){
+                filtered = filtered.filter(p=>{
+                    const pTags=p.tags||[]; 
+                    // Also check work tags
+                    const pWorks=allWorksCache.filter(w=>w.personId===p.id);
+                    const matchP = isExact?Array.from(selectedTags).every(t=>pTags.includes(t)):pTags.some(t=>selectedTags.has(t));
+                    if(matchP) return true;
+                    return pWorks.some(w=>{
+                        const wTags=w.tags||[];
+                        return isExact?Array.from(selectedTags).every(t=>wTags.includes(t)):wTags.some(t=>selectedTags.has(t));
+                    });
+                });
+            }
             if(sortState.home==='count') filtered.sort((a,b)=>(b.count||0)-(a.count||0));
             else if(sortState.home==='newest') filtered.sort((a,b)=>b.id-a.id);
+            else if(sortState.home==='rating') filtered.sort((a,b)=>((b.hallOfFame?1:0)-(a.hallOfFame?1:0)));
             renderPeopleList(filtered);
         } else {
             document.getElementById('person-list').style.display='none';
-            document.getElementById('work-list-home').style.display='flex';
-            const filtered = allWorksCache.filter(w=>w.title.toLowerCase().includes(q));
-            // Sort
-            if(sortState.home==='count') filtered.sort((a,b)=>(b.count||0)-(a.count||0));
-            else if(sortState.home==='newest') filtered.sort((a,b)=>b.id-a.id);
-            renderWorkList(filtered, 'work-list-home');
+            document.getElementById('work-list-home').style.display='grid'; // Reverted to GRID
+            let filtered = allWorksCache.filter(w=>w.title.toLowerCase().includes(q));
+            if(selectedTags.size>0){
+                filtered = filtered.filter(w=>{
+                    const wTags=w.tags||[];
+                    return isExact?Array.from(selectedTags).every(t=>wTags.includes(t)):wTags.some(t=>selectedTags.has(t));
+                });
+            }
+            sortWorks(filtered, sortState.home);
+            renderWorkListForHome(filtered); // Using Grid Render
         }
     }
 
     function renderPeopleList(list){
         const con = document.getElementById('person-list'); con.innerHTML="";
+        if(list.length===0){con.innerHTML="<div style='color:#555;'>No Data</div>";return;}
         list.forEach(p=>{
             const div=document.createElement('div'); div.className='person-card';
-            if(p.hallOfFame) div.style.borderColor='#d4af37';
-            const imgHtml = p.image ? `<img src="${p.image}" style="object-position:${p.focusX||50}% ${p.focusY||50}%">` : '<div style="color:#333;font-size:10px;">NO IMG</div>';
-            div.innerHTML = `<div class="thumb-area" style="height:140px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#050505;">${imgHtml}</div><div style="padding:10px;"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
+            if(p.hallOfFame) div.classList.add('hof');
+            const imgHtml = p.image ? `<img src="${p.image}" style="object-position:${p.focusX||50}% ${p.focusY||50}%">` : '<div class="thumb-placeholder">NO IMG</div>';
+            const crown = p.hallOfFame ? '<div class="card-crown">👑</div>' : '';
+            div.innerHTML = `<div class="thumb-area">${imgHtml}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
             
-            // Interaction
             let pressTimer;
             div.addEventListener('touchstart', ()=>{ pressTimer=setTimeout(()=>{ pressTimer=null; if(homeMode==='people') openEditPersonModal(p); },600); });
             div.addEventListener('touchend', ()=>{ if(pressTimer){ clearTimeout(pressTimer); handleClickPerson(p); } });
@@ -400,13 +501,40 @@
         else if(homeMode==='gallery') openGallery(p.id);
     }
 
-    function renderWorkList(list, containerId){
-        const con = document.getElementById(containerId); con.innerHTML="";
+    // Grid Render for Home Library (Ver 17 Style)
+    function renderWorkListForHome(works) {
+        const container = document.getElementById('work-list-home'); container.innerHTML = "";
+        if (works.length === 0) { container.innerHTML = "<div style='color:#555;'>No Works</div>"; return; }
+        works.forEach(w => {
+            const div = document.createElement('div'); div.className = 'work-card';
+            if(w.hallOfFame) div.classList.add('hof');
+            let crown = w.hallOfFame ? '<div class="card-crown">👑</div>' : '';
+            let thumbHtml = '<div class="thumb-placeholder">NO IMAGE</div>';
+            if(w.image) thumbHtml = `<img src="${w.image}" style="width:100%; height:100%; object-fit:cover; object-position:${w.focusX||50}% ${w.focusY||50}%">`;
+            let stars = ""; if(w.rating > 0) { stars = '<div class="rating-stars-sm">'; for(let i=0; i<w.rating; i++) stars += '<span class="on">★</span>'; stars += '</div>'; }
+            div.innerHTML = `<div class="thumb-area">${thumbHtml}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count || 0} SELECTIONS</div></div>`;
+            div.onclick = () => openWorkDetail(w);
+            container.appendChild(div);
+        });
+    }
+
+    // List Render for Detail (Ver 17 Style)
+    function renderWorkList(list){
+        const con = document.getElementById('work-list'); con.innerHTML="";
+        if(list.length===0){con.innerHTML="<div style='text-align:center;color:#555;'>No Works</div>";return;}
         list.forEach(w=>{
             const div=document.createElement('div'); div.className='work-item';
-            const thumb = w.image ? `<img src="${w.image}" class="work-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">` : `<div class="work-thumb"></div>`;
-            div.innerHTML = `${thumb}<div class="work-info"><div class="work-title">${w.title}</div><div class="work-count">▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>`;
-            div.onclick = ()=>openWorkDetail(w);
+            if(w.hallOfFame) div.classList.add('hof');
+            let crown = w.hallOfFame ? '👑 ' : '';
+            const thumb = w.image ? `<img src="${w.image}" class="work-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">` : `<div class="work-thumb" style="background:#000;"></div>`;
+            let stars = ""; if(w.rating > 0) { for(let i=0; i<w.rating; i++) stars += '<span style="color:#d4af37; font-size:10px;">★</span>'; }
+            
+            div.innerHTML = `${thumb}<div class="work-info"><div class="work-title">${crown}${w.title}</div><div class="work-tags" style="margin-bottom:2px;">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id}); event.stopPropagation();">▶</div>`;
+            
+            let pressTimer;
+            div.addEventListener('touchstart', (e)=>{ if(e.target.classList.contains('play-btn'))return; pressTimer=setTimeout(()=>{ pressTimer=null; openEditWorkModal(w); },600); });
+            div.addEventListener('touchend', ()=>{ if(pressTimer){ clearTimeout(pressTimer); openWorkDetail(w); } });
+            div.onclick = (e)=>{ if(!('ontouchstart' in window) && !e.target.classList.contains('play-btn')) openWorkDetail(w); };
             con.appendChild(div);
         });
     }
@@ -420,12 +548,11 @@
     }
     function closeGallery(){
         document.getElementById('gallery-screen').style.display='none';
-        if(document.getElementById('detail-screen').style.display==='flex') return; // Stay in detail
+        if(document.getElementById('detail-screen').style.display==='flex') return; 
         document.getElementById('home-screen').style.display='block';
         currentPersonId = null;
     }
     function openGalleryFromDetail(){
-        // Hide detail, show gallery
         document.getElementById('detail-screen').style.display='none';
         document.getElementById('gallery-screen').style.display='flex';
         loadGalleryGrid();
@@ -468,7 +595,6 @@
         currentPersonId=id;
         document.getElementById('home-screen').style.display='none';
         const s = document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
-        // Fetch Person
         db.transaction(["people","works"],"readonly").objectStore("people").get(id).onsuccess=e=>{
             const p=e.target.result;
             document.getElementById('detail-name').innerText=p.name;
@@ -476,7 +602,6 @@
             document.getElementById('detail-profile').innerText=p.profile||"";
             const img=document.getElementById('detail-img');
             if(p.image){ img.src=p.image; img.style.objectPosition=`${p.focusX||50}% ${p.focusY||50}%`; } else img.src="";
-            // Specs
             let sp=""; 
             if(p.hallOfFame) sp+=`<span class="detail-spec-item" style="color:#d4af37;border-color:#d4af37;">👑 HOF</span> `;
             if(p.cup) sp+=`<span class="detail-spec-item">${p.cup} cup</span> `;
@@ -486,7 +611,6 @@
                 sp+=`<span class="detail-spec-item">${a}歳 (${p.birthday.replace(/-/g,'/')})</span>`;
             }
             document.getElementById('detail-specs').innerHTML=sp;
-            // Tags
             let tg=""; if(p.tags) p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); document.getElementById('detail-person-tags').innerHTML=tg;
         };
         loadDetailWorks();
@@ -494,12 +618,14 @@
     function loadDetailWorks(){
         db.transaction(["works"],"readonly").objectStore("works").index("personId").getAll(currentPersonId).onsuccess=e=>{
             let works=e.target.result;
-            // Sort
-            if(sortState.detail==='count') works.sort((a,b)=>(b.count||0)-(a.count||0));
-            else if(sortState.detail==='newest') works.sort((a,b)=>b.id-a.id);
-            else if(sortState.detail==='rating') works.sort((a,b)=>((b.rating||0)+(b.hallOfFame?6:0))-((a.rating||0)+(a.hallOfFame?6:0)));
-            renderWorkList(works, 'work-list');
+            sortWorks(works, sortMode.detail);
+            renderWorkList(works);
         };
+    }
+    function sortWorks(works, mode) {
+        if(mode === 'count') works.sort((a,b) => (b.count||0) - (a.count||0));
+        else if(mode === 'rating') works.sort((a,b) => ((b.hallOfFame?6:b.rating)||0) - ((a.hallOfFame?6:a.rating)||0));
+        else if(mode === 'newest') works.sort((a,b) => b.id - a.id);
     }
     function closeDetail(){ document.getElementById('detail-screen').style.display='none'; document.getElementById('home-screen').style.display='block'; currentPersonId=null; loadHomeData(); }
 
@@ -508,19 +634,19 @@
         document.getElementById('wd-title').innerText=w.title;
         document.getElementById('wd-meta').innerText=`Selection: ${w.count||0}`;
         let tg=""; if(w.tags) w.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); document.getElementById('wd-tags').innerHTML=tg;
+        let ratingHtml = ""; if(w.hallOfFame) ratingHtml += "👑 Hall of Fame "; if(w.rating) { for(let i=0;i<w.rating;i++) ratingHtml += "★"; }
+        document.getElementById('wd-rating-display').innerHTML = ratingHtml;
         const img=document.getElementById('wd-img'); const ni=document.getElementById('wd-no-img');
         if(w.image){ img.src=w.image; img.style.objectPosition=`${w.focusX||50}% ${w.focusY||50}%`; img.style.display='block'; ni.style.display='none'; }
         else{ img.style.display='none'; ni.style.display='block'; }
-        
         document.getElementById('wd-play-btn').onclick=()=>useWork(w.id);
         const lnk=document.getElementById('wd-link-btn');
         if(w.url){ lnk.style.display='block'; lnk.onclick=()=>window.open(w.url,'_blank'); } else lnk.style.display='none';
-        
         document.getElementById('work-detail-screen').style.display='flex';
     }
+    function closeWorkDetail() { document.getElementById('work-detail-screen').style.display = 'none'; }
 
     function useWork(wid){
-        // Ensure Person ID
         if(!currentPersonId){
              db.transaction(["works"],"readonly").objectStore("works").get(wid).onsuccess=e=>{
                  if(e.target.result){ currentPersonId=e.target.result.personId; execPlay(wid); }
@@ -536,6 +662,7 @@
             document.getElementById('toast').classList.add('show');
             setTimeout(()=>document.getElementById('toast').classList.remove('show'),2000);
             if(document.getElementById('detail-screen').style.display==='flex') loadDetailWorks();
+            if(document.getElementById('work-detail-screen').style.display==='flex') document.getElementById('wd-meta').innerText = "Selection: Updated";
         };
     }
 
@@ -548,58 +675,159 @@
     function closeModal(id){ document.getElementById(id).style.display='none'; }
     function openSettingsModal(){ document.getElementById('settings-modal').style.display='flex'; }
     
-    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; }
-    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} document.getElementById('delete-person-btn').style.display='block'; }
-    function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; }
-    function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} document.getElementById('delete-work-btn').style.display='block'; }
+    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('new-person-cup').value=""; document.getElementById('new-person-birthday').value=""; document.getElementById('new-person-profile').value=""; document.getElementById('new-person-tags').value=""; document.getElementById('new-person-hof').checked=false; toggleHofIcon('person-hof-icon', false); document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; loadTagSuggestions('person'); }
+    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hallOfFame; toggleHofIcon('person-hof-icon', !!p.hallOfFame); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
+    function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHofIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
+    function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hallOfFame; toggleHofIcon('work-hof-icon', !!w.hallOfFame); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
+
+    function setRating(r) { currentRating = r; const spans = document.querySelectorAll('#work-rating-input span'); spans.forEach((s, idx) => { if(idx < r) s.classList.add('on'); else s.classList.remove('on'); }); }
+    function toggleHOFInput(type) { const id = type === 'person' ? 'new-person-hof' : 'new-work-hof'; const iconId = type === 'person' ? 'person-hof-icon' : 'work-hof-icon'; const box = document.getElementById(id); box.checked = !box.checked; toggleHofIcon(iconId, box.checked); }
+    function toggleHofIcon(id, isOn) { const el = document.getElementById(id); if(isOn) el.classList.add('gold'); else el.classList.remove('gold'); }
 
     function savePerson(){
         const name = document.getElementById('new-person-name').value; if(!name)return alert("Name req");
         const id = document.getElementById('edit-person-id').value;
         const tx=db.transaction(["people"],"readwrite"); const s=tx.objectStore("people");
-        const data = { name:name, hallOfFame:document.getElementById('new-person-hof').checked, cup:document.getElementById('new-person-cup').value, birthday:document.getElementById('new-person-birthday').value, profile:document.getElementById('new-person-profile').value };
-        const img = document.getElementById('preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) data.image=img.src;
-        
+        const data = { name:name, hallOfFame:document.getElementById('new-person-hof').checked, cup:document.getElementById('new-person-cup').value, birthday:document.getElementById('new-person-birthday').value, profile:document.getElementById('new-person-profile').value, tags:document.getElementById('new-person-tags').value.split(" ").filter(t=>t) };
+        const img = document.getElementById('preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=currentFocus.x; data.focusY=currentFocus.y; }
         if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
         tx.oncomplete=()=>{ closeModal('add-person-modal'); loadHomeData(); };
     }
     function deletePerson(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-person-id').value); db.transaction(["people"],"readwrite").objectStore("people").delete(id).oncomplete=()=>{closeModal('add-person-modal');loadHomeData();} } }
-
     function saveWork(){
         const title = document.getElementById('new-work-title').value; if(!title)return;
         const id = document.getElementById('edit-work-id').value;
         const tx=db.transaction(["works"],"readwrite"); const s=tx.objectStore("works");
-        const data = { title:title, personId:currentPersonId, url:document.getElementById('new-work-url').value, hallOfFame:document.getElementById('new-work-hof').checked };
-        const img = document.getElementById('work-preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) data.image=img.src;
+        const data = { title:title, personId:currentPersonId, url:document.getElementById('new-work-url').value, hallOfFame:document.getElementById('new-work-hof').checked, rating:currentRating, tags:document.getElementById('new-work-tags').value.split(" ").filter(t=>t) };
+        const img = document.getElementById('work-preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=workCurrentFocus.x; data.focusY=workCurrentFocus.y; }
         if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
         tx.oncomplete=()=>{ closeModal('add-work-modal'); if(currentPersonId) loadDetailWorks(); else loadHomeData(); };
     }
-    function deleteWork(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-work-id').value); db.transaction(["works"],"readwrite").objectStore("works").delete(id).oncomplete=()=>{closeModal('add-work-modal');loadDetailWorks();} } }
+    function deleteWork(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-work-id').value); db.transaction(["works"],"readwrite").objectStore("works").delete(id).oncomplete=()=>{closeModal('add-work-modal'); if(currentPersonId) loadDetailWorks(); else loadHomeData(); } } }
 
+    async function pasteUrl() { try { const text = await navigator.clipboard.readText(); document.getElementById('new-work-url').value = text; } catch (err) { alert("Paste manually"); } }
     function previewImage(inp, imgId){ if(inp.files[0]){ const r=new FileReader(); r.onload=e=>{document.getElementById(imgId).src=e.target.result; document.getElementById(imgId).style.display='block';}; r.readAsDataURL(inp.files[0]); } }
+    function setFocus(e, imgId){
+        const img = document.getElementById(imgId); const rect = img.getBoundingClientRect();
+        const x = ((e.clientX - rect.left)/rect.width)*100; const y = ((e.clientY - rect.top)/rect.height)*100;
+        if(imgId==='work-preview-img') workCurrentFocus={x,y}; else currentFocus={x,y};
+        const pt = imgId==='work-preview-img'?'work-focus-point':'focus-point';
+        document.getElementById(pt).style.left=x+"%"; document.getElementById(pt).style.top=y+"%"; document.getElementById(pt).style.display='block';
+    }
+    
     function randomPick(){
         db.transaction(["people"],"readonly").objectStore("people").getAll().onsuccess=e=>{
             const arr=e.target.result; if(arr.length) openDetail(arr[Math.floor(Math.random()*arr.length)].id);
         }
     }
-    // Sort & Filter UI Logic... (Keeping it minimal for length, existing logic applies)
     function toggleSortMenu(t){ const m=document.getElementById('sort-menu-'+t); m.style.display=m.style.display==='block'?'none':'block'; }
     function applySort(m,c){ sortState[c]=m; document.getElementById('sort-menu-'+c).style.display='none'; if(c==='home')filterHomeList(); else loadDetailWorks(); }
-    
-    // Analysis
-    function renderAnalysis(){
-        const tx=db.transaction(["logs","people"],"readonly");
-        tx.objectStore("people").getAll().onsuccess=e=>{
-            const p=e.target.result; let t=0; p.forEach(x=>t+=(x.count||0));
-            document.getElementById('total-usage-display').innerHTML=t+'<span class="stats-unit">回</span>';
-            // Simple Ranking
-            const list=document.getElementById('ranking-list'); list.innerHTML="";
-            p.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
-                 list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
-            });
+    function loadTagSuggestions(type) {
+        const container = document.getElementById(type === 'person' ? 'person-tag-suggestions' : 'work-tag-suggestions'); container.innerHTML = "";
+        const tags = new Set();
+        if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
+        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
+        const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
+        Array.from(tags).sort().forEach(tag => {
+            const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
+            chip.onclick = () => { const input = document.getElementById(inputId); let val = input.value.trim(); if(!val.includes(tag)) { input.value = val + (val ? " " : "") + tag; } };
+            container.appendChild(chip);
+        });
+    }
+    function openTagFilterModal() {
+        const container = document.getElementById('filter-tag-container'); container.innerHTML = "";
+        const allTags = new Set();
+        if (homeMode === 'people') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => allTags.add(t)); });
+        else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => allTags.add(t)); });
+        Array.from(allTags).sort().forEach(tag => {
+            const chip = document.createElement('div'); chip.className = 'filter-chip' + (selectedTags.has(tag) ? ' selected' : ''); chip.innerText = tag;
+            chip.onclick = () => { if(selectedTags.has(tag)) { selectedTags.delete(tag); chip.classList.remove('selected'); } else { selectedTags.add(tag); chip.classList.add('selected'); } };
+            container.appendChild(chip);
+        });
+        document.getElementById('tag-filter-modal').style.display = 'flex';
+    }
+    function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
+    function clearTagFilter() { selectedTags.clear(); openTagFilterModal(); } 
+    function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
+
+    function exportData() {
+        const tx = db.transaction(["people", "works", "logs"], "readonly");
+        const data = {};
+        let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll();
+        pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result;
+        tx.oncomplete = () => {
+            const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url);
         };
+    }
+    function importData(input) {
+        const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return;
+        const reader = new FileReader(); reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs"], "readwrite");
+                tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear();
+                if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i));
+                tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); };
+            } catch(err) { alert("Error"); }
+        }; reader.readAsText(file);
+    }
+    function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
+
+    function renderAnalysis(){
+        const tx=db.transaction(["logs","people","works"],"readonly");
+        Promise.all([
+            new Promise(r=>tx.objectStore("logs").getAll().onsuccess=e=>r(e.target.result)),
+            new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
+            new Promise(r=>tx.objectStore("works").getAll().onsuccess=e=>r(e.target.result))
+        ]).then(res=>{
+            const logs=res[0]; const people=res[1]; const works=res[2];
+            let t=0; people.forEach(x=>t+=(x.count||0));
+            document.getElementById('total-usage-display').innerHTML=t+'<span class="stats-unit">回</span>';
+            // Calendar
+            const grid=document.getElementById('calendar-grid'); grid.innerHTML="";
+            const now=new Date(); const activeDays=new Set(logs.filter(l=>new Date(l.timestamp).getMonth()===now.getMonth()).map(l=>new Date(l.timestamp).getDate()));
+            const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+            const firstDay=new Date(now.getFullYear(),now.getMonth(),1).getDay();
+            for(let i=0;i<firstDay;i++) grid.appendChild(document.createElement('div'));
+            for(let d=1;d<=daysInMonth;d++){
+                const c=document.createElement('div'); c.className='cal-day'; c.innerText=d;
+                if(activeDays.has(d))c.classList.add('active'); if(d===now.getDate())c.classList.add('today');
+                grid.appendChild(c);
+            }
+            document.getElementById('cal-month-label').innerText=`${now.getMonth()+1}/${now.getFullYear()}`;
+            // Pie
+            const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
+            let highTags={}; let hTotal=0;
+            works.forEach(w=>{if((w.rating>=4||w.hallOfFame)&&w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
+            if(hTotal>0){
+                const sorted=Object.entries(highTags).sort((a,b)=>b[1]-a[1]).slice(0,5);
+                let grad="", deg=0, leg='<div class="pie-legend">';
+                const cols=['#d4af37','#b89630','#8a7024','#5e4d1a','#333'];
+                sorted.forEach((item,i)=>{
+                    const d=(item[1]/hTotal)*360; const c=cols[i]||'#333';
+                    grad+=`${c} ${deg}deg ${deg+d}deg, `; deg+=d;
+                    leg+=`<div class="legend-item"><div class="legend-color" style="background:${c}"></div>${item[0]}</div>`;
+                });
+                if(deg<360)grad+=`#111 ${deg}deg 360deg`; else grad=grad.slice(0,-2);
+                const ch=document.createElement('div'); ch.className='pie-chart'; ch.style.background=`conic-gradient(${grad})`;
+                ch.innerHTML=`<div class="pie-hole"><div style="font-size:10px;color:#888;">TOTAL</div><div style="font-size:14px;color:#d4af37;">${hTotal}</div></div>`;
+                pieCon.appendChild(ch); pieCon.insertAdjacentHTML('beforeend', leg+'</div>');
+            } else pieCon.innerHTML="<div style='color:#555;font-size:10px;'>No Data</div>";
+            
+            // Rankings (Simplified for length)
+            const rList=document.getElementById('ranking-list'); rList.innerHTML="";
+            people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
+                rList.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
+            });
+            // Champion
+            if(people.length>0 && people[0].count>0){
+                const c=people[0]; const area=document.getElementById('champion-area');
+                area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${c.image||''}" class="champion-img" style="${c.image?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${c.count} Selections</div></div>`;
+                area.style.display='block';
+            } else document.getElementById('champion-area').style.display='none';
+        });
     }
 </script>
 </body>
