@@ -56,14 +56,15 @@
     .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
     .count { color: #d4af37; font-size: 11px; }
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
+    .card-menu-btn { position: absolute; top: 0; right: 0; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 18px; z-index: 10; text-shadow: 0 0 5px #000; }
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
 
     /* Detail Screen - FIXED */
     #detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2500; flex-direction: column; }
     .detail-fixed-header { flex-shrink: 0; position: relative; width: 100%; height: 45vh; overflow: hidden; border-bottom: 1px solid rgba(212, 175, 55, 0.3); background:#111; }
-    .detail-bg-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; z-index: 1; position: relative; }
-    .detail-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.6) 50%, transparent 100%); padding: 20px; box-sizing: border-box; pointer-events: none; z-index: 2; }
+    .detail-bg-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+    .detail-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.6) 50%, transparent 100%); padding: 20px; box-sizing: border-box; pointer-events: none; }
     .detail-content-wrapper { pointer-events: auto; } 
     .detail-name { font-size: 32px; font-weight: bold; margin-bottom: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
     .detail-specs { font-size: 13px; color: #fff; margin-bottom: 5px; font-family: sans-serif; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
@@ -99,13 +100,12 @@
     .wd-play { background: #d4af37; color: #000; }
     .wd-link { background: #333; color: #fff; border: 1px solid #555; }
 
-    /* Gallery (Fixed Layout) */
+    /* Gallery (Stable Grid) */
     #gallery-root-screen, #gallery-folder-screen { background: #000; }
     #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
-    /* Aspect Ratio Hack (padding-bottom) to prevent overlap */
     .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; box-sizing: border-box; }
-    .gallery-item { position: relative; width: 100%; padding-bottom: 100%; /* 1:1 Aspect Ratio */ border-radius: 8px; overflow: hidden; border: 1px solid #333; background: #111; }
-    .gallery-thumb { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .gallery-item { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden; border: 1px solid #333; background: #111; }
+    .gallery-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
     .gallery-item.selected { border: 2px solid #d4af37; opacity: 0.7; }
     .gallery-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: #d4af37; color: #000; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; z-index: 10; font-size: 14px; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
     .gallery-item.selected .gallery-check { display: flex; }
@@ -113,7 +113,7 @@
     #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
 
-    /* Analysis */
+    /* Analysis & Others */
     #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
     .stats-area { margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent); border-left: 2px solid #d4af37; border-radius: 0 8px 8px 0; }
     .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
@@ -346,7 +346,7 @@
             <div class="detail-content-wrapper">
                 <div class="detail-name" id="detail-name">Name</div>
                 <div class="detail-specs" id="detail-specs"></div>
-                <div class="detail-stats" id="detail-count">Selection: 0</div>
+                <div class="detail-stats" id="detail-stats">Selection: 0</div>
                 <div class="person-profile-text" id="detail-profile"></div>
                 <div class="person-tags-area" id="detail-person-tags"></div>
             </div>
@@ -545,7 +545,8 @@
         list.forEach(p=>{
             const div=document.createElement('div'); div.className='person-card';
             if(p.hof) div.classList.add('hof');
-            const img=p.image?`<img src="${p.image}" style="object-position:${p.focusX}% ${p.focusY}%">`:'<div class="thumb-placeholder">NO IMG</div>';
+            const imgSrc = p.image || p.img || '';
+            const img=imgSrc?`<img src="${imgSrc}" style="object-position:${p.focusX}% ${p.focusY}%">`:'<div class="thumb-placeholder">NO IMG</div>';
             const crown=p.hof?'<div class="card-crown">👑</div>':'';
             div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
             div.onclick=()=>openDetail(p.id);
@@ -577,19 +578,23 @@
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             let p=e.target.result;
             if(!p) return;
-            p = normalizePerson(p); // ★ CRITICAL: Apply translator
+            p = normalizePerson(p); // ★ CRITICAL FIX
             
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
-            document.getElementById('detail-profile').innerText=p.profile;
             
+            const prof = p.profile || p.prof || "";
+            const bday = p.birthday || p.birth || "";
+            const imgSrc = p.image || p.img || "";
+
+            document.getElementById('detail-profile').innerText=prof;
             const img=document.getElementById('detail-img');
-            if(p.image){img.src=p.image;img.style.objectPosition=`${p.focusX}% ${p.focusY}%`;}else{img.src="";img.style.backgroundColor="#111";}
+            if(imgSrc){img.src=imgSrc;img.style.objectPosition=`${p.focusX}% ${p.focusY}%`;}else{img.src="";img.style.backgroundColor="#111";}
             
             let sp=""; 
             if(p.hof) sp+=`<span class="detail-spec-item" style="border-color:#d4af37;color:#d4af37;">👑 HOF</span>`;
             if(p.cup) sp+=`<span class="detail-spec-item">${p.cup} cup</span>`;
-            if(p.birthday){ try { const a=getAge(p.birthday); sp+=`<span class="detail-spec-item">${a}歳</span>`; } catch(e){} }
+            if(bday){ try { const a=getAge(bday); sp+=`<span class="detail-spec-item">${a}歳</span>`; } catch(e){} }
             document.getElementById('detail-specs').innerHTML=sp;
             
             let tg=""; if(p.tags) p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); 
@@ -927,7 +932,7 @@
             });
             const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
             let highTags={}; let hTotal=0;
-            works.forEach(w=>{if(w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
+            works.forEach(w=>{if((w.rating>=4||w.hof)&&w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
             if(hTotal>0){
                 const sorted=Object.entries(highTags).sort((a,b)=>b[1]-a[1]).slice(0,5);
                 let grad="", deg=0, leg='<div class="pie-legend">';
