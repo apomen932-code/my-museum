@@ -9,8 +9,10 @@
 <style>
     /* === 共通設定 === */
     body { margin: 0; padding: 0; font-family: "YuMincho", "Hiragino Mincho ProN", serif; background-color: #000; color: #fff; overflow: hidden; height: 100vh; width: 100vw; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
-    
-    /* === 電卓画面 === */
+    .fade-in { animation: fadeIn 0.3s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* === 1. 電卓画面 (最優先・独立) === */
     #calculator-screen { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; width: 100%; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; background-color: #000; z-index: 20000; position: absolute; top: 0; left: 0; font-family: -apple-system, sans-serif; transition: opacity 0.4s; }
     .calc-display { color: #fff; font-size: 80px; font-weight: 300; text-align: right; padding: 0 30px; margin-bottom: 20px; line-height: 1; }
     .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 0 15px 30px 15px; }
@@ -57,6 +59,8 @@
     .count { color: #d4af37; font-size: 11px; }
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
     .card-menu-btn { position: absolute; top: 0; right: 0; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 18px; z-index: 10; text-shadow: 0 0 5px #000; }
+    .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
+    .rating-stars-sm .on { color: #d4af37; }
 
     /* Work Item (List) */
     .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
@@ -85,6 +89,7 @@
     /* FAB */
     .fab { position: fixed; bottom: 100px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #d4af37, #aa8a2e); border-radius: 50%; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; font-size: 30px; color: #000; z-index: 9999; transition: transform 0.2s; margin-bottom: constant(safe-area-inset-bottom); margin-bottom: env(safe-area-inset-bottom); }
     .fab:active { transform: scale(0.9); }
+    #detail-screen .fab, #gallery-folder-screen .fab { z-index: 9999; }
 
     /* Bottom Nav */
     .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #000; border-top: 1px solid #333; display: flex; justify-content: space-around; align-items: center; padding-bottom: constant(safe-area-inset-bottom); padding-bottom: env(safe-area-inset-bottom); z-index: 1500; }
@@ -235,6 +240,57 @@
     </div>
 </div>
 
+<script>
+    // --- 独立した電卓プログラム (最優先読み込み) ---
+    let calcInput = '0';
+    const SECRET_CODE = '4519';
+
+    function updateCalcDisplay() {
+        const d = document.querySelector('.calc-display');
+        if(d) d.innerText = calcInput;
+    }
+
+    function inputNum(n) {
+        if (calcInput === '0') calcInput = n; else calcInput += n;
+        updateCalcDisplay();
+    }
+
+    function clearCalc() {
+        calcInput = '0';
+        updateCalcDisplay();
+    }
+
+    function calculate() {
+        if (calcInput === SECRET_CODE) {
+            unlockApp();
+        } else {
+            calcInput = '0';
+            updateCalcDisplay();
+        }
+    }
+
+    function unlockApp() {
+        const cs = document.getElementById('calculator-screen');
+        const ac = document.getElementById('app-container');
+        
+        // 1. 操作不能にする (重要)
+        cs.style.pointerEvents = 'none';
+        
+        // 2. フェードアウト
+        cs.style.opacity = '0';
+        
+        // 3. アプリ表示
+        setTimeout(() => {
+            cs.style.display = 'none';
+            ac.style.display = 'block';
+            setTimeout(() => ac.style.opacity = '1', 50);
+            
+            // データ読み込み開始 (Main Scriptの関数)
+            if(window.loadHomeData) window.loadHomeData();
+        }, 400);
+    }
+</script>
+
 <div id="app-container" style="display:none;">
     <header class="app-header">
         <div class="header-btn left" onclick="openSettingsModal()">⚙</div>
@@ -371,45 +427,21 @@
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">RESTORE<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
 
 <script>
-    let currentInput = '0'; 
-    const SECRET_CODE = '4519';
-    const display = document.querySelector('.calc-display');
-    const calcScreen = document.getElementById('calculator-screen');
-    const appContainer = document.getElementById('app-container');
-
-    // Calculator Logic
-    function updateDisplay() { display.innerText = currentInput; }
-    function inputNum(n) { if (currentInput === '0') currentInput = n; else currentInput += n; updateDisplay(); }
-    function clearCalc() { currentInput = '0'; updateDisplay(); }
-    function calculate() { 
-        if (currentInput === SECRET_CODE) {
-            calcScreen.style.opacity = '0';
-            calcScreen.style.pointerEvents = 'none'; // CRITICAL FIX: Unlock interaction below
-            setTimeout(() => {
-                calcScreen.style.display = 'none';
-                appContainer.style.display = 'block';
-                setTimeout(() => appContainer.style.opacity = '1', 50);
-                window.loadHomeData(); 
-            }, 400);
-        } else { 
-            currentInput = '0'; updateDisplay(); 
-        } 
-    }
-
-    // --- Main App Logic ---
     const appHeader=document.getElementById('app-header'); const bottomNav=document.querySelector('.bottom-nav');
     const homeScreen=document.getElementById('home-screen'); const galleryScreen=document.getElementById('gallery-root-screen'); const analysisScreen=document.getElementById('analysis-screen');
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
     let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let folderCurrentFocus={x:50,y:50};
-    let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
+    let allPeopleCache=[], allWorksCache=[]; let allFoldersCache=[]; let selectedTags=new Set();
     let currentRating=0; let isScrolling=false; let lastTap=0;
+    
+    // Gallery
     let currentGalleryImages=[]; let currentGalleryIndex=0; let isGallerySelectMode=false; let selectedGalleryImages=new Set();
 
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
-    // DB (Ver 500)
+    // DB (Ver 501 - Fix Folder Edit Trigger)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 500);
+        const r=indexedDB.open("SecretMuseumDB", 501);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -531,6 +563,7 @@
         const s=document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             const p=e.target.result;
+            if(!p) return;
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
             document.getElementById('detail-profile').innerText=p.profile||"";
@@ -630,18 +663,25 @@
     function loadGalleryFolders(){
         const q=document.getElementById('gallery-search-input').value.toLowerCase();
         db.transaction(["folders"],"readonly").objectStore("folders").getAll().onsuccess=e=>{
-            let list=e.target.result.filter(f=>f.name.toLowerCase().includes(q));
+            allFoldersCache = e.target.result; // Cache for edit
+            let list=allFoldersCache.filter(f=>f.name.toLowerCase().includes(q));
             const con=document.getElementById('gallery-folder-list'); con.innerHTML="";
             if(list.length===0){con.innerHTML="<div style='color:#555;'>No Folders</div>";return;}
             list.forEach(f=>{
                 const div=document.createElement('div'); div.className='folder-card'; 
                 const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;object-position:${f.focusX||50}% ${f.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
-                div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div><div class="card-menu-btn" onclick="event.stopPropagation();openEditFolderModal(JSON.parse('${JSON.stringify(f).replace(/'/g, "\\'")}'))">︙</div>`;
+                div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div><div class="card-menu-btn" onclick="event.stopPropagation();prepareEditFolder(${f.id})">︙</div>`;
                 div.onclick=()=>openFolder(f.id, f.name);
                 con.appendChild(div);
             });
         };
     }
+    
+    function prepareEditFolder(id) {
+        const f = allFoldersCache.find(i => i.id === id);
+        if(f) openEditFolderModal(f);
+    }
+
     function openFolder(fid, fname){
         currentFolderId=parseInt(fid);
         document.getElementById('gallery-root-screen').style.display='none';
@@ -748,7 +788,6 @@
         if(input.files.length===0)return;
         
         const files = Array.from(input.files);
-        let loaded = 0;
         
         const promises = files.map(file => {
             return new Promise((resolve, reject) => {
@@ -853,7 +892,19 @@
     function closeTagFilterModal() { document.getElementById('tag-filter-modal').style.display = 'none'; }
     function clearTagFilter() { selectedTags.clear(); loadFilterChips(); } 
     function applyTagFilter() { closeTagFilterModal(); filterHomeList(); }
-    function loadFilterChips() { /* Simplified */ }
+    function loadFilterChips() {
+        const con = document.getElementById('filter-tag-container'); con.innerHTML = "";
+        const tags = new Set();
+        const storeName = homeMode==='people'?'people':'works';
+        db.transaction([storeName], "readonly").objectStore(storeName).getAll().onsuccess = (e) => {
+            e.target.result.forEach(i => { if(i.tags) i.tags.forEach(t => tags.add(t)); });
+            Array.from(tags).sort().forEach(t => {
+                const d = document.createElement('div'); d.className = 'filter-chip' + (selectedTags.has(t)?' selected':'');
+                d.innerText = t; d.onclick = () => { if(selectedTags.has(t)) selectedTags.delete(t); else selectedTags.add(t); loadFilterChips(); };
+                con.appendChild(d);
+            });
+        };
+    }
 
     function exportData() { const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readonly"); const data = {}; const s = ['people','works','logs','gallery','folders']; let c=0; s.forEach(n=>{ if(db.objectStoreNames.contains(n)) tx.objectStore(n).getAll().onsuccess=e=>{d[n]=e.target.result; c++; if(c===s.length) download(d);} else {c++; if(c===s.length)download(d);} }); function download(obj){ const b=new Blob([JSON.stringify(obj)],{type:"application/json"}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download="backup.json"; a.click(); } }
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "gallery", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("gallery").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.gallery) data.gallery.forEach(i => tx.objectStore("gallery").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
@@ -873,6 +924,7 @@
             people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
                 list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
             });
+            // Detailed analysis
             const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
             let highTags={}; let hTotal=0;
             works.forEach(w=>{if((w.rating>=4||w.hallOfFame)&&w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
