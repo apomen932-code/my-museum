@@ -405,6 +405,21 @@
             calcScreen.style.display='none';
             document.getElementById('app-container').style.display='block';
             switchTab('home');
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/d9f8b126-68e8-40cf-92f5-959095a78cc7',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-check',
+                    hypothesisId:'H1',
+                    location:'gallery.txt:unlockApp',
+                    message:'unlockApp completed, app-container shown',
+                    data:{},
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
         },500);
     }
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
@@ -453,6 +468,21 @@
             allPeopleCache=ppl.sort((a,b)=>(b.count||0)-(a.count||0));
             allWorksCache=wks.sort((a,b)=>(b.count||0)-(a.count||0));
             filterHomeList();
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/d9f8b126-68e8-40cf-92f5-959095a78cc7',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-check',
+                    hypothesisId:'H2',
+                    location:'gallery.txt:loadHomeData',
+                    message:'Home data loaded',
+                    data:{peopleCount:allPeopleCache.length,worksCount:allWorksCache.length,homeMode},
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
         });
     }
     function filterHomeList(){
@@ -554,6 +584,21 @@
             // Tags
             let tg=""; if(p.tags) p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); 
             document.getElementById('detail-person-tags').innerHTML=tg;
+            // #region agent log
+            fetch('http://127.0.0.1:7242/ingest/d9f8b126-68e8-40cf-92f5-959095a78cc7',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({
+                    sessionId:'debug-session',
+                    runId:'pre-check',
+                    hypothesisId:'H3',
+                    location:'gallery.txt:openDetail',
+                    message:'Opened person detail',
+                    data:{id:currentPersonId,name:p.name,count:p.count||0,hasImage:!!p.image},
+                    timestamp:Date.now()
+                })
+            }).catch(()=>{});
+            // #endregion
         };
         loadDetailWorks();
     }
@@ -605,6 +650,21 @@
         const lnk=document.getElementById('wd-link-btn');
         if(w.url){lnk.style.display='block';lnk.onclick=()=>window.open(w.url,'_blank');}else lnk.style.display='none';
         document.getElementById('work-detail-screen').style.display='flex';
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/d9f8b126-68e8-40cf-92f5-959095a78cc7',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                sessionId:'debug-session',
+                runId:'pre-check',
+                hypothesisId:'H4',
+                location:'gallery.txt:openWorkDetail',
+                message:'Opened work detail',
+                data:{id:w.id,title:w.title,personId:w.personId||null,hasUrl:!!w.url},
+                timestamp:Date.now()
+            })
+        }).catch(()=>{});
+        // #endregion
     }
     function closeWorkDetail(){ document.getElementById('work-detail-screen').style.display='none'; }
     function useWork(wid){
@@ -655,6 +715,21 @@
         document.getElementById('gallery-folder-title').innerText=fname;
         isGallerySelectMode = false; selectedGalleryImages.clear(); updateGalleryUI();
         loadFolderImages();
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/d9f8b126-68e8-40cf-92f5-959095a78cc7',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                sessionId:'debug-session',
+                runId:'pre-check',
+                hypothesisId:'H5',
+                location:'gallery.txt:openFolder',
+                message:'Opened gallery folder',
+                data:{folderId:currentFolderId,name:fname},
+                timestamp:Date.now()
+            })
+        }).catch(()=>{});
+        // #endregion
     }
     function closeGalleryFolder(){
         document.getElementById('gallery-folder-screen').style.display='none';
@@ -781,7 +856,26 @@
     }
     
     // Viewer
-    function openImageViewer(i){ currentGalleryIndex=i; updateImageViewer(); document.getElementById('image-viewer-modal').style.display='flex'; }
+    function openImageViewer(i){
+        currentGalleryIndex=i;
+        updateImageViewer();
+        document.getElementById('image-viewer-modal').style.display='flex';
+        // #region agent log
+        fetch('http://127.0.0.1:7242/ingest/d9f8b126-68e8-40cf-92f5-959095a78cc7',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({
+                sessionId:'debug-session',
+                runId:'pre-check',
+                hypothesisId:'H6',
+                location:'gallery.txt:openImageViewer',
+                message:'Opened image viewer',
+                data:{index:currentGalleryIndex,total:currentGalleryImages.length},
+                timestamp:Date.now()
+            })
+        }).catch(()=>{});
+        // #endregion
+    }
     function updateImageViewer(){ if(currentGalleryImages[currentGalleryIndex]) document.getElementById('full-img').src=currentGalleryImages[currentGalleryIndex].data; }
     function closeImageViewer(){ document.getElementById('image-viewer-modal').style.display='none'; }
     let touchStartX=0;
