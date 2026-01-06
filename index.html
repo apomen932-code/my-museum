@@ -42,7 +42,7 @@
     .filter-btn, .sort-btn { width: 40px; height: 38px; border-radius: 8px; border: 1px solid #333; background: rgba(255,255,255,0.1); color: #ccc; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .filter-btn.active { background: #d4af37; color: #000; }
     .section-title { color: #888; font-size: 12px; margin: 15px 20px 5px; letter-spacing: 0.1em; font-family: "Times New Roman", serif; }
-    .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 120px 20px; }
+    .card-list { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; padding-bottom: 120px; }
     
     /* Cards */
     .person-card, .work-card, .folder-card { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 8px; overflow: hidden; backdrop-filter: blur(10px); position: relative; transition: transform 0.1s; }
@@ -56,9 +56,29 @@
     .work-card-title { font-size: 13px; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
     .count { color: #d4af37; font-size: 11px; }
     .card-crown { position: absolute; top: 5px; right: 5px; font-size: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); z-index: 5; }
-    .card-menu-btn { position: absolute; top: 0; right: 0; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 18px; z-index: 10; text-shadow: 0 0 5px #000; }
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
+
+    /* Work Item (List) */
+    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
+    .work-item.hof { border-color: #FFD700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
+    .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
+    .work-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
+    .work-title { margin: 0 0 3px 0; font-size: 14px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
+    .work-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 2px; }
+    .tag { font-size: 9px; background: #333; color: #aaa; padding: 1px 4px; border-radius: 3px; }
+    .work-count { font-size: 11px; color: #888; font-family: monospace; display:flex; align-items:center; gap:5px; }
+    .play-btn { width: 40px; height: 40px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
+
+    /* Gallery - FIXED LAYOUT */
+    #gallery-root-screen { background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%); }
+    #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; box-sizing: border-box; }
+    .gallery-item { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden; border: 1px solid #333; background: #111; }
+    .gallery-thumb { width: 100%; height: 100%; object-fit: cover; display: block; position: absolute; top: 0; left: 0; }
+    .gallery-item.selected { border: 2px solid #d4af37; opacity: 0.7; }
+    .gallery-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: #d4af37; color: #000; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; z-index: 10; font-size: 14px; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+    .gallery-item.selected .gallery-check { display: flex; }
 
     /* Detail Screen */
     #detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2500; flex-direction: column; }
@@ -76,17 +96,6 @@
     .detail-sticky-bar { flex-shrink: 0; background: #000; padding: 15px 20px; border-bottom: 1px solid #222; display:flex; justify-content:space-between; align-items:center; z-index: 10; }
     .detail-scroll-area { flex-grow: 1; overflow-y: auto; padding: 20px; padding-bottom: 120px; -webkit-overflow-scrolling: touch; }
 
-    /* Work Item (List) */
-    .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
-    .work-item.hof { border-color: #FFD700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
-    .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
-    .work-info { flex-grow: 1; min-width: 0; padding-right: 10px; }
-    .work-title { margin: 0 0 3px 0; font-size: 14px; font-weight: normal; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
-    .work-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 2px; }
-    .tag { font-size: 9px; background: #333; color: #aaa; padding: 1px 4px; border-radius: 3px; }
-    .work-count { font-size: 11px; color: #888; font-family: monospace; display:flex; align-items:center; gap:5px; }
-    .play-btn { width: 40px; height: 40px; background: #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-size: 16px; box-shadow: 0 0 8px rgba(212,175,55,0.3); flex-shrink: 0; }
-
     /* Work Detail */
     #work-detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; overflow-y: auto; }
     .wd-image-area { width: 100%; height: 45vh; overflow: hidden; display:flex; align-items:center; justify-content:center; background:#111; flex-shrink: 0; }
@@ -100,21 +109,7 @@
     .wd-play { background: #d4af37; color: #000; }
     .wd-link { background: #333; color: #fff; border: 1px solid #555; }
 
-    /* Gallery */
-    #gallery-root-screen, #gallery-folder-screen { background: #000; }
-    #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
-    /* Fix: Overlap & Grid */
-    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; box-sizing: border-box; }
-    .gallery-item { position: relative; width: 100%; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden; border: 1px solid #333; box-sizing: border-box; }
-    .gallery-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .gallery-item.selected { border: 2px solid #d4af37; opacity: 0.7; }
-    .gallery-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: #d4af37; color: #000; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; z-index: 10; font-size: 14px; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
-    .gallery-item.selected .gallery-check { display: flex; }
-    #image-viewer-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; align-items: center; justify-content: center; }
-    #full-img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .viewer-close { position: absolute; top: 30px; right: 20px; color: #fff; font-size: 30px; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 5002; }
-
-    /* Analysis */
+    /* Analysis & Others */
     #analysis-screen { background: #050505; padding: 20px; padding-top: 80px; }
     .stats-area { margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent); border-left: 2px solid #d4af37; border-radius: 0 8px 8px 0; }
     .stats-title { color: #d4af37; font-size: 13px; margin-bottom: 5px; }
@@ -425,9 +420,9 @@
 
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
-    // DB (Ver 4001 - Force Unlock with Alias)
+    // DB (Ver 4002 - Schema Fix)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 4001);
+        const r=indexedDB.open("SecretMuseumDB", 4002);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -436,11 +431,7 @@
             if(!db.objectStoreNames.contains("folders")){db.createObjectStore("folders",{keyPath:"id",autoIncrement:true});}
             if(!db.objectStoreNames.contains("images")){const is=db.createObjectStore("images",{keyPath:"id",autoIncrement:true});is.createIndex("folderId","folderId",{unique:false});}
         };
-        r.onsuccess=(e)=>{ 
-            db=e.target.result; 
-            // Try explicit load if container is already visible
-            if(document.getElementById('app-container').style.display === 'block') window.loadHomeData();
-        }; 
+        r.onsuccess=(e)=>{ db=e.target.result; if(window.getComputedStyle(document.getElementById('app-container')).display !== 'none') window.loadHomeData(); };
         r.onerror=(e)=>{ alert("DB Error: " + e.target.error); };
     };
 
@@ -456,6 +447,23 @@
         }
     }
 
+    // === DATA NORMALIZATION (Compat Helper) ===
+    function normalizePerson(p) {
+        return {
+            id: p.id,
+            name: p.name,
+            image: p.image || p.img || "", // Alias
+            focusX: p.focusX || 50, focusY: p.focusY || 50,
+            hof: p.hof || p.hallOfFame || false,
+            count: p.count || 0,
+            cup: p.cup || "",
+            birthday: p.birthday || p.birth || "", // Alias
+            profile: p.profile || p.prof || "", // Alias
+            tags: p.tags || [],
+            lastUsed: p.lastUsed
+        };
+    }
+
     // === MUSEUM LOGIC ===
     function setHomeMode(m){
         homeMode=m;
@@ -464,29 +472,15 @@
         document.getElementById('home-list-title').innerText=m==='people'?"登録済みのミューズ":"すべての作品";
         loadHomeData();
     }
-    
     window.loadHomeData = function(){
-        if(!db){ 
-            setTimeout(window.loadHomeData, 200); 
-            return; 
-        }
-        
+        if(!db){ setTimeout(window.loadHomeData, 200); return; }
         const tx = db.transaction(["people","works"], "readonly");
-        const pStore = tx.objectStore("people");
-        const wStore = tx.objectStore("works");
-        
         Promise.all([
-            new Promise(resolve => {
-                pStore.getAll().onsuccess = e => resolve(e.target.result || []);
-                pStore.getAll().onerror = () => resolve([]);
-            }),
-            new Promise(resolve => {
-                wStore.getAll().onsuccess = e => resolve(e.target.result || []);
-                wStore.getAll().onerror = () => resolve([]);
-            })
-        ]).then(([ppl, wks]) => {
-            allPeopleCache = ppl;
-            allWorksCache = wks;
+            new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result||[])),
+            new Promise(r=>tx.objectStore("works").getAll().onsuccess=e=>r(e.target.result||[]))
+        ]).then(([ppl, wks])=>{
+            allPeopleCache=ppl.map(normalizePerson);
+            allWorksCache=wks;
             allPeopleCache.sort((a,b)=>(b.count||0)-(a.count||0));
             allWorksCache.sort((a,b)=>(b.count||0)-(a.count||0));
             filterHomeList();
@@ -540,9 +534,7 @@
         list.forEach(p=>{
             const div=document.createElement('div'); div.className='person-card';
             if(p.hof) div.classList.add('hof');
-            // Alias Check
-            const imgSrc = p.image || p.img || '';
-            const img=imgSrc?`<img src="${imgSrc}" style="object-position:${p.focusX||50}% ${p.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
+            const img=p.image?`<img src="${p.image}" style="object-position:${p.focusX||50}% ${p.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
             const crown=p.hof?'<div class="card-crown">👑</div>':'';
             div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
             div.onclick=()=>openDetail(p.id);
@@ -572,24 +564,20 @@
         document.getElementById('home-screen').style.display='none';
         const s=document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
-            const p=e.target.result;
+            let p=e.target.result;
             if(!p) return;
+            p = normalizePerson(p); // Compat Check
+            
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
-            
-            // Alias Handling
-            const prof = p.profile || p.prof || "";
-            const bday = p.birthday || p.birth || "";
-            const imgSrc = p.image || p.img || "";
-
-            document.getElementById('detail-profile').innerText=prof;
+            document.getElementById('detail-profile').innerText=p.profile||"";
             const img=document.getElementById('detail-img');
-            if(imgSrc){img.src=imgSrc;img.style.objectPosition=`${p.focusX||50}% ${p.focusY||50}%`;}else{img.src="";img.style.backgroundColor="#111";}
+            if(p.image){img.src=p.image;img.style.objectPosition=`${p.focusX||50}% ${p.focusY||50}%`;}else{img.src="";img.style.backgroundColor="#111";}
             
             let sp=""; 
             if(p.hof) sp+=`<span class="detail-spec-item" style="border-color:#d4af37;color:#d4af37;">👑 HOF</span>`;
             if(p.cup) sp+=`<span class="detail-spec-item">${p.cup} cup</span>`;
-            if(bday){ try { const a=getAge(bday); sp+=`<span class="detail-spec-item">${a}歳</span>`; } catch(e){} }
+            if(p.birthday){ try { const a=getAge(p.birthday); sp+=`<span class="detail-spec-item">${a}歳</span>`; } catch(e){} }
             document.getElementById('detail-specs').innerHTML=sp;
             
             let tg=""; if(p.tags) p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); 
@@ -720,9 +708,7 @@
                     if(isGallerySelectMode){
                         if(selectedGalleryImages.has(img.id)) { selectedGalleryImages.delete(img.id); el.classList.remove('selected'); }
                         else { selectedGalleryImages.add(img.id); el.classList.add('selected'); }
-                    } else {
-                        openImageViewer(i);
-                    }
+                    } else { openImageViewer(i); }
                 };
                 grid.appendChild(el);
             });
@@ -815,7 +801,6 @@
     function openAddPersonModal(){ clearForm(); document.getElementById('add-person-modal').style.display='flex'; }
     function openEditPersonModal(p){ fillForm(p); document.getElementById('add-person-modal').style.display='flex'; }
     function openAddWorkModal(){ 
-        // Need to pass personId when adding from detail
         if(!currentPersonId) return;
         clearFormWork(); 
         document.getElementById('add-work-modal').style.display='flex'; 
@@ -841,8 +826,8 @@
             name:name, 
             hof:document.getElementById('new-person-hof').checked, 
             cup:document.getElementById('new-person-cup').value, 
-            birthday:document.getElementById('new-person-birthday').value, // Use standard key
-            profile:document.getElementById('new-person-profile').value, // Use standard key
+            birthday:document.getElementById('new-person-birthday').value, 
+            profile:document.getElementById('new-person-profile').value, 
             tags:document.getElementById('new-person-tags').value.split(" ").filter(t=>t) 
         };
         const img = document.getElementById('preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=currentFocus.x; data.focusY=currentFocus.y; }
@@ -964,11 +949,22 @@
                 });
             } else document.getElementById('gobusata-area').style.display='none';
             // Champion
-            if(people.length>0 && people[0].count>0){
+            if(people.length>0){
                 const c=people[0]; const area=document.getElementById('champion-area');
-                area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${c.image||''}" class="champion-img" style="${c.image?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${c.count} Selections</div></div>`;
+                const imgSrc = c.image || c.img || '';
+                area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${imgSrc}" class="champion-img" style="${imgSrc?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${c.count||0} Selections</div></div>`;
                 area.style.display='block';
             }
+            // Tags
+            const wList=document.getElementById('tag-ranking'); wList.innerHTML="";
+            const wTagMap={}; works.forEach(w=>{if(w.tags)w.tags.forEach(t=>wTagMap[t]=(wTagMap[t]||0)+(w.count||1));}); // Count appearance
+            const wSorted=Object.entries(wTagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+            if(wSorted.length>0){const max=wSorted[0][1]; wSorted.forEach(t=>{const per=(t[1]/max)*100; wList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
+            
+            const tList=document.getElementById('person-tag-ranking'); tList.innerHTML="";
+            const pTagMap={}; people.forEach(p=>{const tgs=p.tags||[]; tgs.forEach(t=>pTagMap[t]=(pTagMap[t]||0)+1);});
+            const pSorted=Object.entries(pTagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+            if(pSorted.length>0){const max=pSorted[0][1]; pSorted.forEach(t=>{const per=(t[1]/max)*100; tList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
         });
     }
 </script>
