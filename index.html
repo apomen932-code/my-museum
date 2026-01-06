@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Calculator</title>
 <style>
-    /* === 基本設定 === */
+    /* === 共通設定 === */
     body { margin: 0; padding: 0; font-family: "YuMincho", "Hiragino Mincho ProN", serif; background-color: #000; color: #fff; overflow: hidden; height: 100vh; width: 100vw; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
     
     /* === 1. 電卓画面 (最優先・絶対動作) === */
@@ -374,7 +374,6 @@
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">RESTORE<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
 
 <script>
-    let currentInput = '0'; 
     const SECRET_CODE = '4519';
     const display = document.querySelector('.calc-display');
     const calcScreen = document.getElementById('calculator-screen');
@@ -384,34 +383,35 @@
     const homeScreen=document.getElementById('home-screen'); const galleryScreen=document.getElementById('gallery-root-screen'); const analysisScreen=document.getElementById('analysis-screen');
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
     let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let folderCurrentFocus={x:50,y:50};
-    let allPeopleCache=[], allWorksCache=[]; let selectedTags=new Set();
+    let allPeopleCache=[], allWorksCache=[], allFoldersCache=[]; let selectedTags=new Set();
     let currentRating=0; let isScrolling=false; let lastTap=0;
     let currentGalleryImages=[]; let currentGalleryIndex=0; let isGallerySelectMode=false; let selectedGalleryImages=new Set();
+    let calcInput = '0';
 
-    // Calculator Logic
-    function updateDisplay() { display.innerText = currentInput; }
-    function inputNum(n) { if (currentInput === '0') currentInput = n; else currentInput += n; updateDisplay(); }
-    function clearCalc() { currentInput = '0'; updateDisplay(); }
+    // Calculator Functions
+    function updateDisplay() { if(display) display.innerText = calcInput; }
+    function inputNum(n) { if (calcInput === '0') calcInput = n; else calcInput += n; updateDisplay(); }
+    function clearCalc() { calcInput = '0'; updateDisplay(); }
     function calculate() { 
-        if (currentInput === SECRET_CODE) {
+        if (calcInput === SECRET_CODE) {
             calcScreen.style.opacity = '0';
-            calcScreen.style.pointerEvents = 'none'; // Lock calculator
+            calcScreen.style.pointerEvents = 'none'; // Unlock!
             setTimeout(() => {
                 calcScreen.style.display = 'none';
                 appContainer.style.display = 'block';
                 setTimeout(() => appContainer.style.opacity = '1', 50);
-                window.loadHomeData(); 
+                loadHomeData(); 
             }, 400);
         } else { 
-            currentInput = '0'; updateDisplay(); 
+            calcInput = '0'; updateDisplay(); 
         } 
     }
 
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
-    // DB (Ver 600 - FORCE RESET)
+    // DB (Ver 700)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 600);
+        const r=indexedDB.open("SecretMuseumDB", 700);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -420,11 +420,7 @@
             if(!db.objectStoreNames.contains("folders")){db.createObjectStore("folders",{keyPath:"id",autoIncrement:true});}
             if(!db.objectStoreNames.contains("images")){const is=db.createObjectStore("images",{keyPath:"id",autoIncrement:true});is.createIndex("folderId","folderId",{unique:false});}
         };
-        r.onsuccess=(e)=>{ 
-            db=e.target.result; 
-            // Try load immediately in background
-            window.loadHomeData();
-        }; 
+        r.onsuccess=(e)=>{ db=e.target.result; }; 
     };
 
     function switchTab(t){
@@ -447,8 +443,8 @@
         document.getElementById('home-list-title').innerText=m==='people'?"登録済みのミューズ":"すべての作品";
         loadHomeData();
     }
-    window.loadHomeData = function(){
-        if(!db){return;}
+    function loadHomeData(){
+        if(!db){setTimeout(loadHomeData,100);return;}
         const tx = db.transaction(["people","works"], "readonly");
         Promise.all([
             new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
@@ -468,6 +464,7 @@
             document.getElementById('person-list').style.display='grid';
             document.getElementById('work-list-home').style.display='none';
             let res=allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
+            // Tag Filter
             if(selectedTags.size>0){
                 const exact=document.getElementById('tag-exact-match').checked;
                 res=res.filter(p=>{
@@ -537,7 +534,6 @@
         const s=document.getElementById('detail-screen'); s.style.display='flex'; s.classList.add('fade-in');
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             const p=e.target.result;
-            if(!p) return;
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
             document.getElementById('detail-profile').innerText=p.profile||"";
@@ -637,18 +633,25 @@
     function loadGalleryFolders(){
         const q=document.getElementById('gallery-search-input').value.toLowerCase();
         db.transaction(["folders"],"readonly").objectStore("folders").getAll().onsuccess=e=>{
-            let list=e.target.result.filter(f=>f.name.toLowerCase().includes(q));
+            allFoldersCache = e.target.result; // Cache
+            let list=allFoldersCache.filter(f=>f.name.toLowerCase().includes(q));
             const con=document.getElementById('gallery-folder-list'); con.innerHTML="";
             if(list.length===0){con.innerHTML="<div style='color:#555;'>No Folders</div>";return;}
             list.forEach(f=>{
                 const div=document.createElement('div'); div.className='folder-card'; 
                 const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;object-position:${f.focusX||50}% ${f.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
-                div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div><div class="card-menu-btn" onclick="event.stopPropagation();openEditFolderModal(JSON.parse('${JSON.stringify(f).replace(/'/g, "\\'")}'))">︙</div>`;
+                div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div><div class="card-menu-btn" onclick="event.stopPropagation();prepareEditFolder(${f.id})">︙</div>`;
                 div.onclick=()=>openFolder(f.id, f.name);
                 con.appendChild(div);
             });
         };
     }
+    
+    function prepareEditFolder(id) {
+        const f = allFoldersCache.find(i => i.id === id);
+        if(f) openEditFolderModal(f);
+    }
+
     function openFolder(fid, fname){
         currentFolderId=parseInt(fid);
         document.getElementById('gallery-root-screen').style.display='none';
@@ -692,7 +695,7 @@
         isGallerySelectMode = !isGallerySelectMode;
         selectedGalleryImages.clear();
         updateGalleryUI();
-        loadFolderImages(); // Re-render to show/hide checks
+        loadFolderImages(); 
     }
     function updateGalleryUI(){
         const fab = document.getElementById('gallery-fab');
@@ -809,7 +812,7 @@
     function toggleHOFInput(type) { const id = type === 'person' ? 'new-person-hof' : 'new-work-hof'; const iconId = type === 'person' ? 'person-hof-icon' : 'work-hof-icon'; const box = document.getElementById(id); box.checked = !box.checked; toggleHOFIcon(iconId, box.checked); }
     function toggleHOFIcon(id, isOn) { const el = document.getElementById(id); if(isOn) el.style.color = 'gold'; else el.style.color = '#ccc'; }
     function setRating(r) { currentRating = r; const spans = document.querySelectorAll('#work-rating-input span'); spans.forEach((s, idx) => { if(idx < r) s.classList.add('on'); else s.classList.remove('on'); }); }
-    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFInput('person', false); loadTagSuggestions('person'); }
+    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); loadTagSuggestions('person'); }
     function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hallOfFame; toggleHOFIcon('person-hof-icon', !!p.hallOfFame); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
     function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
     function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hallOfFame; toggleHOFIcon('work-hof-icon', !!w.hallOfFame); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
