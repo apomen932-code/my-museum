@@ -60,7 +60,7 @@
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
 
-    /* Detail Screen - FIXED */
+    /* Detail Screen */
     #detail-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2500; flex-direction: column; }
     .detail-fixed-header { flex-shrink: 0; position: relative; width: 100%; height: 45vh; overflow: hidden; border-bottom: 1px solid rgba(212, 175, 55, 0.3); background:#111; }
     .detail-bg-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
@@ -76,7 +76,7 @@
     .detail-sticky-bar { flex-shrink: 0; background: #000; padding: 15px 20px; border-bottom: 1px solid #222; display:flex; justify-content:space-between; align-items:center; z-index: 10; }
     .detail-scroll-area { flex-grow: 1; overflow-y: auto; padding: 20px; padding-bottom: 120px; -webkit-overflow-scrolling: touch; }
 
-    /* Work Item (List) */
+    /* Work Item */
     .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
     .work-item.hof { border-color: #FFD700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
     .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
@@ -100,7 +100,7 @@
     .wd-play { background: #d4af37; color: #000; }
     .wd-link { background: #333; color: #fff; border: 1px solid #555; }
 
-    /* Gallery (Stable Grid) */
+    /* Gallery (Stable Grid - SQUARE FIX) */
     #gallery-root-screen, #gallery-folder-screen { background: #000; }
     #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
     .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; padding-top: 80px; overflow-y: auto; padding-bottom: 100px; box-sizing: border-box; }
@@ -453,7 +453,6 @@
 
     // === DATA NORMALIZATION (Compat Helper) ===
     function normalizePerson(p) {
-        // Tag Normalization
         let tags = p.tags;
         if (!Array.isArray(tags)) {
             if (typeof tags === 'string') tags = tags.split(' ').filter(t => t);
@@ -461,7 +460,7 @@
         }
         return {
             id: p.id,
-            name: p.name || "名称未設定",
+            name: p.name,
             image: p.image || p.img || "", // Alias
             focusX: p.focusX !== undefined ? p.focusX : 50,
             focusY: p.focusY !== undefined ? p.focusY : 50,
@@ -578,7 +577,7 @@
         db.transaction(["people","works"],"readonly").objectStore("people").get(currentPersonId).onsuccess=e=>{
             let p=e.target.result;
             if(!p) return;
-            p = normalizePerson(p); // ★ CRITICAL FIX
+            p = normalizePerson(p); // ★ CRITICAL FIX: Normalize data here too
             
             document.getElementById('detail-name').innerText=p.name;
             document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
@@ -932,7 +931,7 @@
             });
             const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
             let highTags={}; let hTotal=0;
-            works.forEach(w=>{if((w.rating>=4||w.hof)&&w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
+            works.forEach(w=>{if(w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
             if(hTotal>0){
                 const sorted=Object.entries(highTags).sort((a,b)=>b[1]-a[1]).slice(0,5);
                 let grad="", deg=0, leg='<div class="pie-legend">';
