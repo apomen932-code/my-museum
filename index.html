@@ -60,7 +60,7 @@
     .rating-stars-sm { font-size: 10px; color: #888; margin-top: 2px; }
     .rating-stars-sm .on { color: #d4af37; }
 
-    /* Work Item (List) */
+    /* Work Item */
     .work-item { background: rgba(30,30,30,0.6); border-left: 3px solid #d4af37; padding: 10px; margin-bottom: 10px; border-radius: 0 6px 6px 0; display: flex; align-items: center; transition: background 0.2s; position: relative; }
     .work-item.hof { border-color: #FFD700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.2); }
     .work-thumb { width: 50px; height: 50px; object-fit: cover; margin-right: 10px; border-radius: 4px; border: 1px solid #444; flex-shrink: 0; background: #000; }
@@ -84,7 +84,7 @@
     .wd-play { background: #d4af37; color: #000; }
     .wd-link { background: #333; color: #fff; border: 1px solid #555; }
 
-    /* Gallery (Fixed Layout) */
+    /* Gallery (Stable Grid - SQUARE FIX with PADDING HACK) */
     #gallery-root-screen, #gallery-folder-screen { background: #000; }
     #gallery-folder-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 3000; flex-direction: column; }
     /* Aspect Ratio Hack (padding-bottom) to prevent overlap */
@@ -200,10 +200,6 @@
     .input-with-btn { display: flex; gap: 8px; margin-bottom: 15px; }
     .input-with-btn input { margin-bottom: 0; }
     .mini-btn { background: #444; border: 1px solid #666; color: #fff; border-radius: 5px; width: 60px; cursor: pointer; font-size: 10px; display:flex; align-items:center; justify-content:center; }
-
-    /* Toast */
-    #toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); background: rgba(0,0,0,0.9); border: 1px solid #d4af37; padding: 20px 40px; border-radius: 8px; color: #d4af37; font-family: serif; font-size: 20px; letter-spacing: 0.1em; pointer-events: none; opacity: 0; transition: all 0.3s; z-index: 9999; box-shadow: 0 0 30px rgba(212,175,55,0.3); text-align: center; }
-    #toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 </style>
 </head>
 <body>
@@ -243,9 +239,9 @@
         const ac = document.getElementById('app-container');
         if(cs && ac) {
             cs.style.opacity = '0';
-            cs.style.pointerEvents = 'none'; // Lock calculator interaction
+            cs.style.pointerEvents = 'none'; 
             setTimeout(() => {
-                cs.style.display = 'none'; // Remove from flow
+                cs.style.display = 'none'; 
                 ac.style.display = 'block';
                 setTimeout(() => ac.style.opacity = '1', 50);
                 if(window.loadHomeData) window.loadHomeData();
@@ -428,9 +424,9 @@
 
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
-    // DB (Ver 5000)
+    // DB (Ver 5001 - Refresh)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 5000);
+        const r=indexedDB.open("SecretMuseumDB", 5001);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -465,14 +461,14 @@
         return {
             id: p.id,
             name: p.name || "名称未設定",
-            image: p.image || p.img || "", 
+            image: p.image || p.img || "", // Alias
             focusX: p.focusX !== undefined ? p.focusX : 50,
             focusY: p.focusY !== undefined ? p.focusY : 50,
             hof: !!(p.hof || p.hallOfFame),
             count: p.count || 0,
             cup: p.cup || "",
-            birthday: p.birthday || p.birth || "", 
-            profile: p.profile || p.prof || "", 
+            birthday: p.birthday || p.birth || "", // Alias
+            profile: p.profile || p.prof || "", // Alias
             tags: tags,
             lastUsed: p.lastUsed
         };
@@ -771,7 +767,9 @@
     function openAddFolderModal(){ document.getElementById('add-folder-modal').style.display='flex'; document.getElementById('new-folder-name').value=""; document.getElementById('folder-preview-img').style.display='none'; document.getElementById('edit-folder-id').value=""; document.getElementById('delete-folder-btn').style.display='none'; }
     function openEditFolderModal(f){ document.getElementById('add-folder-modal').style.display='flex'; document.getElementById('edit-folder-id').value=f.id; document.getElementById('new-folder-name').value=f.name; if(f.image){document.getElementById('folder-preview-img').src=f.image;document.getElementById('folder-preview-img').style.display='block';folderCurrentFocus={x:f.focusX||50,y:f.focusY||50};moveFocusMarker(f.focusX,f.focusY,'folder-focus-point');} document.getElementById('delete-folder-btn').style.display='block'; }
     function saveFolder(){
-        const n=document.getElementById('new-folder-name').value; if(!n)return;
+        const n=document.getElementById('new-folder-name').value; 
+        if(!n) return alert("Folder name required");
+        
         const fid=document.getElementById('edit-folder-id').value;
         const tx=db.transaction(["folders"],"readwrite"); const store=tx.objectStore("folders");
         const data={name:n};
