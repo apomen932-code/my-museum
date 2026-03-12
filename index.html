@@ -209,27 +209,6 @@
     .mini-segment button.active { background:#d4af37; color:#000; border-color:#d4af37; font-weight:bold; }
     .sub-stat-note { font-size: 11px; color:#888; text-align:center; margin-top:8px; }
 
-
-    .feature-panel { margin: 0 20px 14px; padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(212,175,55,0.14); border-radius: 12px; backdrop-filter: blur(10px); }
-    .feature-panel .section-title { margin: 0 0 10px; }
-    .recommendation-strip { display: grid; grid-template-columns: 1fr; gap: 10px; }
-    .recommend-card { padding: 12px; border-radius: 10px; background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(255,255,255,0.04)); border: 1px solid rgba(212,175,55,0.22); }
-    .recommend-label { font-size: 10px; letter-spacing: 0.16em; color: #9f9f9f; margin-bottom: 6px; }
-    .recommend-title { font-size: 15px; color: #fff; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .recommend-sub { font-size: 11px; color: #c7a75a; margin-bottom: 10px; }
-    .recommend-actions { display: flex; gap: 8px; }
-    .mini-action-btn { flex: 1; border: 1px solid #4b4120; background: #191919; color: #eee; border-radius: 999px; padding: 9px 10px; font-size: 11px; cursor: pointer; }
-    .mini-action-btn.primary { background: #d4af37; color: #000; border-color: #d4af37; font-weight: bold; }
-    .quick-add-row { display: flex; gap: 8px; align-items: center; }
-    .quick-add-row input, .quick-add-row select { margin-bottom: 0; }
-    .quick-add-row button { border: none; border-radius: 10px; background: #d4af37; color: #000; font-weight: bold; padding: 10px 14px; cursor: pointer; white-space: nowrap; }
-    .helper-text { color: #868686; font-size: 11px; margin-top: 8px; line-height: 1.5; }
-    .toggle-line { display:flex; align-items:center; justify-content:space-between; gap:10px; color:#ddd; font-size:12px; }
-    .toggle-line input { width:auto; margin:0; }
-    .archived-badge { position: absolute; left: 6px; bottom: 6px; font-size: 10px; background: rgba(0,0,0,0.72); color: #d0d0d0; border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; padding: 4px 8px; z-index: 6; }
-    .person-card.archived, .work-card.archived, .work-item.archived { opacity: 0.62; }
-    .secondary-inline-btn { margin-top: 10px; max-width: 220px; background: #242424; color: #ddd; border: 1px solid #444; }
-
 </style>
 </head>
 <body>
@@ -331,41 +310,6 @@
             <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
             <div class="sort-item" onclick="applySort('favorite', 'home')">Favorites First</div>
         </div>
-        
-        <div class="feature-panel">
-            <div class="section-title">TODAY'S PICKS</div>
-            <div class="recommendation-strip" id="recommendation-strip"></div>
-        </div>
-        <div class="feature-panel">
-            <div class="section-title">QUICK ADD</div>
-            <div id="quick-add-person">
-                <div class="quick-add-row">
-                    <input type="text" id="quick-person-name" placeholder="Name only で仮登録">
-                    <button onclick="quickAddPerson()">ADD</button>
-                </div>
-                <div class="helper-text">まず名前だけで登録して、プロフィールや画像はあとで追記できます。</div>
-            </div>
-            <div id="quick-add-work" style="display:none;">
-                <div class="quick-add-row" style="margin-bottom:8px;">
-                    <input type="text" id="quick-work-title" placeholder="Title">
-                    <button onclick="quickAddWork()">ADD</button>
-                </div>
-                <div class="quick-add-row">
-                    <input type="url" id="quick-work-url" placeholder="URL (optional)">
-                    <select id="quick-work-owner"></select>
-                </div>
-                <div class="helper-text">作品はタイトルだけでも仮登録できます。詳細は後から編集できます。</div>
-            </div>
-        </div>
-        <div class="feature-panel">
-            <div class="section-title">VIEW OPTIONS</div>
-            <label class="toggle-line">
-                <span>アーカイブを表示する</span>
-                <input type="checkbox" id="show-archived-toggle" onchange="toggleArchivedVisibility(this.checked)">
-            </label>
-            <div class="helper-text">普段は隠して、必要な時だけ見返せるようにしています。</div>
-        </div>
-
         <div class="section-title" id="home-list-title">登録済みのミューズ</div>
         <div class="card-list" id="person-list"></div>
         <div class="card-list" id="work-list-home" style="display:none;"></div>
@@ -417,7 +361,6 @@
                 <div class="detail-specs" id="detail-specs"></div>
                 <div class="detail-stats" id="detail-stats">Selection: 0</div>
                 <div class="wd-btn" id="detail-favorite-btn" style="margin-top:12px; max-width:220px; background:#2a2a2a; color:#ffd54f;">☆ FAVORITE</div>
-                <div class="wd-btn secondary-inline-btn" id="detail-archive-btn">ARCHIVE</div>
                 <div class="person-profile-text" id="detail-profile"></div>
                 <div class="person-tags-area" id="detail-person-tags"></div>
             </div>
@@ -449,7 +392,6 @@
             <div class="wd-btn" style="background:#2a2a2a;color:#ffd54f;" id="wd-favorite-btn">☆ FAVORITE</div>
             <div class="wd-btn wd-link" id="wd-link-btn" onclick="">🔗 LINK</div>
             <div class="wd-btn wd-play" id="wd-play-btn" onclick="">▶ PLAY</div>
-            <div class="wd-btn secondary-inline-btn" id="wd-archive-btn">ARCHIVE</div>
             <div class="wd-btn" style="background:#555;color:#fff;" id="wd-edit-btn">EDIT</div>
             <div class="wd-btn" style="background:#800;color:#fff;" id="wd-delete-btn">DELETE</div>
         </div>
@@ -497,152 +439,10 @@
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
     let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let folderCurrentFocus={x:50,y:50};
     let allPeopleCache=[], allWorksCache=[], allFoldersCache=[]; let selectedTags=new Set();
-    let currentRating=0; let isScrolling=false; let lastTap=0; let analysisPeriod='all'; let activeTab='home'; let showArchived=false; const UI_STATE_KEY='museum_ui_state_v2';
+    let currentRating=0; let isScrolling=false; let lastTap=0; let analysisPeriod='all';
     
     // Gallery
     let currentGalleryImages=[]; let currentGalleryIndex=0; let isGallerySelectMode=false; let selectedGalleryImages=new Set();
-
-    function getUiState(){ try { return JSON.parse(localStorage.getItem(UI_STATE_KEY) || '{}'); } catch(e){ return {}; } }
-    function saveUiState(extra={}) {
-        const prev = getUiState();
-        const state = Object.assign({}, prev, {
-            homeMode,
-            sortState,
-            analysisPeriod,
-            activeTab,
-            showArchived,
-            search: document.getElementById('search-input') ? document.getElementById('search-input').value : '',
-            gallerySearch: document.getElementById('gallery-search-input') ? document.getElementById('gallery-search-input').value : ''
-        }, extra);
-        localStorage.setItem(UI_STATE_KEY, JSON.stringify(state));
-    }
-    function restoreUiState(){
-        const state = getUiState();
-        if(state.homeMode) homeMode = state.homeMode;
-        if(state.sortState) sortState = Object.assign(sortState, state.sortState);
-        if(state.analysisPeriod) analysisPeriod = state.analysisPeriod;
-        if(typeof state.showArchived === 'boolean') showArchived = state.showArchived;
-        if(state.search && document.getElementById('search-input')) document.getElementById('search-input').value = state.search;
-        if(state.gallerySearch && document.getElementById('gallery-search-input')) document.getElementById('gallery-search-input').value = state.gallerySearch;
-        const archivedToggle = document.getElementById('show-archived-toggle');
-        if(archivedToggle) archivedToggle.checked = !!showArchived;
-        setHomeMode(homeMode, true);
-        const periodBtn = document.querySelector(`#analysis-period-switch button[onclick*="${analysisPeriod}"]`);
-        document.querySelectorAll('#analysis-period-switch button').forEach(b=>b.classList.remove('active'));
-        if(periodBtn) periodBtn.classList.add('active');
-        activeTab = state.activeTab || 'home';
-    }
-    function toggleArchivedVisibility(isOn){ showArchived = !!isOn; saveUiState(); filterHomeList(); }
-    function archiveLabel(isArchived){ return isArchived ? 'UNARCHIVE' : 'ARCHIVE'; }
-    function archiveMessage(type, isArchived){ return type + (isArchived ? 'をアーカイブしました' : 'を戻しました'); }
-    function toggleArchive(storeName, id){
-        const tx=db.transaction([storeName],'readwrite');
-        const store=tx.objectStore(storeName);
-        store.get(id).onsuccess=e=>{
-            const item=e.target.result;
-            if(!item) return;
-            item.archived = !item.archived;
-            store.put(item);
-            const label = storeName==='people' ? (item.name || '人物') : (item.title || '作品');
-            showToast(archiveMessage(label, item.archived));
-        };
-        tx.oncomplete=()=>{
-            loadHomeData();
-            if(storeName==='people' && document.getElementById('detail-screen').style.display==='flex') openDetail(id);
-            if(storeName==='works') {
-                db.transaction(['works'],'readonly').objectStore('works').get(id).onsuccess=e=>{ if(e.target.result) openWorkDetail(e.target.result); };
-                if(document.getElementById('detail-screen').style.display==='flex') loadDetailWorks();
-            }
-            renderAnalysis();
-        };
-    }
-    function showToast(message, sub=''){
-        const toast = document.getElementById('toast');
-        toast.innerHTML = `${message}${sub ? `<br><span style="font-size:12px; color:#fff;">${sub}</span>` : ''}`;
-        toast.classList.add('show');
-        clearTimeout(showToast._timer);
-        showToast._timer = setTimeout(()=>toast.classList.remove('show'), 2200);
-    }
-    function quickAddPerson(){
-        const input = document.getElementById('quick-person-name');
-        const name = (input.value || '').trim();
-        if(!name){ input.focus(); return; }
-        const tx=db.transaction(['people'],'readwrite');
-        const store=tx.objectStore('people');
-        store.getAll().onsuccess=e=>{
-            const dup=(e.target.result||[]).find(p=>(p.name||'').trim().toLowerCase()===name.toLowerCase());
-            if(dup){ tx.abort(); alert('同名の人物が既に存在します'); }
-        };
-        store.add({name, count:0, tags:[], favorite:false, hof:false, archived:false, createdAt:new Date().toISOString()});
-        tx.oncomplete=()=>{ input.value=''; showToast('Muse を仮登録しました', name); loadHomeData(); };
-    }
-    function quickAddWork(){
-        const titleInput = document.getElementById('quick-work-title');
-        const ownerInput = document.getElementById('quick-work-owner');
-        const urlInput = document.getElementById('quick-work-url');
-        const title = (titleInput.value || '').trim();
-        const url = (urlInput.value || '').trim();
-        const personId = parseInt(ownerInput.value);
-        if(!title || !personId){ if(!title) titleInput.focus(); return; }
-        const tx=db.transaction(['works'],'readwrite');
-        const store=tx.objectStore('works');
-        store.getAll().onsuccess=e=>{
-            const dup=(e.target.result||[]).find(w=>String(w.personId)===String(personId) && (w.title||'').trim().toLowerCase()===title.toLowerCase());
-            if(dup){ tx.abort(); alert('同名作品が既に存在します'); }
-        };
-        store.add({title, url, personId, count:0, tags:[], rating:0, favorite:false, hof:false, archived:false, createdAt:new Date().toISOString()});
-        tx.oncomplete=()=>{ titleInput.value=''; urlInput.value=''; showToast('Work を仮登録しました', title); loadHomeData(); if(currentPersonId===personId && document.getElementById('detail-screen').style.display==='flex') loadDetailWorks(); };
-    }
-    function populateQuickOwnerSelect(){
-        const sel = document.getElementById('quick-work-owner');
-        if(!sel) return;
-        const current = sel.value;
-        sel.innerHTML = '';
-        allPeopleCache.filter(p=>!p.archived || showArchived).forEach(p=>{
-            const opt=document.createElement('option');
-            opt.value=p.id;
-            opt.innerText=p.name;
-            if(String(current||currentPersonId||'')===String(p.id)) opt.selected=true;
-            sel.appendChild(opt);
-        });
-    }
-    function openRecommended(kind, id){
-        if(kind==='person') openDetail(id);
-        else {
-            const work = allWorksCache.find(w=>Number(w.id)===Number(id));
-            if(work) openWorkDetail(work);
-        }
-    }
-    function buildRecommendations(){
-        const strip = document.getElementById('recommendation-strip');
-        if(!strip) return;
-        strip.innerHTML = '';
-        const people = allPeopleCache.filter(p=>showArchived || !p.archived);
-        const works = allWorksCache.filter(w=>showArchived || !w.archived);
-        const candidates = [];
-        const rediscovery = people.filter(p=>p.count>0).sort((a,b)=>new Date(a.lastUsed||0)-new Date(b.lastUsed||0))[0];
-        if(rediscovery) candidates.push({label:'REDISCOVERY', title:rediscovery.name, sub: rediscovery.lastUsed ? `最後に見た日: ${String(rediscovery.lastUsed).slice(0,10)}` : '久しぶりに見返す候補', kind:'person', id: rediscovery.id, action:'OPEN'});
-        const favWork = works.filter(w=>w.favorite).sort((a,b)=>(b.rating||0)-(a.rating||0) || (b.count||0)-(a.count||0))[0];
-        if(favWork) candidates.push({label:'FAVORITE PICK', title:favWork.title, sub:`${(allPeopleCache.find(p=>p.id===favWork.personId)||{}).name || 'Unknown'} の作品`, kind:'work', id:favWork.id, action:'DETAIL'});
-        const fresh = works.filter(w=>!w.archived && (w.count||0)===0).sort((a,b)=>b.id-a.id)[0];
-        if(fresh) candidates.push({label:'FRESH ENTRY', title:fresh.title, sub:'まだ未再生の新着作品', kind:'work', id:fresh.id, action:'CHECK'});
-        if(candidates.length===0){
-            strip.innerHTML = "<div class='helper-text'>登録が増えると、ここに今日のおすすめが出ます。</div>";
-            return;
-        }
-        candidates.slice(0,3).forEach(item=>{
-            const card = document.createElement('div');
-            card.className = 'recommend-card';
-            card.innerHTML = `<div class="recommend-label">${item.label}</div><div class="recommend-title">${item.title}</div><div class="recommend-sub">${item.sub}</div><div class="recommend-actions"><button class="mini-action-btn primary">${item.action}</button>${item.kind==='work' ? '<button class="mini-action-btn">PLAY</button>' : '<button class="mini-action-btn">RANDOM</button>'}</div>`;
-            const [primary, secondary] = card.querySelectorAll('button');
-            primary.onclick = ()=>openRecommended(item.kind, item.id);
-            secondary.onclick = ()=>{
-                if(item.kind==='work') useWork(item.id);
-                else randomPick('people');
-            };
-            strip.appendChild(card);
-        });
-    }
 
     document.getElementById('panic-button').addEventListener('click',(e)=>{const t=new Date().getTime();if(t-lastTap<300)location.reload();lastTap=t;});
 
@@ -657,12 +457,11 @@
             if(!db.objectStoreNames.contains("folders")){db.createObjectStore("folders",{keyPath:"id",autoIncrement:true});}
             if(!db.objectStoreNames.contains("images")){const is=db.createObjectStore("images",{keyPath:"id",autoIncrement:true});is.createIndex("folderId","folderId",{unique:false});}
         };
-        r.onsuccess=(e)=>{ db=e.target.result; restoreUiState(); if(window.getComputedStyle(document.getElementById('app-container')).display !== 'none') { switchTab(activeTab || 'home', true); window.loadHomeData(); } };
+        r.onsuccess=(e)=>{ db=e.target.result; if(window.getComputedStyle(document.getElementById('app-container')).display !== 'none') window.loadHomeData(); };
         r.onerror=(e)=>{ alert("DB Connection Error. Try reloading."); };
     };
 
-    function switchTab(t, skipSave){
-        activeTab = t;
+    function switchTab(t){
         document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c=>c.style.display='none');
         if(t==='home'){
@@ -672,7 +471,6 @@
         } else {
             analysisScreen.style.display='block'; document.querySelectorAll('.nav-item')[2].classList.add('active'); renderAnalysis();
         }
-        if(!skipSave) saveUiState();
     }
 
     // === DATA NORMALIZATION ===
@@ -699,14 +497,11 @@
     }
 
     // === MUSEUM LOGIC ===
-    function setHomeMode(m, skipSave){
+    function setHomeMode(m){
         homeMode=m;
         document.getElementById('mode-people').className=m==='people'?'mode-btn active':'mode-btn';
         document.getElementById('mode-works').className=m==='works'?'mode-btn active':'mode-btn';
         document.getElementById('home-list-title').innerText=m==='people'?"登録済みのミューズ":"すべての作品";
-        const qp=document.getElementById('quick-add-person'); const qw=document.getElementById('quick-add-work');
-        if(qp && qw){ qp.style.display = m==='people' ? 'block' : 'none'; qw.style.display = m==='works' ? 'block' : 'none'; }
-        if(!skipSave) saveUiState();
         loadHomeData();
     }
     
@@ -732,8 +527,6 @@
                 allWorksCache = wks;
                 allPeopleCache.sort((a,b)=>(b.count||0)-(a.count||0));
                 allWorksCache.sort((a,b)=>(b.count||0)-(a.count||0));
-                populateQuickOwnerSelect();
-                buildRecommendations();
                 filterHomeList();
             });
         } catch(e) { console.error(e); }
@@ -741,21 +534,20 @@
 
     function filterHomeList(){
         const q=document.getElementById('search-input').value.toLowerCase();
-        saveUiState();
         const btn=document.getElementById('filter-btn');
         if(selectedTags.size>0)btn.classList.add('active');else btn.classList.remove('active');
 
         if(homeMode==='people'){
             document.getElementById('person-list').style.display='grid';
             document.getElementById('work-list-home').style.display='none';
-            let res=allPeopleCache.filter(p=>p.name.toLowerCase().includes(q) && (showArchived || !p.archived));
+            let res=allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
             if(selectedTags.size>0){
                 const exact=document.getElementById('tag-exact-match').checked;
                 res=res.filter(p=>{
                     const pt=p.tags||[];
                     const matchP = exact?Array.from(selectedTags).every(t=>pt.includes(t)):pt.some(t=>selectedTags.has(t));
                     if(matchP)return true;
-                    const pw=allWorksCache.filter(w=>w.personId===p.id && (showArchived || !w.archived));
+                    const pw=allWorksCache.filter(w=>w.personId===p.id);
                     return pw.some(w=>{
                         const wt=w.tags||[];
                         return exact?Array.from(selectedTags).every(t=>wt.includes(t)):wt.some(t=>selectedTags.has(t));
@@ -770,7 +562,7 @@
         } else {
             document.getElementById('person-list').style.display='none';
             document.getElementById('work-list-home').style.display='grid';
-            let res=allWorksCache.filter(w=>w.title.toLowerCase().includes(q) && (showArchived || !w.archived));
+            let res=allWorksCache.filter(w=>w.title.toLowerCase().includes(q));
             if(selectedTags.size>0){
                 const exact=document.getElementById('tag-exact-match').checked;
                 res=res.filter(w=>{
@@ -787,14 +579,12 @@
         if(list.length===0){con.innerHTML="<div style='color:#555;'>No Data</div>";return;}
         list.forEach(p=>{
             const div=document.createElement('div'); div.className='person-card';
-            if(p.archived) div.classList.add('archived');
             if(p.hof) div.classList.add('hof');
             const imgSrc = p.image || p.img || '';
             const img=imgSrc?`<img src="${imgSrc}" style="object-position:${p.focusX}% ${p.focusY}%">`:'<div class="thumb-placeholder">NO IMG</div>';
             const crown=p.hof?'<div class="card-crown">👑</div>':'';
             const favorite=p.favorite?'<div class="favorite-badge">★</div>':'';
-            const archived=p.archived?'<div class="archived-badge">ARCHIVED</div>':'';
-            div.innerHTML=`<div class="thumb-area">${img}${crown}${favorite}${archived}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
+            div.innerHTML=`<div class="thumb-area">${img}${crown}${favorite}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
             div.onclick=()=>openDetail(p.id);
             let timer;
             div.addEventListener('touchstart',()=>{timer=setTimeout(()=>{timer=null;openEditPersonModal(p);},600);});
@@ -806,14 +596,12 @@
         const con=document.getElementById('work-list-home'); con.innerHTML="";
         list.forEach(w=>{
             const div=document.createElement('div'); div.className='work-card';
-            if(w.archived) div.classList.add('archived');
             if(w.hof) div.classList.add('hof');
             const img=w.image?`<img src="${w.image}" style="width:100%;height:100%;object-fit:cover;object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
             const crown=w.hof?'<div class="card-crown">👑</div>':'';
             const favorite=w.favorite?'<div class="favorite-badge">★</div>':'';
-            const archived=w.archived?'<div class="archived-badge">ARCHIVED</div>':'';
             let stars="";if(w.rating>0){stars='<div class="rating-stars-sm">';for(let i=0;i<w.rating;i++)stars+='<span class="on">★</span>';stars+='</div>';}
-            div.innerHTML=`<div class="thumb-area">${img}${crown}${favorite}${archived}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count||0} SELECTIONS</div></div>`;
+            div.innerHTML=`<div class="thumb-area">${img}${crown}${favorite}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count||0} SELECTIONS</div></div>`;
             div.onclick=()=>openWorkDetail(w);
             con.appendChild(div);
         });
@@ -851,9 +639,6 @@
             const favBtn=document.getElementById('detail-favorite-btn');
             favBtn.innerText=(p.favorite?'★':'☆') + ' FAVORITE';
             favBtn.onclick=()=>toggleFavorite('people', p.id);
-            const archiveBtn=document.getElementById('detail-archive-btn');
-            archiveBtn.innerText=archiveLabel(!!p.archived);
-            archiveBtn.onclick=()=>toggleArchive('people', p.id);
         };
         loadDetailWorks();
     }
@@ -862,17 +647,14 @@
             let list = e.target.result;
             sortWorks(list, sortState.detail);
             const con=document.getElementById('work-list'); con.innerHTML="";
-            list = showArchived ? list : list.filter(w=>!w.archived);
             list.forEach(w=>{
                 const div=document.createElement('div'); div.className='work-item';
-                if(w.archived) div.classList.add('archived');
                 if(w.hof)div.classList.add('hof');
                 let thumb=w.image?`<img src="${w.image}" class="work-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="work-thumb"></div>';
                 let crown=w.hof?'👑':'';
                 let stars="";if(w.rating>0){for(let i=0;i<w.rating;i++)stars+='<span style="color:#d4af37;font-size:10px;">★</span>'; }
                 let favorite=w.favorite?'<span style="color:#ffd54f;">★</span>':'';
-                let archived=w.archived?'<span class="tag" style="background:#555;color:#ddd;">ARCHIVED</span>':'';
-                div.innerHTML=`${thumb}<div class="work-info"><div class="work-title">${favorite}${crown}${w.title}</div><div class="work-tags">${archived}${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
+                div.innerHTML=`${thumb}<div class="work-info"><div class="work-title">${favorite}${crown}${w.title}</div><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
                 div.onclick=()=>openWorkDetail(w);
                 con.appendChild(div);
             });
@@ -902,9 +684,6 @@
         const favBtn=document.getElementById('wd-favorite-btn');
         favBtn.innerText=(w.favorite?'★':'☆') + ' FAVORITE';
         favBtn.onclick=()=>toggleFavorite('works', w.id);
-        const archiveBtn=document.getElementById('wd-archive-btn');
-        archiveBtn.innerText=archiveLabel(!!w.archived);
-        archiveBtn.onclick=()=>toggleArchive('works', w.id);
         const lnk=document.getElementById('wd-link-btn');
         if(w.url && isSafeHttpUrl(w.url)){lnk.style.display='block';lnk.onclick=()=>window.open(w.url,'_blank','noopener');}else lnk.style.display='none';
         
@@ -939,25 +718,20 @@
         tx.objectStore("people").get(personId).onsuccess=e=>{const p=e.target.result; if(p){p.count=(p.count||0)+1;p.lastUsed=playedAt;tx.objectStore("people").put(p);}};
         tx.objectStore("logs").add({personId:personId, workId:wid, timestamp:playedAt});
         tx.oncomplete=()=>{
-            showToast('RECORDED', '賢者タイムに入ります');
+            document.getElementById('toast').classList.add('show'); setTimeout(()=>document.getElementById('toast').classList.remove('show'),2000);
             if(document.getElementById('detail-screen').style.display==='flex') loadDetailWorks();
             loadHomeData();
         };
     }
-    function randomPick(mode='people'){
-        if(mode==='people'){
-            const arr=allPeopleCache.filter(p=>showArchived || !p.archived);
-            if(arr.length) openDetail(arr[Math.floor(Math.random()*arr.length)].id);
-            return;
+    function randomPick(){
+        db.transaction(["people"],"readonly").objectStore("people").getAll().onsuccess=e=>{
+            const arr=e.target.result; if(arr.length) openDetail(arr[Math.floor(Math.random()*arr.length)].id);
         }
-        const arr=allWorksCache.filter(w=>showArchived || !w.archived);
-        if(arr.length) openWorkDetail(arr[Math.floor(Math.random()*arr.length)]);
     }
 
     // === GALLERY (Independent - FLEX FIX) ===
     function loadGalleryFolders(){
         const q=document.getElementById('gallery-search-input').value.toLowerCase();
-        saveUiState();
         db.transaction(["folders"],"readonly").objectStore("folders").getAll().onsuccess=e=>{
             allFoldersCache = e.target.result; 
             let list=allFoldersCache.filter(f=>f.name.toLowerCase().includes(q));
@@ -1093,7 +867,7 @@
     });
 
     // === Common Utils ===
-    function handleFabClick(){ if(homeMode==='people') openAddPersonModal(); else if(homeMode==='works') { document.getElementById('quick-work-title').focus(); showToast('Quick Add を使えます'); } }
+    function handleFabClick(){ if(homeMode==='people') openAddPersonModal(); else if(homeMode==='works') alert("詳細画面から作品を追加してください"); }
     function openAddPersonModal(){ clearForm(); document.getElementById('add-person-modal').style.display='flex'; }
     function openEditPersonModal(p){ fillForm(p); document.getElementById('add-person-modal').style.display='flex'; }
     function openAddWorkModal(){ 
@@ -1146,12 +920,11 @@
             birthday:document.getElementById('new-person-birthday').value, 
             profile:document.getElementById('new-person-profile').value, 
             tags:document.getElementById('new-person-tags').value.split(" ").filter(t=>t),
-            favorite: false,
-            archived: false
+            favorite: false
         };
         const img = document.getElementById('preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=currentFocus.x; data.focusY=currentFocus.y; }
         
-        if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data, {favorite: e.target.result.favorite || false, archived: !!e.target.result.archived}); s.put(e.target.result); };
+        if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data, {favorite: e.target.result.favorite || false}); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
         tx.oncomplete=()=>{ closeModal('add-person-modal'); loadHomeData(); };
     }
@@ -1175,12 +948,11 @@
             hof:document.getElementById('new-work-hof').checked, 
             rating:currentRating, 
             tags:document.getElementById('new-work-tags').value.split(" ").filter(t=>t),
-            favorite:false,
-            archived:false
+            favorite:false
         };
         const img = document.getElementById('work-preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=workCurrentFocus.x; data.focusY=workCurrentFocus.y; }
         
-        if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data, {favorite: e.target.result.favorite || false, archived: !!e.target.result.archived}); s.put(e.target.result); };
+        if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data, {favorite: e.target.result.favorite || false}); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
         
         tx.oncomplete=()=>{ 
@@ -1243,7 +1015,7 @@
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("現在のデータを上書きします。よろしいですか？")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("images").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.images || data.gallery) (data.images || data.gallery).forEach(i => tx.objectStore("images").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("復元が完了しました"); closeModal('settings-modal'); loadHomeData(); renderAnalysis(); }; } catch(err) { console.error(err); alert("復元に失敗しました"); } }; reader.readAsText(file); }
     function resetAllData() { if(confirm("全データを削除します。よろしいですか？")) { const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("images").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("初期化しました"); closeModal('settings-modal'); loadHomeData(); renderAnalysis(); } } }
     function exportCsv(type){ const tx = db.transaction([type], 'readonly'); tx.objectStore(type).getAll().onsuccess = e => { const rows = e.target.result || []; if(rows.length===0){ alert('データがありません'); return; } const flat = rows.map(row => { const out={}; Object.entries(row).forEach(([k,v]) => out[k]=Array.isArray(v)?v.join('|'):(v instanceof Date? v.toISOString() : (typeof v==='object' && v!==null? JSON.stringify(v): v))); return out; }); const headers = Array.from(new Set(flat.flatMap(r => Object.keys(r)))); const csv = [headers.join(',')].concat(flat.map(r => headers.map(h => JSON.stringify(r[h] ?? '')).join(','))).join('\n'); const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`museum_${type}_${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(url); }; }
-    function setAnalysisPeriod(period, btn){ analysisPeriod = period; document.querySelectorAll('#analysis-period-switch button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); saveUiState(); renderAnalysis(); }
+    function setAnalysisPeriod(period, btn){ analysisPeriod = period; document.querySelectorAll('#analysis-period-switch button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); renderAnalysis(); }
     function getAnalysisRange(period){ const now = new Date(); if(period==='all') return null; const from = new Date(); if(period==='30d') from.setDate(now.getDate()-30); else if(period==='90d') from.setDate(now.getDate()-90); else if(period==='1y') from.setFullYear(now.getFullYear()-1); return from; }
     function isSafeHttpUrl(url){ try { const u=new URL(url); return u.protocol==='http:' || u.protocol==='https:'; } catch(err){ return false; } }
     function toggleFavorite(storeName, id){ const tx=db.transaction([storeName], 'readwrite'); const store=tx.objectStore(storeName); store.get(id).onsuccess=e=>{ const item=e.target.result; if(!item) return; item.favorite = !item.favorite; store.put(item); }; tx.oncomplete=()=>{ if(storeName==='people'){ if(document.getElementById('detail-screen').style.display==='flex') openDetail(id); } else { db.transaction(['works'],'readonly').objectStore('works').get(id).onsuccess=e=>{ if(e.target.result) openWorkDetail(e.target.result); }; } loadHomeData(); renderAnalysis(); }; }
@@ -1261,8 +1033,6 @@
             const labelMap = {all:'全期間', '30d':'直近30日', '90d':'直近90日', '1y':'直近1年'};
             document.getElementById('analysis-period-label').innerText = labelMap[analysisPeriod] || '全期間';
 
-            people = people.filter(p=>!p.archived);
-            works = works.filter(w=>!w.archived);
             const countByPerson = {};
             const countByWork = {};
             filteredLogs.forEach(l => {
