@@ -131,12 +131,20 @@
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
     .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; }
     .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
+    .cal-day.today { outline: 1px solid #d4af37; color: #d4af37; }
+    .cal-dow { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #555; font-family: "Times New Roman", serif; letter-spacing: 0.05em; }
     .tag-bar { display: flex; align-items: center; margin-bottom: 8px; }
     .tag-label { width: 80px; font-size: 12px; color: #ccc; text-align: right; padding-right: 10px; }
     .tag-track { flex-grow: 1; background: #222; height: 6px; border-radius: 3px; }
     .tag-fill { height: 100%; background: #d4af37; border-radius: 3px; }
     .tag-val { width: 30px; font-size: 10px; color: #888; margin-left: 8px; }
-    .pie-chart-container { display: flex; justify-content: center; margin-bottom: 20px; position: relative; height: 160px; }
+    .monthly-chart { margin-bottom: 30px; }
+    .monthly-bars { display: flex; align-items: flex-end; gap: 4px; height: 80px; padding: 0 5px; }
+    .monthly-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .monthly-bar { width: 100%; background: rgba(212,175,55,0.25); border-radius: 3px 3px 0 0; border-top: 1px solid rgba(212,175,55,0.5); min-height: 2px; transition: height 0.4s; position: relative; }
+    .monthly-bar.current { background: rgba(212,175,55,0.55); border-color: #d4af37; }
+    .monthly-bar-label { font-size: 8px; color: #555; }
+    .monthly-bar-val { font-size: 8px; color: #888; }
     .pie-chart { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#d4af37 0% 0%); position: relative; }
     .pie-hole { position: absolute; width: 80px; height: 80px; background: #050505; border-radius: 50%; top: 35px; left: 35px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
     .pie-legend { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 10px; color: #ccc; margin-bottom: 30px; }
@@ -200,15 +208,6 @@
     .input-with-btn { display: flex; gap: 8px; margin-bottom: 15px; }
     .input-with-btn input { margin-bottom: 0; }
     .mini-btn { background: #444; border: 1px solid #666; color: #fff; border-radius: 5px; width: 60px; cursor: pointer; font-size: 10px; display:flex; align-items:center; justify-content:center; }
-
-    #toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%) translateY(20px); background: rgba(20,20,20,0.96); color: #d4af37; border: 1px solid rgba(212,175,55,0.45); border-radius: 12px; padding: 12px 18px; text-align: center; font-size: 14px; z-index: 12000; opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.45); }
-    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .favorite-badge { position: absolute; top: 6px; left: 6px; width: 28px; height: 28px; border-radius: 50%; background: rgba(0,0,0,0.65); color: #ffd54f; display: flex; align-items: center; justify-content: center; font-size: 14px; z-index: 6; border: 1px solid rgba(255,255,255,0.12); }
-    .mini-segment { display:flex; gap:8px; flex-wrap:wrap; margin: 0 20px 18px; }
-    .mini-segment button { flex:1; min-width:72px; background:#1c1c1c; color:#bbb; border:1px solid #333; border-radius:999px; padding:8px 10px; font-size:11px; }
-    .mini-segment button.active { background:#d4af37; color:#000; border-color:#d4af37; font-weight:bold; }
-    .sub-stat-note { font-size: 11px; color:#888; text-align:center; margin-top:8px; }
-
 </style>
 </head>
 <body>
@@ -308,7 +307,6 @@
             <div class="sort-item" onclick="applySort('count', 'home')">Select Count</div>
             <div class="sort-item" onclick="applySort('rating', 'home')">Rating (Quality)</div>
             <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
-            <div class="sort-item" onclick="applySort('favorite', 'home')">Favorites First</div>
         </div>
         <div class="section-title" id="home-list-title">登録済みのミューズ</div>
         <div class="card-list" id="person-list"></div>
@@ -326,15 +324,11 @@
     </div>
 
     <div id="analysis-screen" class="tab-content" style="display:none;">
-        <div class="stats-area"><div class="stats-title">TOTAL SELECTIONS</div><div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div><div class="sub-stat-note" id="analysis-period-label">全期間</div></div>
-        <div class="mini-segment" id="analysis-period-switch">
-            <button class="active" onclick="setAnalysisPeriod('all', this)">ALL</button>
-            <button onclick="setAnalysisPeriod('30d', this)">30D</button>
-            <button onclick="setAnalysisPeriod('90d', this)">90D</button>
-            <button onclick="setAnalysisPeriod('1y', this)">1Y</button>
-        </div>
+        <div class="stats-area"><div class="stats-title">TOTAL SELECTIONS</div><div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div></div>
         <div class="section-title">ACTIVITY LOG</div>
         <div class="calendar-container"><div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div><div class="cal-grid" id="calendar-grid"></div></div>
+        <div class="section-title">MONTHLY TREND</div>
+        <div class="monthly-chart"><div class="monthly-bars" id="monthly-bars"></div></div>
         <div class="section-title">QUALITY ANALYSIS</div>
         <div class="pie-chart-container" id="pie-rated"></div>
         <div class="section-title">MUSE TYPES</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
@@ -360,7 +354,6 @@
                 <div class="detail-name" id="detail-name">Name</div>
                 <div class="detail-specs" id="detail-specs"></div>
                 <div class="detail-stats" id="detail-stats">Selection: 0</div>
-                <div class="wd-btn" id="detail-favorite-btn" style="margin-top:12px; max-width:220px; background:#2a2a2a; color:#ffd54f;">☆ FAVORITE</div>
                 <div class="person-profile-text" id="detail-profile"></div>
                 <div class="person-tags-area" id="detail-person-tags"></div>
             </div>
@@ -374,7 +367,6 @@
         <div class="sort-item" onclick="applySort('count', 'detail')">Select Count</div>
         <div class="sort-item" onclick="applySort('rating', 'detail')">Rating</div>
         <div class="sort-item" onclick="applySort('newest', 'detail')">Newest</div>
-        <div class="sort-item" onclick="applySort('favorite', 'detail')">Favorites First</div>
     </div>
     <div class="detail-scroll-area"><div id="work-list"></div></div>
     <div class="fab" onclick="openAddWorkModal()">＋</div>
@@ -389,7 +381,6 @@
         <div id="wd-rating-display" style="margin-bottom:15px; color:#d4af37; font-size:14px;"></div>
         <div class="wd-tags" id="wd-tags"></div>
         <div class="wd-actions">
-            <div class="wd-btn" style="background:#2a2a2a;color:#ffd54f;" id="wd-favorite-btn">☆ FAVORITE</div>
             <div class="wd-btn wd-link" id="wd-link-btn" onclick="">🔗 LINK</div>
             <div class="wd-btn wd-play" id="wd-play-btn" onclick="">▶ PLAY</div>
             <div class="wd-btn" style="background:#555;color:#fff;" id="wd-edit-btn">EDIT</div>
@@ -428,18 +419,15 @@
 <div style="margin-bottom:10px;"><label style="font-size:10px; color:#aaa;">Owner (Muse)</label><select id="edit-work-owner" style="width:100%; padding:10px; background:#222; color:#fff; border:1px solid #555; border-radius:4px; margin-top:2px;"></select></div>
 <div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')" style="margin:10px 0;"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div><div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">DELETE</button></div></div>
 <div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> Exact Match</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
-<div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button>
-<button class="btn btn-cancel" style="width:100%; margin-bottom:10px;" onclick="exportCsv('people')">PEOPLE CSV</button>
-<button class="btn btn-cancel" style="width:100%; margin-bottom:10px;" onclick="exportCsv('works')">WORKS CSV</button>
-<button class="btn btn-cancel" style="width:100%; margin-bottom:10px;" onclick="exportCsv('logs')">LOGS CSV</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">RESTORE<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
+<div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">RESTORE<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
 
 <script>
-    const appHeader=document.querySelector('.app-header'); const bottomNav=document.querySelector('.bottom-nav');
+    const appHeader=document.getElementById('app-header'); const bottomNav=document.querySelector('.bottom-nav');
     const homeScreen=document.getElementById('home-screen'); const galleryScreen=document.getElementById('gallery-root-screen'); const analysisScreen=document.getElementById('analysis-screen');
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
     let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let folderCurrentFocus={x:50,y:50};
     let allPeopleCache=[], allWorksCache=[], allFoldersCache=[]; let selectedTags=new Set();
-    let currentRating=0; let isScrolling=false; let lastTap=0; let analysisPeriod='all';
+    let currentRating=0; let isScrolling=false; let lastTap=0;
     
     // Gallery
     let currentGalleryImages=[]; let currentGalleryIndex=0; let isGallerySelectMode=false; let selectedGalleryImages=new Set();
@@ -557,7 +545,6 @@
             if(sortState.home==='count')res.sort((a,b)=>(b.count||0)-(a.count||0));
             else if(sortState.home==='newest')res.sort((a,b)=>b.id-a.id);
             else if(sortState.home==='rating')res.sort((a,b)=>((b.hof?1:0)-(a.hof?1:0)));
-            else if(sortState.home==='favorite')res.sort((a,b)=>((b.favorite?1:0)-(a.favorite?1:0))||((b.count||0)-(a.count||0)));
             renderPeopleList(res);
         } else {
             document.getElementById('person-list').style.display='none';
@@ -583,8 +570,7 @@
             const imgSrc = p.image || p.img || '';
             const img=imgSrc?`<img src="${imgSrc}" style="object-position:${p.focusX}% ${p.focusY}%">`:'<div class="thumb-placeholder">NO IMG</div>';
             const crown=p.hof?'<div class="card-crown">👑</div>':'';
-            const favorite=p.favorite?'<div class="favorite-badge">★</div>':'';
-            div.innerHTML=`<div class="thumb-area">${img}${crown}${favorite}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
+            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
             div.onclick=()=>openDetail(p.id);
             let timer;
             div.addEventListener('touchstart',()=>{timer=setTimeout(()=>{timer=null;openEditPersonModal(p);},600);});
@@ -599,9 +585,8 @@
             if(w.hof) div.classList.add('hof');
             const img=w.image?`<img src="${w.image}" style="width:100%;height:100%;object-fit:cover;object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
             const crown=w.hof?'<div class="card-crown">👑</div>':'';
-            const favorite=w.favorite?'<div class="favorite-badge">★</div>':'';
             let stars="";if(w.rating>0){stars='<div class="rating-stars-sm">';for(let i=0;i<w.rating;i++)stars+='<span class="on">★</span>';stars+='</div>';}
-            div.innerHTML=`<div class="thumb-area">${img}${crown}${favorite}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count||0} SELECTIONS</div></div>`;
+            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count||0} SELECTIONS</div></div>`;
             div.onclick=()=>openWorkDetail(w);
             con.appendChild(div);
         });
@@ -636,9 +621,6 @@
             
             let tg=""; if(p.tags) p.tags.forEach(t=>tg+=`<span class="tag">${t}</span>`); 
             document.getElementById('detail-person-tags').innerHTML=tg;
-            const favBtn=document.getElementById('detail-favorite-btn');
-            favBtn.innerText=(p.favorite?'★':'☆') + ' FAVORITE';
-            favBtn.onclick=()=>toggleFavorite('people', p.id);
         };
         loadDetailWorks();
     }
@@ -652,9 +634,8 @@
                 if(w.hof)div.classList.add('hof');
                 let thumb=w.image?`<img src="${w.image}" class="work-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="work-thumb"></div>';
                 let crown=w.hof?'👑':'';
-                let stars="";if(w.rating>0){for(let i=0;i<w.rating;i++)stars+='<span style="color:#d4af37;font-size:10px;">★</span>'; }
-                let favorite=w.favorite?'<span style="color:#ffd54f;">★</span>':'';
-                div.innerHTML=`${thumb}<div class="work-info"><div class="work-title">${favorite}${crown}${w.title}</div><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
+                let stars="";if(w.rating>0){for(let i=0;i<w.rating;i++)stars+='<span style="color:#d4af37;font-size:10px;">★</span>';}
+                div.innerHTML=`${thumb}<div class="work-info"><div class="work-title">${crown}${w.title}</div><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
                 div.onclick=()=>openWorkDetail(w);
                 con.appendChild(div);
             });
@@ -664,7 +645,6 @@
         if(mode === 'count') works.sort((a,b) => (b.count||0) - (a.count||0));
         else if(mode === 'rating') works.sort((a,b) => ((b.rating||0)+(b.hof?6:0))-((a.rating||0)+(a.hof?6:0)));
         else if(mode === 'newest') works.sort((a,b) => b.id - a.id);
-        else if(mode === 'favorite') works.sort((a,b) => ((b.favorite?1:0)-(a.favorite?1:0)) || ((b.count||0)-(a.count||0))); 
     }
     function closeDetail(){ document.getElementById('detail-screen').style.display='none'; document.getElementById('home-screen').style.display='block'; loadHomeData(); }
 
@@ -681,18 +661,15 @@
         document.getElementById('wd-rating-display').innerHTML = ratingHtml;
         
         document.getElementById('wd-play-btn').onclick=()=>useWork(w.id);
-        const favBtn=document.getElementById('wd-favorite-btn');
-        favBtn.innerText=(w.favorite?'★':'☆') + ' FAVORITE';
-        favBtn.onclick=()=>toggleFavorite('works', w.id);
         const lnk=document.getElementById('wd-link-btn');
-        if(w.url && isSafeHttpUrl(w.url)){lnk.style.display='block';lnk.onclick=()=>window.open(w.url,'_blank','noopener');}else lnk.style.display='none';
+        if(w.url){lnk.style.display='block';lnk.onclick=()=>window.open(w.url,'_blank');}else lnk.style.display='none';
         
         document.getElementById('wd-edit-btn').onclick=()=>{ closeWorkDetail(); openEditWorkModal(w); };
         
         const del=document.getElementById('wd-delete-btn');
         del.onclick = ()=>{
             if(confirm("Delete this work?")){
-                const tx=db.transaction(["works","logs"],"readwrite"); tx.objectStore("works").delete(w.id); tx.objectStore("logs").openCursor().onsuccess=e=>{ const cursor=e.target.result; if(cursor){ if(Number(cursor.value.workId)===Number(w.id)) cursor.delete(); cursor.continue(); } }; tx.oncomplete=()=>{
+                db.transaction(["works"],"readwrite").objectStore("works").delete(w.id).oncomplete=()=>{
                     closeWorkDetail();
                     if(document.getElementById('detail-screen').style.display === 'flex') loadDetailWorks();
                     else loadHomeData();
@@ -704,23 +681,18 @@
     }
     function closeWorkDetail(){ document.getElementById('work-detail-screen').style.display='none'; }
     function useWork(wid){
-        db.transaction(["works"],"readonly").objectStore("works").get(wid).onsuccess=e=>{
-            const work=e.target.result;
-            if(!work) return;
-            execPlay(wid, work.personId);
-        };
+        if(!currentPersonId){
+            db.transaction(["works"],"readonly").objectStore("works").get(wid).onsuccess=e=>{ if(e.target.result){ currentPersonId=e.target.result.personId; execPlay(wid); } };
+        } else execPlay(wid);
     }
-    function execPlay(wid, personId){
-        currentPersonId = personId;
-        const playedAt = new Date();
+    function execPlay(wid){
         const tx=db.transaction(["people","works","logs"],"readwrite");
-        tx.objectStore("works").get(wid).onsuccess=e=>{const w=e.target.result; if(w){w.count=(w.count||0)+1;w.lastUsed=playedAt;tx.objectStore("works").put(w);}};
-        tx.objectStore("people").get(personId).onsuccess=e=>{const p=e.target.result; if(p){p.count=(p.count||0)+1;p.lastUsed=playedAt;tx.objectStore("people").put(p);}};
-        tx.objectStore("logs").add({personId:personId, workId:wid, timestamp:playedAt});
+        tx.objectStore("works").get(wid).onsuccess=e=>{const w=e.target.result; if(w){w.count=(w.count||0)+1;tx.objectStore("works").put(w);}};
+        tx.objectStore("people").get(currentPersonId).onsuccess=e=>{const p=e.target.result; if(p){p.count=(p.count||0)+1;p.lastUsed=new Date();tx.objectStore("people").put(p);}};
+        tx.objectStore("logs").add({personId:currentPersonId, workId:wid, timestamp:new Date()});
         tx.oncomplete=()=>{
             document.getElementById('toast').classList.add('show'); setTimeout(()=>document.getElementById('toast').classList.remove('show'),2000);
             if(document.getElementById('detail-screen').style.display==='flex') loadDetailWorks();
-            loadHomeData();
         };
     }
     function randomPick(){
@@ -835,7 +807,14 @@
         const input=document.getElementById('new-gallery-img');
         if(input.files.length===0)return;
         const files = Array.from(input.files);
-        const promises = files.map(file => compressImageFile(file, 1800, 0.82));
+        const promises = files.map(file => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        });
         Promise.all(promises).then(imagesData => {
             const tx = db.transaction(["images"], "readwrite");
             const store = tx.objectStore("images");
@@ -897,62 +876,51 @@
         });
     }
 
-    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('new-person-cup').value=""; document.getElementById('new-person-birthday').value=""; document.getElementById('new-person-profile').value=""; document.getElementById('new-person-tags').value=""; document.getElementById('new-person-hof').checked=false; const fileInput=document.querySelector('#add-person-modal input[type=file]'); if(fileInput) fileInput.value=''; const img=document.getElementById('preview-img'); img.style.display='none'; img.src=''; const pt=document.getElementById('focus-point'); if(pt) pt.style.display='none'; currentFocus={x:50,y:50}; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); loadTagSuggestions('person'); }
-    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hof; toggleHOFIcon('person-hof-icon', !!p.hof); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block'; currentFocus={x:p.focusX||50,y:p.focusY||50}; moveFocusMarker(currentFocus.x,currentFocus.y,'focus-point');} else {document.getElementById('preview-img').style.display='none'; document.getElementById('focus-point').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
-    function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); const fileInput=document.querySelector('#add-work-modal input[type=file]'); if(fileInput) fileInput.value=''; const img=document.getElementById('work-preview-img'); img.style.display='none'; img.src=''; const pt=document.getElementById('work-focus-point'); if(pt) pt.style.display='none'; workCurrentFocus={x:50,y:50}; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
-    function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hof; toggleHOFIcon('work-hof-icon', !!w.hof); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block'; workCurrentFocus={x:w.focusX||50,y:w.focusY||50}; moveFocusMarker(workCurrentFocus.x,workCurrentFocus.y,'work-focus-point');} else {document.getElementById('work-preview-img').style.display='none'; document.getElementById('work-focus-point').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
+    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); loadTagSuggestions('person'); }
+    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hof; toggleHOFIcon('person-hof-icon', !!p.hof); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
+    function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
+    function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hof; toggleHOFIcon('work-hof-icon', !!w.hof); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
     function toggleHOFIcon(id, isOn) { const el = document.getElementById(id); if(isOn) el.style.color = 'gold'; else el.style.color = '#ccc'; }
     function openAddImageModal(){ document.getElementById('add-image-modal').style.display='flex'; document.getElementById('gallery-preview-count').innerText=""; }
     function previewGalleryImages(input){ if(input.files.length) document.getElementById('gallery-preview-count').innerText=`${input.files.length} images selected`; }
 
     function savePerson(){
-        const name = document.getElementById('new-person-name').value.trim(); if(!name)return alert("Name req");
+        const name = document.getElementById('new-person-name').value; if(!name)return alert("Name req");
         const id = document.getElementById('edit-person-id').value;
         const tx=db.transaction(["people"],"readwrite"); const s=tx.objectStore("people");
-        s.getAll().onsuccess = ev => {
-            const dup = ev.target.result.find(p => p.name && p.name.trim().toLowerCase() === name.toLowerCase() && String(p.id) !== String(id));
-            if(dup){ tx.abort(); alert("同名の人物が既に存在します"); }
-        };
         const data = { 
             name:name, 
             hof:document.getElementById('new-person-hof').checked, 
             cup:document.getElementById('new-person-cup').value, 
             birthday:document.getElementById('new-person-birthday').value, 
             profile:document.getElementById('new-person-profile').value, 
-            tags:document.getElementById('new-person-tags').value.split(" ").filter(t=>t),
-            favorite: false
+            tags:document.getElementById('new-person-tags').value.split(" ").filter(t=>t) 
         };
         const img = document.getElementById('preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=currentFocus.x; data.focusY=currentFocus.y; }
         
-        if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data, {favorite: e.target.result.favorite || false}); s.put(e.target.result); };
+        if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
         tx.oncomplete=()=>{ closeModal('add-person-modal'); loadHomeData(); };
     }
-    function deletePerson(){ if(confirm("人物と関連作品・ログを削除します。よろしいですか？")){ const id=parseInt(document.getElementById('edit-person-id').value); const tx=db.transaction(["people","works","logs"],"readwrite"); tx.objectStore("people").delete(id); const wStore=tx.objectStore("works"); wStore.index('personId').openCursor(IDBKeyRange.only(id)).onsuccess=e=>{ const cursor=e.target.result; if(cursor){ cursor.delete(); cursor.continue(); } }; tx.objectStore('logs').openCursor().onsuccess=e=>{ const cursor=e.target.result; if(cursor){ const v=cursor.value; if(Number(v.personId)===id) cursor.delete(); cursor.continue(); } }; tx.oncomplete=()=>{closeModal('add-person-modal'); if(currentPersonId===id) closeDetail(); loadHomeData();} } }
+    function deletePerson(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-person-id').value); db.transaction(["people"],"readwrite").objectStore("people").delete(id).oncomplete=()=>{closeModal('add-person-modal');loadHomeData();} } }
     
     function saveWork(){
-        const title = document.getElementById('new-work-title').value.trim(); if(!title)return;
+        const title = document.getElementById('new-work-title').value; if(!title)return;
         const id = document.getElementById('edit-work-id').value;
         const newOwnerId = parseInt(document.getElementById('edit-work-owner').value); // Get selected owner
         
         const tx=db.transaction(["works"],"readwrite"); const s=tx.objectStore("works");
-        const normalizedUrl=document.getElementById('new-work-url').value.trim();
-        s.getAll().onsuccess = ev => {
-            const dup = ev.target.result.find(w => String(w.id)!==String(id) && ((w.title||'').trim().toLowerCase()===title.toLowerCase() && Number(w.personId)===Number(isNaN(newOwnerId) ? currentPersonId : newOwnerId) || (normalizedUrl && (w.url||'').trim()===normalizedUrl)));
-            if(dup){ tx.abort(); alert("同名作品または同一URLの作品が既に存在します"); }
-        };
         const data = { 
             title:title, 
             personId: isNaN(newOwnerId) ? parseInt(currentPersonId) : newOwnerId, // Use selected owner
-            url:normalizedUrl, 
+            url:document.getElementById('new-work-url').value, 
             hof:document.getElementById('new-work-hof').checked, 
             rating:currentRating, 
-            tags:document.getElementById('new-work-tags').value.split(" ").filter(t=>t),
-            favorite:false
+            tags:document.getElementById('new-work-tags').value.split(" ").filter(t=>t) 
         };
         const img = document.getElementById('work-preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=workCurrentFocus.x; data.focusY=workCurrentFocus.y; }
         
-        if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data, {favorite: e.target.result.favorite || false}); s.put(e.target.result); };
+        if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
         
         tx.oncomplete=()=>{ 
@@ -963,11 +931,11 @@
             if(homeMode==='works') loadHomeData(); else loadDetailWorks(); 
         };
     }
-    function deleteWork(){ if(confirm("作品を削除しますか？")){ const id=parseInt(document.getElementById('edit-work-id').value); const tx=db.transaction(["works","logs"],"readwrite"); tx.objectStore("works").delete(id); tx.objectStore('logs').openCursor().onsuccess=e=>{ const cursor=e.target.result; if(cursor){ if(Number(cursor.value.workId)===id) cursor.delete(); cursor.continue(); } }; tx.oncomplete=()=>{closeModal('add-work-modal');loadDetailWorks(); loadHomeData();} } }
+    function deleteWork(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-work-id').value); db.transaction(["works"],"readwrite").objectStore("works").delete(id).oncomplete=()=>{closeModal('add-work-modal');loadDetailWorks();} } }
     
     function pasteUrl(){ navigator.clipboard.readText().then(t=>{document.getElementById('new-work-url').value=t;}); }
 
-    function previewImage(inp, imgId, focusId){ if(inp.files[0]){ compressImageFile(inp.files[0], 1600, 0.85).then(dataUrl=>{ const img=document.getElementById(imgId); img.src=dataUrl; img.style.display='block'; if(focusId)setFocus({clientX:0,clientY:0,target:img}, imgId, focusId); }); } }
+    function previewImage(inp, imgId, focusId){ if(inp.files[0]){ const r=new FileReader(); r.onload=e=>{document.getElementById(imgId).src=e.target.result; document.getElementById(imgId).style.display='block'; if(focusId)setFocus({clientX:0,clientY:0,target:document.getElementById(imgId)}, imgId, focusId)}; r.readAsDataURL(inp.files[0]); } }
     function setFocus(e, imgId, focusId){
         const img = document.getElementById(imgId); const rect = img.getBoundingClientRect();
         let x = 50, y = 50;
@@ -1011,49 +979,27 @@
         });
     }
 
-    function exportData() { const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readonly"); const data = {}; tx.objectStore("people").getAll().onsuccess = (e) => data.people = e.target.result; tx.objectStore("works").getAll().onsuccess = (e) => data.works = e.target.result; tx.objectStore("logs").getAll().onsuccess = (e) => data.logs = e.target.result; tx.objectStore("images").getAll().onsuccess = (e) => data.images = e.target.result; tx.objectStore("folders").getAll().onsuccess = (e) => data.folders = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
-    function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("現在のデータを上書きします。よろしいですか？")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("images").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.images || data.gallery) (data.images || data.gallery).forEach(i => tx.objectStore("images").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("復元が完了しました"); closeModal('settings-modal'); loadHomeData(); renderAnalysis(); }; } catch(err) { console.error(err); alert("復元に失敗しました"); } }; reader.readAsText(file); }
-    function resetAllData() { if(confirm("全データを削除します。よろしいですか？")) { const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("images").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("初期化しました"); closeModal('settings-modal'); loadHomeData(); renderAnalysis(); } } }
-    function exportCsv(type){ const tx = db.transaction([type], 'readonly'); tx.objectStore(type).getAll().onsuccess = e => { const rows = e.target.result || []; if(rows.length===0){ alert('データがありません'); return; } const flat = rows.map(row => { const out={}; Object.entries(row).forEach(([k,v]) => out[k]=Array.isArray(v)?v.join('|'):(v instanceof Date? v.toISOString() : (typeof v==='object' && v!==null? JSON.stringify(v): v))); return out; }); const headers = Array.from(new Set(flat.flatMap(r => Object.keys(r)))); const csv = [headers.join(',')].concat(flat.map(r => headers.map(h => JSON.stringify(r[h] ?? '')).join(','))).join('\n'); const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`museum_${type}_${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(url); }; }
-    function setAnalysisPeriod(period, btn){ analysisPeriod = period; document.querySelectorAll('#analysis-period-switch button').forEach(b=>b.classList.remove('active')); if(btn) btn.classList.add('active'); renderAnalysis(); }
-    function getAnalysisRange(period){ const now = new Date(); if(period==='all') return null; const from = new Date(); if(period==='30d') from.setDate(now.getDate()-30); else if(period==='90d') from.setDate(now.getDate()-90); else if(period==='1y') from.setFullYear(now.getFullYear()-1); return from; }
-    function isSafeHttpUrl(url){ try { const u=new URL(url); return u.protocol==='http:' || u.protocol==='https:'; } catch(err){ return false; } }
-    function toggleFavorite(storeName, id){ const tx=db.transaction([storeName], 'readwrite'); const store=tx.objectStore(storeName); store.get(id).onsuccess=e=>{ const item=e.target.result; if(!item) return; item.favorite = !item.favorite; store.put(item); }; tx.oncomplete=()=>{ if(storeName==='people'){ if(document.getElementById('detail-screen').style.display==='flex') openDetail(id); } else { db.transaction(['works'],'readonly').objectStore('works').get(id).onsuccess=e=>{ if(e.target.result) openWorkDetail(e.target.result); }; } loadHomeData(); renderAnalysis(); }; }
-    function compressImageFile(file, maxSize=1600, quality=0.85){ return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = e => { const img = new Image(); img.onload = () => { let {width, height} = img; const ratio = Math.min(1, maxSize / Math.max(width, height)); width = Math.round(width * ratio); height = Math.round(height * ratio); const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height; const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height); resolve(canvas.toDataURL('image/jpeg', quality)); }; img.onerror = reject; img.src = e.target.result; }; reader.onerror = reject; reader.readAsDataURL(file); }); }
+    function exportData() { const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); let iReq = tx.objectStore("images").getAll(); let fReq = tx.objectStore("folders").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; iReq.onsuccess = (e) => data.images = e.target.result; fReq.onsuccess = (e) => data.folders = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
+    function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("images").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.images) data.images.forEach(i => tx.objectStore("images").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
+    function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("images").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
 
     function renderAnalysis(){
         const tx=db.transaction(["logs","people","works"],"readonly");
         Promise.all([
             new Promise(r=>tx.objectStore("logs").getAll().onsuccess=e=>r(e.target.result)),
-            new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result.map(normalizePerson))),
+            new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
             new Promise(r=>tx.objectStore("works").getAll().onsuccess=e=>r(e.target.result))
-        ]).then(([logs, people, works])=>{
-            const periodStart = getAnalysisRange(analysisPeriod);
-            const filteredLogs = periodStart ? logs.filter(l => new Date(l.timestamp) >= periodStart) : logs.slice();
-            const labelMap = {all:'全期間', '30d':'直近30日', '90d':'直近90日', '1y':'直近1年'};
-            document.getElementById('analysis-period-label').innerText = labelMap[analysisPeriod] || '全期間';
-
-            const countByPerson = {};
-            const countByWork = {};
-            filteredLogs.forEach(l => {
-                countByPerson[l.personId] = (countByPerson[l.personId] || 0) + 1;
-                countByWork[l.workId] = (countByWork[l.workId] || 0) + 1;
-            });
-            const total = filteredLogs.length;
-            document.getElementById('total-usage-display').innerHTML = total + '<span class="stats-unit">回</span>';
-
+        ]).then(res=>{
+            const logs=res[0]; const people=res[1]; const works=res[2];
+            let t=0; people.forEach(x=>t+=(x.count||0));
+            document.getElementById('total-usage-display').innerHTML=t+'<span class="stats-unit">回</span>';
             const list=document.getElementById('ranking-list'); list.innerHTML="";
-            people.map(p => ({...p, periodCount: countByPerson[p.id] || 0}))
-                .sort((a,b)=>b.periodCount-a.periodCount || (b.count||0)-(a.count||0))
-                .slice(0,5)
-                .forEach((x,i)=>{
-                    list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.periodCount}</div></div>`;
-                });
-            if(!list.innerHTML) list.innerHTML = "<div style='color:#666; font-size:12px;'>No Data</div>";
-
+            people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
+                list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
+            });
             const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
-            const highTags={}; let hTotal=0;
-            works.filter(w => (countByWork[w.id] || 0) > 0).forEach(w=>{(w.tags||[]).forEach(t=>{highTags[t]=(highTags[t]||0)+(countByWork[w.id]||0);hTotal+=(countByWork[w.id]||0);})});
+            let highTags={}; let hTotal=0;
+            works.forEach(w=>{if(w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
             if(hTotal>0){
                 const sorted=Object.entries(highTags).sort((a,b)=>b[1]-a[1]).slice(0,5);
                 let grad="", deg=0, leg='<div class="pie-legend">';
@@ -1068,10 +1014,10 @@
                 ch.innerHTML=`<div class="pie-hole"><div style="font-size:10px;color:#888;">TOTAL</div><div style="font-size:14px;color:#d4af37;">${hTotal}</div></div>`;
                 pieCon.appendChild(ch); pieCon.insertAdjacentHTML('beforeend', leg+'</div>');
             } else pieCon.innerHTML="<div style='color:#555;font-size:10px;'>No Data</div>";
-
             const grid=document.getElementById('calendar-grid'); grid.innerHTML="";
-            const now=new Date(); document.getElementById('cal-month-label').innerText = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}`;
-            const activeDays=new Set(filteredLogs.filter(l=>{ const d=new Date(l.timestamp); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear(); }).map(l=>new Date(l.timestamp).getDate()));
+            // 曜日ヘッダー
+            ['S','M','T','W','T','F','S'].forEach(d=>{ const h=document.createElement('div'); h.className='cal-dow'; h.innerText=d; grid.appendChild(h); });
+            const now=new Date(); const activeDays=new Set(logs.filter(l=>new Date(l.timestamp).getMonth()===now.getMonth()).map(l=>new Date(l.timestamp).getDate()));
             const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
             const firstDay=new Date(now.getFullYear(),now.getMonth(),1).getDay();
             for(let i=0;i<firstDay;i++) grid.appendChild(document.createElement('div'));
@@ -1080,38 +1026,47 @@
                 if(activeDays.has(d))c.classList.add('active'); if(d===now.getDate())c.classList.add('today');
                 grid.appendChild(c);
             }
-
+            // Monthly trend (past 12 months)
+            const mBars=document.getElementById('monthly-bars'); mBars.innerHTML="";
+            const monthlyCounts={}; 
+            logs.forEach(l=>{ const d=new Date(l.timestamp); const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; monthlyCounts[key]=(monthlyCounts[key]||0)+1; });
+            const months=[]; for(let i=11;i>=0;i--){ const d=new Date(now.getFullYear(),now.getMonth()-i,1); months.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,label:String(d.getMonth()+1)+'M',isCurrent:i===0}); }
+            const maxM=Math.max(1,...months.map(m=>monthlyCounts[m.key]||0));
+            months.forEach(m=>{ const cnt=monthlyCounts[m.key]||0; const pct=Math.max(4,(cnt/maxM)*100); const wrap=document.createElement('div'); wrap.className='monthly-bar-wrap'; wrap.innerHTML=`<div class="monthly-bar-val">${cnt||''}</div><div class="monthly-bar${m.isCurrent?' current':''}" style="height:${pct}%"></div><div class="monthly-bar-label">${m.label}</div>`; mBars.appendChild(wrap); });
+             // Gobusata
             const gList=document.getElementById('gobusata-list'); gList.innerHTML="";
             const old=new Date(); old.setDate(old.getDate()-30);
-            const gobu=people.filter(p=>!p.lastUsed || new Date(p.lastUsed)<old).sort((a,b)=>new Date(a.lastUsed||0)-new Date(b.lastUsed||0)).slice(0,10);
+            const gobu=people.filter(p=>!p.lastUsed || new Date(p.lastUsed)<old);
             if(gobu.length>0){
                 document.getElementById('gobusata-area').style.display='block';
                 gobu.forEach(p=>{
                     const img = p.image || p.img || "";
-                    gList.innerHTML+=`<div class="gobusata-item" onclick="openDetail(${p.id})"><img src="${img}" class="gobusata-img" style="${img?'':'background:#333'}"><div class="gobusata-name">${p.name}</div></div>`;
+                     gList.innerHTML+=`<div class="gobusata-item" onclick="openDetail(${p.id})"><img src="${img}" class="gobusata-img" style="${img?'':'background:#333'}"><div class="gobusata-name">${p.name}</div></div>`;
                 });
             } else document.getElementById('gobusata-area').style.display='none';
-
-            const championCandidates = people.map(p=>({...p, periodCount: countByPerson[p.id] || 0})).sort((a,b)=>b.periodCount-a.periodCount || (b.count||0)-(a.count||0));
-            const champion = championCandidates[0];
-            const area=document.getElementById('champion-area');
-            if(champion && champion.periodCount > 0){
-                const imgSrc = champion.image || champion.img || '';
-                area.innerHTML=`<div class="champion-box" onclick="openDetail(${champion.id})"><div class="champion-title">QUEEN OF THE PERIOD</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${imgSrc}" class="champion-img" style="${imgSrc?'':'background:#333'};object-position:${champion.focusX||50}% ${champion.focusY||50}%"></div><div class="champion-name">${champion.name}</div><div class="champion-score">${champion.periodCount} Selections</div></div>`;
+            // Champion (今月の利用数1位)
+            const thisMonth=now.getMonth(); const thisYear=now.getFullYear();
+            const monthlyPersonCounts={};
+            logs.filter(l=>{ const d=new Date(l.timestamp); return d.getMonth()===thisMonth&&d.getFullYear()===thisYear; }).forEach(l=>{ if(l.personId) monthlyPersonCounts[l.personId]=(monthlyPersonCounts[l.personId]||0)+1; });
+            const topEntry=Object.entries(monthlyPersonCounts).sort((a,b)=>b[1]-a[1])[0];
+            const championPerson = topEntry ? people.find(p=>p.id===parseInt(topEntry[0])) : (people.length>0?people.sort((a,b)=>(b.count||0)-(a.count||0))[0]:null);
+            if(championPerson){
+                const c=championPerson; const area=document.getElementById('champion-area');
+                const imgSrc = c.image || c.img || '';
+                const score = topEntry ? topEntry[1] : (c.count||0);
+                area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${imgSrc}" class="champion-img" style="${imgSrc?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${score} Selections</div></div>`;
                 area.style.display='block';
-            } else area.style.display='none';
-
+            }
+            // Tags
             const wList=document.getElementById('tag-ranking'); wList.innerHTML="";
-            const wTagMap={}; works.filter(w => (countByWork[w.id] || 0) > 0).forEach(w=>{(w.tags||[]).forEach(t=>wTagMap[t]=(wTagMap[t]||0)+(countByWork[w.id]||0));});
+            const wTagMap={}; works.forEach(w=>{if(w.tags)w.tags.forEach(t=>wTagMap[t]=(wTagMap[t]||0)+(w.count||1));}); 
             const wSorted=Object.entries(wTagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
             if(wSorted.length>0){const max=wSorted[0][1]; wSorted.forEach(t=>{const per=(t[1]/max)*100; wList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
-            else wList.innerHTML = "<div style='color:#666; font-size:12px;'>No Data</div>";
-
+            
             const tList=document.getElementById('person-tag-ranking'); tList.innerHTML="";
-            const pTagMap={}; people.filter(p => (countByPerson[p.id] || 0) > 0).forEach(p=>{(p.tags||[]).forEach(t=>pTagMap[t]=(pTagMap[t]||0)+(countByPerson[p.id]||0));});
+            const pTagMap={}; people.forEach(p=>{const tgs=p.tags||[]; tgs.forEach(t=>pTagMap[t]=(pTagMap[t]||0)+1);});
             const pSorted=Object.entries(pTagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
             if(pSorted.length>0){const max=pSorted[0][1]; pSorted.forEach(t=>{const per=(t[1]/max)*100; tList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
-            else tList.innerHTML = "<div style='color:#666; font-size:12px;'>No Data</div>";
         });
     }
 </script>
