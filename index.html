@@ -209,112 +209,18 @@
     .input-with-btn input { margin-bottom: 0; }
     .mini-btn { background: #444; border: 1px solid #666; color: #fff; border-radius: 5px; width: 60px; cursor: pointer; font-size: 10px; display:flex; align-items:center; justify-content:center; }
 
-    /* === 解錠シアター === */
-    #unlock-theater {
-        display: none;
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        z-index: 15000; pointer-events: none;
-        overflow: hidden;
-    }
-    #unlock-theater.active { display: block; }
-    .curtain-left, .curtain-right {
-        position: absolute; top: 0; width: 50%; height: 100%;
-        background: linear-gradient(to bottom, #0a0a0a 0%, #111 50%, #0a0a0a 100%);
-        border-image: linear-gradient(to bottom, transparent, rgba(212,175,55,0.4), transparent) 1;
-        transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-    }
-    .curtain-left { left: 0; border-right: 1px solid rgba(212,175,55,0.3); transform-origin: left center; }
-    .curtain-right { right: 0; border-left: 1px solid rgba(212,175,55,0.3); transform-origin: right center; }
-    .curtain-left.open { transform: translateX(-100%); }
-    .curtain-right.open { transform: translateX(100%); }
-    .curtain-emblem {
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        color: #d4af37; font-family: "Times New Roman", serif;
-        font-size: 14px; letter-spacing: 0.4em; text-transform: uppercase;
-        text-align: center; opacity: 1; transition: opacity 0.4s;
-        white-space: nowrap;
-    }
-    .curtain-emblem.fade { opacity: 0; }
-    .curtain-title { font-size: 22px; display: block; margin-bottom: 8px; letter-spacing: 0.2em; }
-    .curtain-sub { font-size: 10px; color: #888; letter-spacing: 0.5em; display: block; }
-
-    /* === 深夜モード === */
-    body.midnight-mode { --gold: #c8915a; --gold-glow: rgba(200, 145, 90, 0.4); }
-    body.midnight-mode .app-header h1 { color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); }
-    body.midnight-mode .header-btn { color: var(--gold); }
-    body.midnight-mode .mode-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
-    body.midnight-mode .count { color: var(--gold); }
-    body.midnight-mode .person-card, body.midnight-mode .work-card { border-color: rgba(200,145,90,0.25); }
-    body.midnight-mode .play-btn { background: var(--gold); }
-    body.midnight-mode .work-item { border-left-color: var(--gold); }
-    body.midnight-mode .detail-stats, body.midnight-mode .wd-title { color: var(--gold); }
-    body.midnight-mode .rank-num, body.midnight-mode .cal-month { color: var(--gold); }
-    body.midnight-mode .tag-fill { background: var(--gold); }
-    body.midnight-mode .wd-play { background: var(--gold); }
-    body.midnight-mode .fab { background: linear-gradient(135deg, #c8915a, #a0703f); }
-    body.midnight-mode #home-screen { background: radial-gradient(circle at center, #1a0f0a 0%, #000000 100%); }
-    #midnight-badge {
-        display: none; position: fixed; top: 68px; right: 10px;
-        font-size: 9px; color: #c8915a; letter-spacing: 0.15em;
-        opacity: 0.7; z-index: 2000; font-family: "Times New Roman", serif;
-        animation: fadeInOut 3s ease-in-out;
-    }
-    @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:0.7} 80%{opacity:0.7} 100%{opacity:0} }
-
-    /* === スケルトン === */
-    .skeleton { background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 4px; }
-    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-    .skeleton-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; }
-    .skeleton-thumb { height: 140px; }
-    .skeleton-line { height: 14px; margin: 10px 10px 6px; }
-    .skeleton-line.short { width: 50%; height: 11px; }
-
-    /* === アクティブフィルターバッジ === */
-    #active-filter-bar { display: none; padding: 0 20px 8px; flex-wrap: wrap; gap: 6px; }
-    #active-filter-bar.visible { display: flex; }
-    .active-filter-badge {
-        font-size: 11px; background: rgba(212,175,55,0.15); border: 1px solid rgba(212,175,55,0.5);
-        color: #d4af37; padding: 3px 10px; border-radius: 20px;
-        display: flex; align-items: center; gap: 5px;
-    }
-    .active-filter-badge .remove { cursor: pointer; font-size: 14px; line-height: 1; }
-
-    /* === クイック評価 (長押しメニュー) === */
-    .quick-rate-menu {
-        display: none; position: fixed; background: #1a1a2e;
-        border: 1px solid #d4af37; border-radius: 10px; padding: 12px 16px;
-        z-index: 9000; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-    }
-    .quick-rate-menu .stars { font-size: 22px; color: #444; cursor: pointer; letter-spacing: 2px; }
-    .quick-rate-menu .stars span.on { color: #d4af37; }
-    .quick-rate-label { font-size: 9px; color: #888; letter-spacing: 0.2em; margin-bottom: 6px; }
+    .form-section { margin: 10px 0 14px; padding: 10px; border:1px solid #333; border-radius:10px; background:#141414; }
+    .form-section-title { font-size:10px; letter-spacing:1px; color:#9f9f9f; margin-bottom:8px; text-align:left; }
+    .mini-note { font-size:10px; color:#888; line-height:1.5; margin-top:6px; text-align:left; }
+    .select-like { width:100%; padding:10px; background:#222; color:#fff; border:1px solid #555; border-radius:4px; margin-bottom:10px; }
+    .detail-link-row { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+    .detail-mini-btn { border:1px solid #555; color:#ddd; background:#161616; padding:8px 10px; border-radius:999px; font-size:11px; cursor:pointer; }
+    .detail-meta-line { font-size:11px; color:#bbb; margin-top:6px; line-height:1.6; }
 </style>
 </head>
 <body>
 
 <div id="toast">RECORDED<br><span style="font-size:12px; color:#fff;">賢者タイムに入ります</span></div>
-
-<!-- 解錠シアター -->
-<div id="unlock-theater">
-    <div class="curtain-left" id="curtain-left">
-        <div class="curtain-emblem" id="curtain-emblem">
-            <span class="curtain-title">PRIVATE MUSEUM</span>
-            <span class="curtain-sub">entering your collection</span>
-        </div>
-    </div>
-    <div class="curtain-right" id="curtain-right"></div>
-</div>
-
-<!-- 深夜バッジ -->
-<div id="midnight-badge">✦ MIDNIGHT GALLERY ✦</div>
-
-<!-- クイック評価メニュー -->
-<div class="quick-rate-menu" id="quick-rate-menu">
-    <div class="quick-rate-label">QUICK RATE</div>
-    <div class="stars" id="quick-rate-stars">
-        <span onclick="setQuickRate(1)">★</span><span onclick="setQuickRate(2)">★</span><span onclick="setQuickRate(3)">★</span><span onclick="setQuickRate(4)">★</span><span onclick="setQuickRate(5)">★</span>
-    </div>
-</div>
 
 <script>
     let calcInput = '0';
@@ -347,56 +253,15 @@
     function unlockApp() {
         const cs = document.getElementById('calculator-screen');
         const ac = document.getElementById('app-container');
-        const theater = document.getElementById('unlock-theater');
-        const curtainL = document.getElementById('curtain-left');
-        const curtainR = document.getElementById('curtain-right');
-        const emblem = document.getElementById('curtain-emblem');
-
         if(cs && ac) {
-            // 電卓フェードアウト
             cs.style.opacity = '0';
-            cs.style.pointerEvents = 'none';
-
+            cs.style.pointerEvents = 'none'; 
             setTimeout(() => {
-                cs.style.display = 'none';
-
-                // シアター開幕
-                theater.classList.add('active');
-
-                setTimeout(() => {
-                    // 幕が開く
-                    emblem.classList.add('fade');
-                    curtainL.classList.add('open');
-                    curtainR.classList.add('open');
-
-                    // アプリをシアターの後ろで表示開始
-                    ac.style.display = 'block';
-                    setTimeout(() => ac.style.opacity = '1', 200);
-
-                    setTimeout(() => {
-                        theater.classList.remove('active');
-                        curtainL.classList.remove('open');
-                        curtainR.classList.remove('open');
-                        emblem.classList.remove('fade');
-
-                        if(window.loadHomeData) window.loadHomeData();
-                        checkMidnightMode();
-                    }, 1400);
-                }, 600);
-            }, 400);
-        }
-    }
-
-    function checkMidnightMode() {
-        const h = new Date().getHours();
-        const isMidnight = h >= 0 && h < 4;
-        if(isMidnight) {
-            document.body.classList.add('midnight-mode');
-            const badge = document.getElementById('midnight-badge');
-            badge.style.display = 'block';
-            setTimeout(() => badge.style.display = 'none', 3000);
-        } else {
-            document.body.classList.remove('midnight-mode');
+                cs.style.display = 'none'; 
+                ac.style.display = 'block';
+                setTimeout(() => ac.style.opacity = '1', 50);
+                if(window.loadHomeData) window.loadHomeData();
+            }, 500);
         }
     }
 </script>
@@ -451,7 +316,6 @@
             <div class="sort-item" onclick="applySort('rating', 'home')">Rating (Quality)</div>
             <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
         </div>
-        <div id="active-filter-bar"></div>
         <div class="section-title" id="home-list-title">登録済みのミューズ</div>
         <div class="card-list" id="person-list"></div>
         <div class="card-list" id="work-list-home" style="display:none;"></div>
@@ -475,8 +339,8 @@
         <div class="monthly-chart"><div class="monthly-bars" id="monthly-bars"></div></div>
         <div class="section-title">QUALITY ANALYSIS</div>
         <div class="pie-chart-container" id="pie-rated"></div>
-        <div class="section-title">MUSE TYPES</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
-        <div class="section-title">SCENE TRENDS</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">MOOD TRENDS</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">SITUATION TRENDS</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
         <div class="champion-area" id="champion-area"></div>
         <div class="gobusata-area" id="gobusata-area"><div class="section-title">Long Time No See...</div><div class="gobusata-scroller" id="gobusata-list"></div></div>
         <div class="section-title">TOP RANKING</div><div class="ranking-list" id="ranking-list"></div>
@@ -498,6 +362,8 @@
                 <div class="detail-name" id="detail-name">Name</div>
                 <div class="detail-specs" id="detail-specs"></div>
                 <div class="detail-stats" id="detail-stats">Selection: 0</div>
+                <div class="detail-meta-line" id="detail-meta-line"></div>
+                <div class="detail-link-row"><div class="detail-mini-btn" id="detail-source-btn" onclick="openPersonSourceUrl()">SOURCE</div><div class="detail-mini-btn" id="detail-gallery-btn" onclick="openLinkedGallery()">GALLERY</div></div>
                 <div class="person-profile-text" id="detail-profile"></div>
                 <div class="person-tags-area" id="detail-person-tags"></div>
             </div>
@@ -557,12 +423,12 @@
         <div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">CANCEL</button><button class="btn btn-save" onclick="saveGalleryImages()">SAVE</button></div>
     </div>
 </div>
-<div class="modal-overlay" id="add-folder-modal"><div class="modal-content"><div class="modal-title">EDIT FOLDER</div><input type="hidden" id="edit-folder-id"><input type="text" id="new-folder-name" placeholder="Folder Name"><label class="file-select-btn">Cover <input type="file" onchange="previewImage(this,'folder-preview-img','folder-focus-point')"></label><div class="preview-container" style="height:150px; margin:10px auto;" onclick="setFocus(event, 'folder-preview-img', 'folder-focus-point')"><img id="folder-preview-img" class="preview-img" style="display:none;"><div id="folder-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-folder-modal')">CANCEL</button><button class="btn btn-save" onclick="saveFolder()">SAVE</button></div><button class="btn btn-danger" id="delete-folder-btn" style="display:none;" onclick="deleteFolder()">DELETE FOLDER</button></div></div>
-<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><div style="flex:2;"><div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div><input type="date" id="new-person-birthday"></div></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:10px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags (space separated)"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img" class="preview-img"><div id="focus-point" class="focus-point"></div><div style="color:#666; font-size:12px;">No Image Selected</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">DELETE</button></div></div>
-<div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div>
-<div style="margin-bottom:10px;"><label style="font-size:10px; color:#aaa;">Owner (Muse)</label><select id="edit-work-owner" style="width:100%; padding:10px; background:#222; color:#fff; border:1px solid #555; border-radius:4px; margin-top:2px;"></select></div>
-<div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')" style="margin:10px 0;"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div><div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">DELETE</button></div></div>
-<div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-and-mode"> AND検索（全て一致）</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
+
+<div class="modal-overlay" id="add-folder-modal"><div class="modal-content"><div class="modal-title">EDIT FOLDER</div><input type="hidden" id="edit-folder-id"><input type="text" id="new-folder-name" placeholder="Folder Name"><div style="margin-bottom:10px;"><label style="font-size:10px; color:#aaa;">Linked Muse</label><select id="folder-linked-person" class="select-like"><option value="">Not linked</option></select></div><label class="file-select-btn">Cover <input type="file" onchange="previewImage(this,'folder-preview-img','folder-focus-point')"></label><div class="preview-container" style="height:150px; margin:10px auto;" onclick="setFocus(event, 'folder-preview-img', 'folder-focus-point')"><img id="folder-preview-img" class="preview-img" style="display:none;"><div id="folder-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-folder-modal')">CANCEL</button><button class="btn btn-save" onclick="saveFolder()">SAVE</button></div><button class="btn btn-danger" id="delete-folder-btn" style="display:none;" onclick="deleteFolder()">DELETE FOLDER</button></div></div>
+<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><div style="flex:2;"><div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div><input type="date" id="new-person-birthday"></div></div><div class="form-section"><div class="form-section-title">URLから仮入力</div><div class="input-with-btn"><input type="url" id="new-person-source-url" placeholder="Profile URL"><button class="mini-btn" onclick="pastePersonUrl()">PASTE</button></div><textarea id="new-person-source-text" placeholder="紹介ページの本文やコピペしたテキストを貼ると、名前・カップ・誕生日・プロフィールを仮入力します。"></textarea><div class="btn-group"><button class="btn btn-cancel" type="button" onclick="clearPersonSourceText()">CLEAR</button><button class="btn btn-save" type="button" onclick="parsePersonSource()">仮入力</button></div><div class="mini-note">外部ページを直接読むのではなく、URL保存＋貼り付けテキスト抽出の半自動方式です。</div></div><div style="margin-bottom:10px;"><label style="font-size:10px; color:#aaa;">Gallery Folder</label><select id="new-person-gallery-folder" class="select-like"><option value="">Not linked</option></select></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:10px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags (space separated)"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img" class="preview-img"><div id="focus-point" class="focus-point"></div><div style="color:#666; font-size:12px;">No Image Selected</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">DELETE</button></div></div>
+<div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div><div style="display:flex; gap:10px;"><input type="text" id="new-work-product-code" placeholder="Product Code" style="flex:1;"><input type="date" id="new-work-release-date" style="flex:1;"></div><div style="display:flex; gap:10px; margin-top:10px;"><input type="text" id="new-work-maker" placeholder="Maker" style="flex:1;"><input type="text" id="new-work-label" placeholder="Label" style="flex:1;"></div><div style="margin-bottom:10px; margin-top:10px;"><label style="font-size:10px; color:#aaa;">Owner (Muse)</label><select id="edit-work-owner" class="select-like"></select></div><div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')" style="margin:10px 0;"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div><div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">DELETE</button></div></div>
+<div class="modal-overlay" id="log-select-modal"><div class="modal-content"><div class="modal-title">これを選んだ</div><input type="hidden" id="log-work-id"><div style="font-size:12px; color:#bbb; margin-bottom:10px;" id="log-work-title"></div><label style="font-size:10px; color:#aaa;">どんな時に見たか</label><select id="log-situation" class="select-like"><option value="">選択なし</option><option>寝る前</option><option>暇つぶし</option><option>気分転換</option><option>しっかり見たい</option><option>新規開拓したい</option><option>なんとなく</option></select><label style="font-size:10px; color:#aaa;">気分</label><select id="log-mood" class="select-like"><option value="">選択なし</option><option>落ち着きたい</option><option>癒されたい</option><option>刺激が欲しい</option><option>外したくない</option><option>冒険したい</option></select><label style="font-size:10px; color:#aaa;">新規/再視聴</label><select id="log-selection-type" class="select-like"><option value="新規">新規</option><option value="再視聴">再視聴</option></select><label style="font-size:10px; color:#aaa;">期待値</label><select id="log-expectation" class="select-like"><option value="普通">普通</option><option value="高い">高い</option><option value="低い">低い</option></select><label style="font-size:10px; color:#aaa;">満足度（任意）</label><select id="log-satisfaction" class="select-like"><option value="">未入力</option><option value="5">5</option><option value="4">4</option><option value="3">3</option><option value="2">2</option><option value="1">1</option></select><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('log-select-modal')">CANCEL</button><button class="btn btn-save" onclick="submitSelectionLog()">SAVE</button></div></div></div>
+<div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> Exact Match</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">RESTORE<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
 
 <script>
@@ -571,7 +437,7 @@
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
     let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let folderCurrentFocus={x:50,y:50};
     let allPeopleCache=[], allWorksCache=[], allFoldersCache=[]; let selectedTags=new Set();
-    let currentRating=0; let isScrolling=false; let lastTap=0;
+    let currentRating=0; let isScrolling=false; let lastTap=0; let currentDetailPerson=null; let currentPlayWorkId=null;
     
     // Gallery
     let currentGalleryImages=[]; let currentGalleryIndex=0; let isGallerySelectMode=false; let selectedGalleryImages=new Set();
@@ -580,7 +446,7 @@
 
     // DB (Ver 5001 - Refresh)
     window.onload=()=>{
-        const r=indexedDB.open("SecretMuseumDB", 5001);
+        const r=indexedDB.open("SecretMuseumDB", 5002);
         r.onupgradeneeded=(e)=>{
             db=e.target.result;
             if(!db.objectStoreNames.contains("people")) db.createObjectStore("people",{keyPath:"id",autoIncrement:true});
@@ -637,13 +503,9 @@
         loadHomeData();
     }
     
-    // Robust Loader（キャッシュ優先・差分更新）
-    let _homeDataDirty = true;
-    window.markHomeDirty = () => { _homeDataDirty = true; };
-
-    window.loadHomeData = function(force){
+    // Robust Loader
+    window.loadHomeData = function(){
         if(!db){ setTimeout(window.loadHomeData, 200); return; }
-        if(!force && !_homeDataDirty) { filterHomeList(); return; }
         
         try {
             const tx = db.transaction(["people","works"], "readonly");
@@ -663,7 +525,6 @@
                 allWorksCache = wks;
                 allPeopleCache.sort((a,b)=>(b.count||0)-(a.count||0));
                 allWorksCache.sort((a,b)=>(b.count||0)-(a.count||0));
-                _homeDataDirty = false;
                 filterHomeList();
             });
         } catch(e) { console.error(e); }
@@ -674,15 +535,12 @@
         const btn=document.getElementById('filter-btn');
         if(selectedTags.size>0)btn.classList.add('active');else btn.classList.remove('active');
 
-        // アクティブフィルターバッジ更新
-        updateActiveFilterBar(q);
-
         if(homeMode==='people'){
             document.getElementById('person-list').style.display='grid';
             document.getElementById('work-list-home').style.display='none';
             let res=allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
             if(selectedTags.size>0){
-                const exact=document.getElementById('tag-and-mode').checked;
+                const exact=document.getElementById('tag-exact-match').checked;
                 res=res.filter(p=>{
                     const pt=p.tags||[];
                     const matchP = exact?Array.from(selectedTags).every(t=>pt.includes(t)):pt.some(t=>selectedTags.has(t));
@@ -703,7 +561,7 @@
             document.getElementById('work-list-home').style.display='grid';
             let res=allWorksCache.filter(w=>w.title.toLowerCase().includes(q));
             if(selectedTags.size>0){
-                const exact=document.getElementById('tag-and-mode').checked;
+                const exact=document.getElementById('tag-exact-match').checked;
                 res=res.filter(w=>{
                     const wt=w.tags||[];
                     return exact?Array.from(selectedTags).every(t=>wt.includes(t)):wt.some(t=>selectedTags.has(t));
@@ -713,109 +571,22 @@
             renderWorkListForHome(res);
         }
     }
-
-    function updateActiveFilterBar(q) {
-        const bar = document.getElementById('active-filter-bar');
-        bar.innerHTML = '';
-        let hasFilter = false;
-        if(q) {
-            hasFilter = true;
-            bar.innerHTML += `<div class="active-filter-badge">🔍 ${q}<span class="remove" onclick="document.getElementById('search-input').value='';filterHomeList()">×</span></div>`;
-        }
-        selectedTags.forEach(t => {
-            hasFilter = true;
-            bar.innerHTML += `<div class="active-filter-badge">🏷 ${t}<span class="remove" onclick="removeTagFilter('${t}')">×</span></div>`;
-        });
-        bar.classList.toggle('visible', hasFilter);
-    }
-
-    function removeTagFilter(tag) {
-        selectedTags.delete(tag);
-        filterHomeList();
-    }
     function renderPeopleList(list){
         const con=document.getElementById('person-list'); con.innerHTML="";
         if(list.length===0){con.innerHTML="<div style='color:#555;'>No Data</div>";return;}
-
-        // スケルトン先行表示
-        for(let i=0; i<Math.min(list.length,4); i++) {
-            const sk = document.createElement('div'); sk.className='skeleton-card';
-            sk.innerHTML='<div class="skeleton skeleton-thumb"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div>';
-            con.appendChild(sk);
-        }
-
-        requestAnimationFrame(() => {
-            con.innerHTML = "";
-            list.forEach(p=>{
-                const div=document.createElement('div'); div.className='person-card';
-                if(p.hof) div.classList.add('hof');
-                const imgSrc = p.image || p.img || '';
-                // 遅延ロード
-                const img = imgSrc
-                    ? `<img data-src="${imgSrc}" class="gallery-thumb" style="width:100%;height:100%;object-fit:cover;object-position:${p.focusX}% ${p.focusY}%" loading="lazy">`
-                    : '<div class="thumb-placeholder">NO IMG</div>';
-                const crown=p.hof?'<div class="card-crown">👑</div>':'';
-                const starsEl = p.rating > 0 ? `<div class="rating-stars-sm">${'<span class="on">★</span>'.repeat(p.rating)}</div>` : '';
-                div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div>${starsEl}<div class="count">${p.count||0} SELECTIONS</div></div>`;
-                div.onclick=()=>openDetail(p.id);
-
-                // 長押し：クイック評価
-                let timer;
-                div.addEventListener('touchstart', e => {
-                    timer = setTimeout(() => { timer=null; showQuickRateMenu(e, p); }, 600);
-                });
-                div.addEventListener('touchend', () => { if(timer) clearTimeout(timer); });
-                con.appendChild(div);
-            });
-            // 遅延ロード発火
-            lazyLoadImages(con);
+        list.forEach(p=>{
+            const div=document.createElement('div'); div.className='person-card';
+            if(p.hof) div.classList.add('hof');
+            const imgSrc = p.image || p.img || '';
+            const img=imgSrc?`<img src="${imgSrc}" style="object-position:${p.focusX}% ${p.focusY}%">`:'<div class="thumb-placeholder">NO IMG</div>';
+            const crown=p.hof?'<div class="card-crown">👑</div>':'';
+            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} SELECTIONS</div></div>`;
+            div.onclick=()=>openDetail(p.id);
+            let timer;
+            div.addEventListener('touchstart',()=>{timer=setTimeout(()=>{timer=null;openEditPersonModal(p);},600);});
+            div.addEventListener('touchend',()=>{if(timer)clearTimeout(timer);});
+            con.appendChild(div);
         });
-    }
-
-    let _quickRateTarget = null;
-    function showQuickRateMenu(e, p) {
-        _quickRateTarget = p;
-        const menu = document.getElementById('quick-rate-menu');
-        const touch = e.touches[0];
-        menu.style.left = Math.min(touch.clientX, window.innerWidth - 180) + 'px';
-        menu.style.top = Math.max(touch.clientY - 80, 80) + 'px';
-        menu.style.display = 'block';
-        renderQuickStars(p.rating || 0);
-        setTimeout(() => document.addEventListener('touchstart', closeQuickRateMenu, {once:true}), 100);
-    }
-    function renderQuickStars(rating) {
-        const stars = document.getElementById('quick-rate-stars').children;
-        for(let i=0; i<5; i++) stars[i].className = i < rating ? 'on' : '';
-    }
-    function setQuickRate(r) {
-        if(!_quickRateTarget) return;
-        const p = allPeopleCache.find(x => x.id === _quickRateTarget.id);
-        if(!p) return;
-        db.transaction(["people"],"readwrite").objectStore("people").get(p.id).onsuccess = e => {
-            const rec = e.target.result; if(!rec) return;
-            rec.rating = r;
-            db.transaction(["people"],"readwrite").objectStore("people").put(rec).onsuccess = () => {
-                p.rating = r; renderQuickStars(r);
-                setTimeout(closeQuickRateMenu, 400);
-                filterHomeList();
-            };
-        };
-    }
-    function closeQuickRateMenu() {
-        document.getElementById('quick-rate-menu').style.display = 'none';
-        _quickRateTarget = null;
-    }
-
-    function lazyLoadImages(container) {
-        const imgs = container.querySelectorAll('img[data-src]');
-        if('IntersectionObserver' in window) {
-            const obs = new IntersectionObserver((entries) => {
-                entries.forEach(en => { if(en.isIntersecting) { en.target.src = en.target.dataset.src; obs.unobserve(en.target); } });
-            }, {rootMargin:'200px'});
-            imgs.forEach(img => obs.observe(img));
-        } else {
-            imgs.forEach(img => img.src = img.dataset.src);
-        }
     }
     function renderWorkListForHome(list){
         const con=document.getElementById('work-list-home'); con.innerHTML="";
@@ -886,11 +657,13 @@
         else if(mode === 'newest') works.sort((a,b) => b.id - a.id);
     }
     function closeDetail(){ document.getElementById('detail-screen').style.display='none'; document.getElementById('home-screen').style.display='block'; loadHomeData(); }
+    function openPersonSourceUrl(){ if(currentDetailPerson && currentDetailPerson.sourceUrl) window.open(currentDetailPerson.sourceUrl, '_blank'); else alert('Source URLが未登録です'); }
+    function openLinkedGallery(){ if(!currentDetailPerson || !currentDetailPerson.galleryFolderId) return alert('Gallery folderが未連携です'); const f=allFoldersCache.find(x=>x.id===currentDetailPerson.galleryFolderId); if(!f) return alert('Folder not found'); switchTab('gallery'); openFolder(f.id, f.name); }
 
     // === Work Detail & Play ===
     function openWorkDetail(w){
         document.getElementById('wd-title').innerText=w.title;
-        document.getElementById('wd-meta').innerText=`Selection: ${w.count||0}`;
+        document.getElementById('wd-meta').innerText=`${owner?owner.name:''} / ${w.productCode||'-'} / ${w.maker||'-'}${w.label?` / ${w.label}`:''} / ${w.count||0} Selections`;
         const img=document.getElementById('wd-img'); const ni=document.getElementById('wd-no-img');
         if(w.image){img.src=w.image;img.style.objectPosition=`${w.focusX||50}% ${w.focusY||50}%`;img.style.display='block';ni.style.display='none';}
         else{img.style.display='none';ni.style.display='block';}
@@ -920,19 +693,40 @@
     }
     function closeWorkDetail(){ document.getElementById('work-detail-screen').style.display='none'; }
     function useWork(wid){
-        if(!currentPersonId){
-            db.transaction(["works"],"readonly").objectStore("works").get(wid).onsuccess=e=>{ if(e.target.result){ currentPersonId=e.target.result.personId; execPlay(wid); } };
-        } else execPlay(wid);
+        db.transaction(["works"],"readonly").objectStore("works").get(wid).onsuccess=e=>{
+            const w=e.target.result; if(!w) return;
+            currentPlayWorkId = wid;
+            currentPersonId = w.personId;
+            document.getElementById('log-work-id').value = wid;
+            document.getElementById('log-work-title').innerText = w.title;
+            document.getElementById('log-situation').value = '';
+            document.getElementById('log-mood').value = '';
+            document.getElementById('log-selection-type').value = '新規';
+            document.getElementById('log-expectation').value = '普通';
+            document.getElementById('log-satisfaction').value = '';
+            document.getElementById('log-select-modal').style.display='flex';
+        };
     }
-    function execPlay(wid){
+    function submitSelectionLog(){
+        const wid = parseInt(document.getElementById('log-work-id').value);
+        closeModal('log-select-modal');
+        execPlay(wid,{
+            situation:document.getElementById('log-situation').value,
+            mood:document.getElementById('log-mood').value,
+            selectionType:document.getElementById('log-selection-type').value,
+            expectation:document.getElementById('log-expectation').value,
+            satisfaction:document.getElementById('log-satisfaction').value
+        });
+    }
+    function execPlay(wid, extra={}){
         const tx=db.transaction(["people","works","logs"],"readwrite");
-        tx.objectStore("works").get(wid).onsuccess=e=>{const w=e.target.result; if(w){w.count=(w.count||0)+1;tx.objectStore("works").put(w);}};
+        tx.objectStore("works").get(wid).onsuccess=e=>{const w=e.target.result; if(w){w.count=(w.count||0)+1; w.lastSelectedAt=new Date(); tx.objectStore("works").put(w);}};
         tx.objectStore("people").get(currentPersonId).onsuccess=e=>{const p=e.target.result; if(p){p.count=(p.count||0)+1;p.lastUsed=new Date();tx.objectStore("people").put(p);}};
-        tx.objectStore("logs").add({personId:currentPersonId, workId:wid, timestamp:new Date()});
+        tx.objectStore("logs").add({personId:currentPersonId, workId:wid, timestamp:new Date(), ...extra});
         tx.oncomplete=()=>{
             document.getElementById('toast').classList.add('show'); setTimeout(()=>document.getElementById('toast').classList.remove('show'),2000);
-            window.markHomeDirty();
             if(document.getElementById('detail-screen').style.display==='flex') loadDetailWorks();
+            renderAnalysis();
         };
     }
     function randomPick(){
@@ -952,7 +746,8 @@
             list.forEach(f=>{
                 const div=document.createElement('div'); div.className='folder-card'; 
                 const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;object-position:${f.focusX||50}% ${f.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
-                div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div><div class="card-menu-btn" onclick="event.stopPropagation();prepareEditFolder(${f.id})">︙</div>`;
+                const linked = f.linkedPersonId ? (allPeopleCache.find(p=>p.id===f.linkedPersonId)?.name || '') : '';
+                div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">${linked?`🔗 ${linked}`:'📂 OPEN'}</div></div><div class="card-menu-btn" onclick="event.stopPropagation();prepareEditFolder(${f.id})">︙</div>`;
                 div.onclick=()=>openFolder(f.id, f.name);
                 con.appendChild(div);
             });
@@ -1014,15 +809,15 @@
         tx.oncomplete = () => { isGallerySelectMode = false; updateGalleryUI(); loadFolderImages(); };
     }
 
-    function openAddFolderModal(){ document.getElementById('add-folder-modal').style.display='flex'; document.getElementById('new-folder-name').value=""; document.getElementById('folder-preview-img').style.display='none'; document.getElementById('edit-folder-id').value=""; document.getElementById('delete-folder-btn').style.display='none'; }
-    function openEditFolderModal(f){ document.getElementById('add-folder-modal').style.display='flex'; document.getElementById('edit-folder-id').value=f.id; document.getElementById('new-folder-name').value=f.name; if(f.image){document.getElementById('folder-preview-img').src=f.image;document.getElementById('folder-preview-img').style.display='block';folderCurrentFocus={x:f.focusX||50,y:f.focusY||50};moveFocusMarker(f.focusX,f.focusY,'folder-focus-point');} document.getElementById('delete-folder-btn').style.display='block'; }
+    function openAddFolderModal(){ document.getElementById('add-folder-modal').style.display='flex'; document.getElementById('new-folder-name').value=""; document.getElementById('folder-preview-img').style.display='none'; document.getElementById('edit-folder-id').value=""; document.getElementById('delete-folder-btn').style.display='none'; populateFolderLinkSelect(''); }
+    function openEditFolderModal(f){ document.getElementById('add-folder-modal').style.display='flex'; document.getElementById('edit-folder-id').value=f.id; document.getElementById('new-folder-name').value=f.name; populateFolderLinkSelect(f.linkedPersonId||''); if(f.image){document.getElementById('folder-preview-img').src=f.image;document.getElementById('folder-preview-img').style.display='block';folderCurrentFocus={x:f.focusX||50,y:f.focusY||50};moveFocusMarker(f.focusX,f.focusY,'folder-focus-point');} document.getElementById('delete-folder-btn').style.display='block'; }
     function saveFolder(){
         const n=document.getElementById('new-folder-name').value; 
         if(!n) return alert("Folder name required");
         
         const fid=document.getElementById('edit-folder-id').value;
         const tx=db.transaction(["folders"],"readwrite"); const store=tx.objectStore("folders");
-        const data={name:n};
+        const linkedPersonId=parseInt(document.getElementById('folder-linked-person').value); const data={name:n, linkedPersonId:isNaN(linkedPersonId)?null:linkedPersonId};
         const img=document.getElementById('folder-preview-img'); if(img.style.display==='block') { data.image=img.src; data.focusX=folderCurrentFocus.x; data.focusY=folderCurrentFocus.y; }
         if(fid) { store.get(parseInt(fid)).onsuccess=e=>{ Object.assign(e.target.result, data); store.put(e.target.result); }; } else { store.add(data); }
         tx.oncomplete=()=>{ closeModal('add-folder-modal'); loadGalleryFolders(); };
@@ -1116,10 +911,58 @@
         });
     }
 
-    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); loadTagSuggestions('person'); }
-    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hof; toggleHOFIcon('person-hof-icon', !!p.hof); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
-    function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
-    function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hof; toggleHOFIcon('work-hof-icon', !!w.hof); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
+    function populateGalleryFolderSelect(targetId='') {
+        const sel = document.getElementById('new-person-gallery-folder');
+        if(!sel) return;
+        sel.innerHTML = '<option value="">Not linked</option>';
+        allFoldersCache.forEach(f => {
+            const opt = document.createElement('option');
+            opt.value = f.id;
+            opt.innerText = f.name;
+            if(String(f.id) === String(targetId)) opt.selected = true;
+            sel.appendChild(opt);
+        });
+    }
+    function populateFolderLinkSelect(targetId='') {
+        const sel = document.getElementById('folder-linked-person');
+        if(!sel) return;
+        sel.innerHTML = '<option value="">Not linked</option>';
+        allPeopleCache.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.innerText = p.name;
+            if(String(p.id) === String(targetId)) opt.selected = true;
+            sel.appendChild(opt);
+        });
+    }
+    function pastePersonUrl(){ navigator.clipboard.readText().then(t=>{document.getElementById('new-person-source-url').value=t;}); }
+    function clearPersonSourceText(){ document.getElementById('new-person-source-text').value=''; }
+    function parsePersonSource(){
+        const src = document.getElementById('new-person-source-text').value || '';
+        const url = document.getElementById('new-person-source-url').value || '';
+        if(!src.trim() && !url.trim()) return alert('URLまたはテキストを入れてください');
+        const combined = (src + "\n" + url).trim();
+        const nameInput = document.getElementById('new-person-name');
+        if(!nameInput.value){
+            const m = combined.match(/([一-龯ぁ-んァ-ンA-Za-z0-9ー・\-]{2,30})/);
+            if(m) nameInput.value = m[1];
+        }
+        const cup = combined.match(/([A-Z])[カップCUP cup]{0,4}/i);
+        if(cup && !document.getElementById('new-person-cup').value) document.getElementById('new-person-cup').value = cup[1].toUpperCase();
+        const birth = combined.match(/(19\d{2}|20\d{2})[\/\.年-](\d{1,2})[\/\.月-](\d{1,2})/);
+        if(birth && !document.getElementById('new-person-birthday').value){
+            const y=birth[1], m=String(birth[2]).padStart(2,'0'), d=String(birth[3]).padStart(2,'0');
+            document.getElementById('new-person-birthday').value = `${y}-${m}-${d}`;
+        }
+        if(!document.getElementById('new-person-profile').value && src.trim()){
+            document.getElementById('new-person-profile').value = src.trim().slice(0,500);
+        }
+    }
+
+    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('new-person-cup').value=""; document.getElementById('new-person-birthday').value=""; document.getElementById('new-person-profile').value=""; document.getElementById('new-person-tags').value=""; document.getElementById('new-person-source-url').value=""; document.getElementById('new-person-source-text').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); populateGalleryFolderSelect(''); loadTagSuggestions('person'); }
+    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-source-url').value=p.sourceUrl||""; document.getElementById('new-person-source-text').value=""; document.getElementById('new-person-hof').checked=!!p.hof; toggleHOFIcon('person-hof-icon', !!p.hof); populateGalleryFolderSelect(p.galleryFolderId||''); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
+    function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-product-code').value=""; document.getElementById('new-work-maker').value=""; document.getElementById('new-work-label').value=""; document.getElementById('new-work-release-date').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
+    function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||w.sourceUrl||""; document.getElementById('new-work-product-code').value=w.productCode||""; document.getElementById('new-work-maker').value=w.maker||""; document.getElementById('new-work-label').value=w.label||""; document.getElementById('new-work-release-date').value=w.releaseDate||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hof; toggleHOFIcon('work-hof-icon', !!w.hof); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
     function toggleHOFIcon(id, isOn) { const el = document.getElementById(id); if(isOn) el.style.color = 'gold'; else el.style.color = '#ccc'; }
     function openAddImageModal(){ document.getElementById('add-image-modal').style.display='flex'; document.getElementById('gallery-preview-count').innerText=""; }
     function previewGalleryImages(input){ if(input.files.length) document.getElementById('gallery-preview-count').innerText=`${input.files.length} images selected`; }
@@ -1128,19 +971,22 @@
         const name = document.getElementById('new-person-name').value; if(!name)return alert("Name req");
         const id = document.getElementById('edit-person-id').value;
         const tx=db.transaction(["people"],"readwrite"); const s=tx.objectStore("people");
+        const galleryFolderIdVal = parseInt(document.getElementById('new-person-gallery-folder').value);
         const data = { 
             name:name, 
             hof:document.getElementById('new-person-hof').checked, 
             cup:document.getElementById('new-person-cup').value, 
             birthday:document.getElementById('new-person-birthday').value, 
             profile:document.getElementById('new-person-profile').value, 
+            sourceUrl:document.getElementById('new-person-source-url').value,
+            galleryFolderId:isNaN(galleryFolderIdVal)?null:galleryFolderIdVal,
             tags:document.getElementById('new-person-tags').value.split(" ").filter(t=>t) 
         };
         const img = document.getElementById('preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=currentFocus.x; data.focusY=currentFocus.y; }
         
         if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
-        tx.oncomplete=()=>{ closeModal('add-person-modal'); window.markHomeDirty(); loadHomeData(true); };
+        tx.oncomplete=()=>{ closeModal('add-person-modal'); loadHomeData(); loadGalleryFolders(); };
     }
     function deletePerson(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-person-id').value); db.transaction(["people"],"readwrite").objectStore("people").delete(id).oncomplete=()=>{closeModal('add-person-modal');loadHomeData();} } }
     
@@ -1152,8 +998,13 @@
         const tx=db.transaction(["works"],"readwrite"); const s=tx.objectStore("works");
         const data = { 
             title:title, 
-            personId: isNaN(newOwnerId) ? parseInt(currentPersonId) : newOwnerId, // Use selected owner
+            personId: isNaN(newOwnerId) ? parseInt(currentPersonId) : newOwnerId,
             url:document.getElementById('new-work-url').value, 
+            sourceUrl:document.getElementById('new-work-url').value, 
+            productCode:document.getElementById('new-work-product-code').value, 
+            maker:document.getElementById('new-work-maker').value, 
+            label:document.getElementById('new-work-label').value, 
+            releaseDate:document.getElementById('new-work-release-date').value, 
             hof:document.getElementById('new-work-hof').checked, 
             rating:currentRating, 
             tags:document.getElementById('new-work-tags').value.split(" ").filter(t=>t) 
@@ -1164,12 +1015,11 @@
         else { data.count=0; s.add(data); }
         
         tx.oncomplete=()=>{ 
-            closeModal('add-work-modal');
-            window.markHomeDirty();
+            closeModal('add-work-modal'); 
             if(document.getElementById('work-detail-screen').style.display !== 'none') {
                 closeWorkDetail();
             }
-            if(homeMode==='works') loadHomeData(true); else loadDetailWorks(); 
+            if(homeMode==='works') loadHomeData(); else loadDetailWorks(); 
         };
     }
     function deleteWork(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-work-id').value); db.transaction(["works"],"readwrite").objectStore("works").delete(id).oncomplete=()=>{closeModal('add-work-modal');loadDetailWorks();} } }
@@ -1213,27 +1063,11 @@
         if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
         else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
         const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
-        const input = document.getElementById(inputId);
-
-        const render = (filterStr) => {
-            container.innerHTML = "";
-            const last = filterStr.split(' ').pop().toLowerCase();
-            Array.from(tags).sort().forEach(tag => {
-                if(last && !tag.toLowerCase().includes(last)) return;
-                const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
-                chip.onclick = () => {
-                    let val = input.value.trim();
-                    const parts = val.split(' ').filter(t=>t);
-                    if(!parts.includes(tag)) parts.push(tag);
-                    input.value = parts.join(' ') + ' ';
-                    render(input.value);
-                };
-                container.appendChild(chip);
-            });
-        };
-
-        render(input.value);
-        input.oninput = () => render(input.value);
+        Array.from(tags).sort().forEach(tag => {
+            const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
+            chip.onclick = () => { const input = document.getElementById(inputId); let val = input.value.trim(); if(!val.includes(tag)) { input.value = val + (val ? " " : "") + tag; } };
+            container.appendChild(chip);
+        });
     }
 
     function exportData() { const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); let iReq = tx.objectStore("images").getAll(); let fReq = tx.objectStore("folders").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; iReq.onsuccess = (e) => data.images = e.target.result; fReq.onsuccess = (e) => data.folders = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
@@ -1250,6 +1084,10 @@
             const logs=res[0]; const people=res[1]; const works=res[2];
             let t=0; people.forEach(x=>t+=(x.count||0));
             document.getElementById('total-usage-display').innerHTML=t+'<span class="stats-unit">回</span>';
+            const moodMap={}; const situationMap={};
+            logs.forEach(l=>{ if(l.mood) moodMap[l.mood]=(moodMap[l.mood]||0)+1; if(l.situation) situationMap[l.situation]=(situationMap[l.situation]||0)+1; });
+            const moodMap={}; const situationMap={};
+            logs.forEach(l=>{ if(l.mood) moodMap[l.mood]=(moodMap[l.mood]||0)+1; if(l.situation) situationMap[l.situation]=(situationMap[l.situation]||0)+1; });
             const list=document.getElementById('ranking-list'); list.innerHTML="";
             people.sort((a,b)=>(b.count||0)-(a.count||0)).slice(0,5).forEach((x,i)=>{
                 list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
