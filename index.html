@@ -128,6 +128,7 @@
     .calendar-container { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; margin-bottom: 30px; border: 1px solid #333; }
     .cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .cal-month { font-family: "Times New Roman", serif; font-size: 18px; color: #d4af37; }
+    .cal-nav-btn { font-size: 26px; color: #d4af37; cursor: pointer; padding: 0 14px; user-select: none; line-height: 1; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
     .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #444; border-radius: 4px; }
     .cal-day.active { background: rgba(212, 175, 55, 0.2); color: #fff; border: 1px solid rgba(212, 175, 55, 0.5); font-weight: bold; }
@@ -183,8 +184,8 @@
     .btn-save { background: #d4af37; color: #000; font-weight: bold; }
     .btn-cancel { background: #333; color: #fff; }
     .btn-danger { background: #800; color: #fff; font-size:10px; margin-top:20px; }
-    .preview-container { position: relative; width: 100%; max-width: 300px; height: 220px; margin: 0 auto 20px; background: #000; border: 1px dashed #555; overflow: hidden; display: flex; align-items: center; justify-content: center; touch-action: none; }
-    .preview-img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; touch-action: none; }
+    .preview-container { position: relative; width: 100%; max-width: 300px; height: 200px; margin: 0 auto 20px; background: #000; border: 1px dashed #555; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .preview-img { width: 100%; height: 100%; object-fit: contain; }
     .focus-point { position: absolute; width: 20px; height: 20px; border: 2px solid #d4af37; border-radius: 50%; background: rgba(212,175,55,0.3); transform: translate(-50%, -50%); pointer-events: none; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
     .sort-menu { display: none; position: absolute; top: 50px; right: 20px; background: #222; border: 1px solid #555; border-radius: 8px; z-index: 2000; }
     .sort-item { padding: 10px 20px; font-size: 12px; color: #ccc; border-bottom: 1px solid #333; }
@@ -208,26 +209,113 @@
     .input-with-btn { display: flex; gap: 8px; margin-bottom: 15px; }
     .input-with-btn input { margin-bottom: 0; }
     .mini-btn { background: #444; border: 1px solid #666; color: #fff; border-radius: 5px; width: 60px; cursor: pointer; font-size: 10px; display:flex; align-items:center; justify-content:center; }
-    .choice-group { text-align:left; margin: 14px 0; }
-    .choice-label { font-size: 12px; color:#bbb; margin-bottom:8px; }
-    .choice-chips { display:flex; flex-wrap:wrap; gap:8px; }
-    .choice-chip { padding: 8px 12px; border-radius: 16px; border:1px solid #555; font-size:12px; color:#ddd; cursor:pointer; }
-    .choice-chip.selected { background:#d4af37; color:#000; border-color:#d4af37; font-weight:bold; }
-    .calendar-day-log { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 16px; margin-bottom: 30px; border:1px solid #333; }
-    .day-log-title { color:#d4af37; font-size:13px; margin-bottom:12px; letter-spacing:0.08em; }
-    .day-log-empty { color:#666; font-size:12px; }
-    .day-log-item { background: rgba(255,255,255,0.04); border-left:3px solid #d4af37; padding:10px; border-radius:0 8px 8px 0; margin-bottom:10px; }
-    .day-log-top { display:flex; justify-content:space-between; gap:10px; font-size:12px; color:#ddd; margin-bottom:6px; }
-    .day-log-meta { display:flex; flex-wrap:wrap; gap:6px; font-size:10px; color:#999; }
-    .play-summary { margin-top:16px; background: rgba(255,255,255,0.05); border:1px solid #333; border-radius: 10px; padding: 12px; }
-    .play-summary-title { font-size: 12px; color:#d4af37; margin-bottom: 8px; }
-    .play-save-btn { width:100%; margin-top: 16px; padding: 12px; border:none; border-radius:8px; background:#d4af37; color:#000; font-weight:bold; font-family:inherit; cursor:pointer; }
 
+    /* === 解錠シアター === */
+    #unlock-theater {
+        display: none;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        z-index: 15000; pointer-events: none;
+        overflow: hidden;
+    }
+    #unlock-theater.active { display: block; }
+    .curtain-left, .curtain-right {
+        position: absolute; top: 0; width: 50%; height: 100%;
+        background: linear-gradient(to bottom, #0a0a0a 0%, #111 50%, #0a0a0a 100%);
+        border-image: linear-gradient(to bottom, transparent, rgba(212,175,55,0.4), transparent) 1;
+        transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .curtain-left { left: 0; border-right: 1px solid rgba(212,175,55,0.3); transform-origin: left center; }
+    .curtain-right { right: 0; border-left: 1px solid rgba(212,175,55,0.3); transform-origin: right center; }
+    .curtain-left.open { transform: translateX(-100%); }
+    .curtain-right.open { transform: translateX(100%); }
+    .curtain-emblem {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        color: #d4af37; font-family: "Times New Roman", serif;
+        font-size: 14px; letter-spacing: 0.4em; text-transform: uppercase;
+        text-align: center; opacity: 1; transition: opacity 0.4s;
+        white-space: nowrap;
+    }
+    .curtain-emblem.fade { opacity: 0; }
+    .curtain-title { font-size: 22px; display: block; margin-bottom: 8px; letter-spacing: 0.2em; }
+    .curtain-sub { font-size: 10px; color: #888; letter-spacing: 0.5em; display: block; }
+
+    /* === 深夜モード === */
+    body.midnight-mode { --gold: #c8915a; --gold-glow: rgba(200, 145, 90, 0.4); }
+    body.midnight-mode .app-header h1 { color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); }
+    body.midnight-mode .header-btn { color: var(--gold); }
+    body.midnight-mode .mode-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+    body.midnight-mode .count { color: var(--gold); }
+    body.midnight-mode .person-card, body.midnight-mode .work-card { border-color: rgba(200,145,90,0.25); }
+    body.midnight-mode .play-btn { background: var(--gold); }
+    body.midnight-mode .work-item { border-left-color: var(--gold); }
+    body.midnight-mode .detail-stats, body.midnight-mode .wd-title { color: var(--gold); }
+    body.midnight-mode .rank-num, body.midnight-mode .cal-month { color: var(--gold); }
+    body.midnight-mode .tag-fill { background: var(--gold); }
+    body.midnight-mode .wd-play { background: var(--gold); }
+    body.midnight-mode .fab { background: linear-gradient(135deg, #c8915a, #a0703f); }
+    body.midnight-mode #home-screen { background: radial-gradient(circle at center, #1a0f0a 0%, #000000 100%); }
+    #midnight-badge {
+        display: none; position: fixed; top: 68px; right: 10px;
+        font-size: 9px; color: #c8915a; letter-spacing: 0.15em;
+        opacity: 0.7; z-index: 2000; font-family: "Times New Roman", serif;
+        animation: fadeInOut 3s ease-in-out;
+    }
+    @keyframes fadeInOut { 0%{opacity:0} 20%{opacity:0.7} 80%{opacity:0.7} 100%{opacity:0} }
+
+    /* === スケルトン === */
+    .skeleton { background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 4px; }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skeleton-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; }
+    .skeleton-thumb { height: 140px; }
+    .skeleton-line { height: 14px; margin: 10px 10px 6px; }
+    .skeleton-line.short { width: 50%; height: 11px; }
+
+    /* === アクティブフィルターバッジ === */
+    #active-filter-bar { display: none; padding: 0 20px 8px; flex-wrap: wrap; gap: 6px; }
+    #active-filter-bar.visible { display: flex; }
+    .active-filter-badge {
+        font-size: 11px; background: rgba(212,175,55,0.15); border: 1px solid rgba(212,175,55,0.5);
+        color: #d4af37; padding: 3px 10px; border-radius: 20px;
+        display: flex; align-items: center; gap: 5px;
+    }
+    .active-filter-badge .remove { cursor: pointer; font-size: 14px; line-height: 1; }
+
+    /* === クイック評価 (長押しメニュー) === */
+    .quick-rate-menu {
+        display: none; position: fixed; background: #1a1a2e;
+        border: 1px solid #d4af37; border-radius: 10px; padding: 12px 16px;
+        z-index: 9000; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+    .quick-rate-menu .stars { font-size: 22px; color: #444; cursor: pointer; letter-spacing: 2px; }
+    .quick-rate-menu .stars span.on { color: #d4af37; }
+    .quick-rate-label { font-size: 9px; color: #888; letter-spacing: 0.2em; margin-bottom: 6px; }
 </style>
 </head>
 <body>
 
 <div id="toast">RECORDED<br><span style="font-size:12px; color:#fff;">賢者タイムに入ります</span></div>
+
+<!-- 解錠シアター -->
+<div id="unlock-theater">
+    <div class="curtain-left" id="curtain-left">
+        <div class="curtain-emblem" id="curtain-emblem">
+            <span class="curtain-title">PRIVATE MUSEUM</span>
+            <span class="curtain-sub">entering your collection</span>
+        </div>
+    </div>
+    <div class="curtain-right" id="curtain-right"></div>
+</div>
+
+<!-- 深夜バッジ -->
+<div id="midnight-badge">✦ MIDNIGHT GALLERY ✦</div>
+
+<!-- クイック評価メニュー -->
+<div class="quick-rate-menu" id="quick-rate-menu">
+    <div class="quick-rate-label">QUICK RATE</div>
+    <div class="stars" id="quick-rate-stars">
+        <span onclick="setQuickRate(1)">★</span><span onclick="setQuickRate(2)">★</span><span onclick="setQuickRate(3)">★</span><span onclick="setQuickRate(4)">★</span><span onclick="setQuickRate(5)">★</span>
+    </div>
+</div>
 
 <script>
     let calcInput = '0';
@@ -260,15 +348,56 @@
     function unlockApp() {
         const cs = document.getElementById('calculator-screen');
         const ac = document.getElementById('app-container');
+        const theater = document.getElementById('unlock-theater');
+        const curtainL = document.getElementById('curtain-left');
+        const curtainR = document.getElementById('curtain-right');
+        const emblem = document.getElementById('curtain-emblem');
+
         if(cs && ac) {
+            // 電卓フェードアウト
             cs.style.opacity = '0';
-            cs.style.pointerEvents = 'none'; 
+            cs.style.pointerEvents = 'none';
+
             setTimeout(() => {
-                cs.style.display = 'none'; 
-                ac.style.display = 'block';
-                setTimeout(() => ac.style.opacity = '1', 50);
-                if(window.loadHomeData) window.loadHomeData();
-            }, 500);
+                cs.style.display = 'none';
+
+                // シアター開幕
+                theater.classList.add('active');
+
+                setTimeout(() => {
+                    // 幕が開く
+                    emblem.classList.add('fade');
+                    curtainL.classList.add('open');
+                    curtainR.classList.add('open');
+
+                    // アプリをシアターの後ろで表示開始
+                    ac.style.display = 'block';
+                    setTimeout(() => ac.style.opacity = '1', 200);
+
+                    setTimeout(() => {
+                        theater.classList.remove('active');
+                        curtainL.classList.remove('open');
+                        curtainR.classList.remove('open');
+                        emblem.classList.remove('fade');
+
+                        if(window.loadHomeData) window.loadHomeData();
+                        checkMidnightMode();
+                    }, 1400);
+                }, 600);
+            }, 400);
+        }
+    }
+
+    function checkMidnightMode() {
+        const h = new Date().getHours();
+        const isMidnight = h >= 0 && h < 4;
+        if(isMidnight) {
+            document.body.classList.add('midnight-mode');
+            const badge = document.getElementById('midnight-badge');
+            badge.style.display = 'block';
+            setTimeout(() => badge.style.display = 'none', 3000);
+        } else {
+            document.body.classList.remove('midnight-mode');
         }
     }
 </script>
@@ -310,19 +439,20 @@
 
     <div id="home-screen" class="tab-content" style="display:block;">
         <div class="mode-switch-container">
-            <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">女優</div>
-            <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">作品</div>
+            <div class="mode-btn active" id="mode-people" onclick="setHomeMode('people')">MUSE</div>
+            <div class="mode-btn" id="mode-works" onclick="setHomeMode('works')">LIBRARY</div>
         </div>
         <div class="search-area-wrapper">
-            <input type="search" class="search-input" id="search-input" placeholder="検索..." oninput="filterHomeList()">
+            <input type="search" class="search-input" id="search-input" placeholder="Search..." oninput="filterHomeList()">
             <div class="filter-btn" id="filter-btn" onclick="openTagFilterModal()">🏷️</div>
             <div class="sort-btn" id="sort-btn" onclick="toggleSortMenu('home')" style="margin-left:10px;">⇅</div>
         </div>
         <div class="sort-menu" id="sort-menu-home">
-            <div class="sort-item" onclick="applySort('count', 'home')">選択回数順</div>
-            <div class="sort-item" onclick="applySort('rating', 'home')">評価順</div>
-            <div class="sort-item" onclick="applySort('newest', 'home')">新しい順</div>
+            <div class="sort-item" onclick="applySort('count', 'home')">Select Count</div>
+            <div class="sort-item" onclick="applySort('rating', 'home')">Rating (Quality)</div>
+            <div class="sort-item" onclick="applySort('newest', 'home')">Newest</div>
         </div>
+        <div id="active-filter-bar"></div>
         <div class="section-title" id="home-list-title">登録済みのミューズ</div>
         <div class="card-list" id="person-list"></div>
         <div class="card-list" id="work-list-home" style="display:none;"></div>
@@ -331,32 +461,32 @@
     
     <div id="gallery-root-screen" class="tab-content" style="display:none;">
          <div class="search-area-wrapper">
-            <input type="search" class="search-input" id="gallery-search-input" placeholder="フォルダ検索..." oninput="loadGalleryFolders()">
+            <input type="search" class="search-input" id="gallery-search-input" placeholder="Search Folders..." oninput="loadGalleryFolders()">
         </div>
-        <div class="section-title">画像フォルダ</div>
+        <div class="section-title">IMAGE FOLDERS</div>
         <div class="card-list" id="gallery-folder-list"></div>
         <div class="fab" onclick="openAddFolderModal()">＋</div>
     </div>
 
     <div id="analysis-screen" class="tab-content" style="display:none;">
-        <div class="stats-area"><div class="stats-title">総選択回数</div><div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div></div>
-        <div class="section-title">カレンダー</div>
-        <div class="calendar-container"><div class="cal-header"><div class="cal-month" id="cal-month-label"></div></div><div class="cal-grid" id="calendar-grid"></div></div>
-        <div class="section-title">日付をタップすると、その日の記録が見られます</div>
-        <div class="calendar-day-log" id="calendar-day-log"><div class="day-log-empty">まだ記録がありません。</div></div>
-        <div class="section-title">QUALITY 分析</div>
+        <div class="stats-area"><div class="stats-title">TOTAL SELECTIONS</div><div class="stats-value" id="total-usage-display">0<span class="stats-unit">回</span></div></div>
+        <div class="section-title">ACTIVITY LOG</div>
+        <div class="calendar-container"><div class="cal-header"><div class="cal-nav-btn" onclick="shiftCalMonth(-1)">‹</div><div class="cal-month" id="cal-month-label"></div><div class="cal-nav-btn" onclick="shiftCalMonth(1)">›</div></div><div class="cal-grid" id="calendar-grid"></div></div>
+        <div class="section-title">MONTHLY TREND</div>
+        <div class="monthly-chart"><div class="monthly-bars" id="monthly-bars"></div></div>
+        <div class="section-title">QUALITY ANALYSIS</div>
         <div class="pie-chart-container" id="pie-rated"></div>
-        <div class="section-title">女優タグ</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
-        <div class="section-title">作品タグ</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">MUSE TYPES</div><div id="person-tag-ranking" style="margin-bottom:30px;"></div>
+        <div class="section-title">SCENE TRENDS</div><div id="tag-ranking" style="margin-bottom:30px;"></div>
         <div class="champion-area" id="champion-area"></div>
-        <div class="gobusata-area" id="gobusata-area"><div class="section-title">しばらく選んでいない女優</div><div class="gobusata-scroller" id="gobusata-list"></div></div>
-        <div class="section-title">よく選ぶ女優</div><div class="ranking-list" id="ranking-list"></div>
+        <div class="gobusata-area" id="gobusata-area"><div class="section-title">Long Time No See...</div><div class="gobusata-scroller" id="gobusata-list"></div></div>
+        <div class="section-title">TOP RANKING</div><div class="ranking-list" id="ranking-list"></div>
     </div>
 
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('home')"><div class="nav-icon">🏛️</div><div>MUSEUM</div></div>
-        <div class="nav-item" onclick="switchTab('gallery')"><div class="nav-icon">🖼️</div><div>ギャラリー</div></div>
-        <div class="nav-item" onclick="switchTab('analysis')"><div class="nav-icon">📊</div><div>分析</div></div>
+        <div class="nav-item" onclick="switchTab('gallery')"><div class="nav-icon">🖼️</div><div>GALLERY</div></div>
+        <div class="nav-item" onclick="switchTab('analysis')"><div class="nav-icon">📊</div><div>ANALYSIS</div></div>
     </nav>
 </div>
 
@@ -368,7 +498,7 @@
             <div class="detail-content-wrapper">
                 <div class="detail-name" id="detail-name">Name</div>
                 <div class="detail-specs" id="detail-specs"></div>
-                <div class="detail-stats" id="detail-stats">選択回数: 0</div>
+                <div class="detail-stats" id="detail-stats">Selection: 0</div>
                 <div class="person-profile-text" id="detail-profile"></div>
                 <div class="person-tags-area" id="detail-person-tags"></div>
             </div>
@@ -379,9 +509,9 @@
         <div class="sort-btn" onclick="toggleSortMenu('detail')" style="width:30px; height:30px; border:none;">⇅</div>
     </div>
     <div class="sort-menu" id="sort-menu-detail" style="top:55vh;">
-        <div class="sort-item" onclick="applySort('count', 'detail')">選択回数順</div>
+        <div class="sort-item" onclick="applySort('count', 'detail')">Select Count</div>
         <div class="sort-item" onclick="applySort('rating', 'detail')">Rating</div>
-        <div class="sort-item" onclick="applySort('newest', 'detail')">新しい順</div>
+        <div class="sort-item" onclick="applySort('newest', 'detail')">Newest</div>
     </div>
     <div class="detail-scroll-area"><div id="work-list"></div></div>
     <div class="fab" onclick="openAddWorkModal()">＋</div>
@@ -425,16 +555,15 @@
         <div class="modal-title">ADD IMAGES</div>
         <label class="file-select-btn" style="width:100%;">Select Images (Multiple) <input type="file" id="new-gallery-img" accept="image/*" multiple style="display:none;" onchange="previewGalleryImages(this)"></label>
         <div id="gallery-preview-count" style="font-size:12px; color:#ccc; margin:10px 0;"></div>
-        <div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">キャンセル</button><button class="btn btn-save" onclick="saveGalleryImages()">保存</button></div>
+        <div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-image-modal')">CANCEL</button><button class="btn btn-save" onclick="saveGalleryImages()">SAVE</button></div>
     </div>
 </div>
-<div class="modal-overlay" id="add-folder-modal"><div class="modal-content"><div class="modal-title">フォルダ編集</div><input type="hidden" id="edit-folder-id"><input type="text" id="new-folder-name" placeholder="フォルダ名"><label class="file-select-btn">カバー <input type="file" onchange="previewImage(this,'folder-preview-img','folder-focus-point')"></label><div class="preview-container" style="height:150px; margin:10px auto;" onclick="setFocus(event, 'folder-preview-img', 'folder-focus-point')"><img id="folder-preview-img" class="preview-img" style="display:none;"><div id="folder-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-folder-modal')">キャンセル</button><button class="btn btn-save" onclick="saveFolder()">保存</button></div><button class="btn btn-danger" id="delete-folder-btn" style="display:none;" onclick="deleteFolder()">フォルダ削除</button></div></div>
-<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT 女優</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="名前"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="カップ" style="flex:1;"><div style="flex:2;"><div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div><input type="date" id="new-person-birthday"></div></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:10px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> 殿堂入り</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="プロフィール"></textarea><input type="text" id="new-person-tags" placeholder="タグ（スペース区切り）"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">画像 <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img" class="preview-img"><div id="focus-point" class="focus-point"></div><div style="color:#666; font-size:12px;">No 画像 Selected</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">キャンセル</button><button class="btn btn-save" onclick="savePerson()">保存</button></div><button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">削除</button></div></div>
-<div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">作品追加・編集</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="作品タイトル"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL（任意）"><button class="mini-btn" onclick="pasteUrl()">貼付</button></div>
+<div class="modal-overlay" id="add-folder-modal"><div class="modal-content"><div class="modal-title">EDIT FOLDER</div><input type="hidden" id="edit-folder-id"><input type="text" id="new-folder-name" placeholder="Folder Name"><label class="file-select-btn">Cover <input type="file" onchange="previewImage(this,'folder-preview-img','folder-focus-point')"></label><div class="preview-container" style="height:150px; margin:10px auto;" onclick="setFocus(event, 'folder-preview-img', 'folder-focus-point')"><img id="folder-preview-img" class="preview-img" style="display:none;"><div id="folder-focus-point" class="focus-point"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-folder-modal')">CANCEL</button><button class="btn btn-save" onclick="saveFolder()">SAVE</button></div><button class="btn btn-danger" id="delete-folder-btn" style="display:none;" onclick="deleteFolder()">DELETE FOLDER</button></div></div>
+<div class="modal-overlay" id="add-person-modal"><div class="modal-content"><div class="modal-title">EDIT MUSE</div><input type="hidden" id="edit-person-id"><input type="text" id="new-person-name" placeholder="Name"><div style="display:flex;gap:10px;"><input type="text" id="new-person-cup" placeholder="Cup" style="flex:1;"><div style="flex:2;"><div style="font-size:10px; color:#aaa; text-align:left; margin-bottom:2px;">誕生日</div><input type="date" id="new-person-birthday"></div></div><div class="hof-toggle" onclick="toggleHOFInput('person')" style="margin-top:10px;"><div class="hof-label"><span class="crown-icon" id="person-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-person-hof" style="display:none;"></div><textarea id="new-person-profile" placeholder="Profile"></textarea><input type="text" id="new-person-tags" placeholder="Tags (space separated)"><div class="tag-suggestions" id="person-tag-suggestions"></div><label class="file-select-btn">Image <input type="file" onchange="previewImage(this,'preview-img','focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'preview-img', 'focus-point')"><img id="preview-img" class="preview-img"><div id="focus-point" class="focus-point"></div><div style="color:#666; font-size:12px;">No Image Selected</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-person-modal')">CANCEL</button><button class="btn btn-save" onclick="savePerson()">SAVE</button></div><button class="btn btn-danger" id="delete-person-btn" type="button" style="display:none;" onclick="deletePerson()">DELETE</button></div></div>
+<div class="modal-overlay" id="add-work-modal"><div class="modal-content"><div class="modal-title">EDIT WORK</div><input type="hidden" id="edit-work-id"><input type="text" id="new-work-title" placeholder="Title"><div class="input-with-btn"><input type="url" id="new-work-url" placeholder="URL"><button class="mini-btn" onclick="pasteUrl()">PASTE</button></div>
 <div style="margin-bottom:10px;"><label style="font-size:10px; color:#aaa;">Owner (Muse)</label><select id="edit-work-owner" style="width:100%; padding:10px; background:#222; color:#fff; border:1px solid #555; border-radius:4px; margin-top:2px;"></select></div>
-<div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')" style="margin:10px 0;"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> 殿堂入り</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="タグ（スペース区切り）"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">画像 <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div><div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">画像なし</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">キャンセル</button><button class="btn btn-save" onclick="saveWork()">保存</button></div><button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">削除</button></div></div>
-<div class="modal-overlay" id="play-log-modal"><div class="modal-content"><div class="modal-title">選択内容を記録</div><div id="play-log-work-name" style="color:#fff; margin-bottom:8px; font-size:14px;"></div><div class="choice-group"><div class="choice-label">どんな時に見た？</div><div class="choice-chips" id="play-situation-chips"></div></div><div class="choice-group"><div class="choice-label">今の気分</div><div class="choice-chips" id="play-mood-chips"></div></div><div class="choice-group"><div class="choice-label">種別</div><div class="choice-chips" id="play-type-chips"></div></div><div class="choice-group"><div class="choice-label">期待度</div><div class="choice-chips" id="play-expectation-chips"></div></div><div class="choice-group"><div class="choice-label">満足度（任意）</div><div class="choice-chips" id="play-satisfaction-chips"></div></div><div class="play-summary"><div class="play-summary-title">前回の選択を引き継いでいます。必要なら変更してください。</div><div id="play-summary-text" style="font-size:12px; color:#aaa;"></div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('play-log-modal')">閉じる</button></div><button class="play-save-btn" onclick="savePlayLog()">この内容で記録</button></div></div>
-<div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-exact-match"> Exact Match</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
+<div class="star-rating" id="work-rating-input"><span onclick="setRating(1)">★</span><span onclick="setRating(2)">★</span><span onclick="setRating(3)">★</span><span onclick="setRating(4)">★</span><span onclick="setRating(5)">★</span></div><div class="hof-toggle" onclick="toggleHOFInput('work')" style="margin:10px 0;"><div class="hof-label"><span class="crown-icon" id="work-hof-icon">👑</span> Hall of Fame</div><input type="checkbox" id="new-work-hof" style="display:none;"></div><input type="text" id="new-work-tags" placeholder="Tags"><div class="tag-suggestions" id="work-tag-suggestions"></div><label class="file-select-btn">Thumb <input type="file" onchange="previewImage(this,'work-preview-img','work-focus-point')"></label><div class="preview-container" onclick="setFocus(event, 'work-preview-img', 'work-focus-point')"><img id="work-preview-img"><div id="work-focus-point" class="focus-point"></div><div style="color:#666; font-size:12px; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none;">No Image</div></div><div class="btn-group"><button class="btn btn-cancel" onclick="closeModal('add-work-modal')">CANCEL</button><button class="btn btn-save" onclick="saveWork()">SAVE</button></div><button class="btn btn-danger" id="delete-work-btn" type="button" style="display:none;" onclick="deleteWork()">DELETE</button></div></div>
+<div class="modal-overlay" id="tag-filter-modal"><div class="modal-content"><div class="modal-title">FILTER</div><div class="tag-chips" id="filter-tag-container"></div><div class="filter-options"><label class="checkbox-label"><input type="checkbox" id="tag-and-mode"> AND検索（全て一致）</label></div><div class="btn-group"><button class="btn btn-cancel" onclick="clearTagFilter()">Clear</button><button class="btn btn-save" onclick="applyTagFilter()">Apply</button></div></div></div>
 <div class="modal-overlay" id="settings-modal"><div class="modal-content"><div class="modal-title">SETTINGS</div><button class="btn btn-save" style="width:100%; margin-bottom:10px;" onclick="exportData()">BACKUP</button><label class="btn btn-cancel" style="width:100%; display:block; box-sizing:border-box; margin-bottom:10px;">RESTORE<input type="file" id="import-file" style="display:none;" onchange="importData(this)"></label><button class="btn btn-cancel" style="width:100%;" onclick="closeModal('settings-modal')">CLOSE</button><button class="btn btn-danger" style="margin-top:20px;" onclick="resetAllData()">RESET</button></div></div>
 
 <script>
@@ -443,16 +572,6 @@
     let db; let currentPersonId=null; let currentFolderId=null; let homeMode='people'; let sortState={home:'count', detail:'count'};
     let currentFocus={x:50,y:50}; let workCurrentFocus={x:50,y:50}; let folderCurrentFocus={x:50,y:50};
     let allPeopleCache=[], allWorksCache=[], allFoldersCache=[]; let selectedTags=new Set();
-    let currentPlayWorkId=null;
-    let playDraft={situation:'寝る前', mood:'落ち着きたい', type:'見返し', expectation:'普通', satisfaction:''};
-    const PLAY_OPTIONS={
-        situation:['寝る前','暇つぶし','気分転換','しっかり見たい','なんとなく'],
-        mood:['落ち着きたい','癒されたい','刺激が欲しい','外したくない','冒険したい'],
-        type:['新規','見返し'],
-        expectation:['低め','普通','高め'],
-        satisfaction:['', '1','2','3','4','5']
-    };
-
     let currentRating=0; let isScrolling=false; let lastTap=0;
     
     // Gallery
@@ -519,9 +638,13 @@
         loadHomeData();
     }
     
-    // Robust Loader
-    window.loadHomeData = function(){
+    // Robust Loader（キャッシュ優先・差分更新）
+    let _homeDataDirty = true;
+    window.markHomeDirty = () => { _homeDataDirty = true; };
+
+    window.loadHomeData = function(force){
         if(!db){ setTimeout(window.loadHomeData, 200); return; }
+        if(!force && !_homeDataDirty) { filterHomeList(); return; }
         
         try {
             const tx = db.transaction(["people","works"], "readonly");
@@ -541,6 +664,7 @@
                 allWorksCache = wks;
                 allPeopleCache.sort((a,b)=>(b.count||0)-(a.count||0));
                 allWorksCache.sort((a,b)=>(b.count||0)-(a.count||0));
+                _homeDataDirty = false;
                 filterHomeList();
             });
         } catch(e) { console.error(e); }
@@ -551,12 +675,15 @@
         const btn=document.getElementById('filter-btn');
         if(selectedTags.size>0)btn.classList.add('active');else btn.classList.remove('active');
 
+        // アクティブフィルターバッジ更新
+        updateActiveFilterBar(q);
+
         if(homeMode==='people'){
             document.getElementById('person-list').style.display='grid';
             document.getElementById('work-list-home').style.display='none';
             let res=allPeopleCache.filter(p=>p.name.toLowerCase().includes(q));
             if(selectedTags.size>0){
-                const exact=document.getElementById('tag-exact-match').checked;
+                const exact=document.getElementById('tag-and-mode').checked;
                 res=res.filter(p=>{
                     const pt=p.tags||[];
                     const matchP = exact?Array.from(selectedTags).every(t=>pt.includes(t)):pt.some(t=>selectedTags.has(t));
@@ -577,7 +704,7 @@
             document.getElementById('work-list-home').style.display='grid';
             let res=allWorksCache.filter(w=>w.title.toLowerCase().includes(q));
             if(selectedTags.size>0){
-                const exact=document.getElementById('tag-exact-match').checked;
+                const exact=document.getElementById('tag-and-mode').checked;
                 res=res.filter(w=>{
                     const wt=w.tags||[];
                     return exact?Array.from(selectedTags).every(t=>wt.includes(t)):wt.some(t=>selectedTags.has(t));
@@ -587,22 +714,109 @@
             renderWorkListForHome(res);
         }
     }
+
+    function updateActiveFilterBar(q) {
+        const bar = document.getElementById('active-filter-bar');
+        bar.innerHTML = '';
+        let hasFilter = false;
+        if(q) {
+            hasFilter = true;
+            bar.innerHTML += `<div class="active-filter-badge">🔍 ${q}<span class="remove" onclick="document.getElementById('search-input').value='';filterHomeList()">×</span></div>`;
+        }
+        selectedTags.forEach(t => {
+            hasFilter = true;
+            bar.innerHTML += `<div class="active-filter-badge">🏷 ${t}<span class="remove" onclick="removeTagFilter('${t}')">×</span></div>`;
+        });
+        bar.classList.toggle('visible', hasFilter);
+    }
+
+    function removeTagFilter(tag) {
+        selectedTags.delete(tag);
+        filterHomeList();
+    }
     function renderPeopleList(list){
         const con=document.getElementById('person-list'); con.innerHTML="";
-        if(list.length===0){con.innerHTML="<div style='color:#555;'>データなし</div>";return;}
-        list.forEach(p=>{
-            const div=document.createElement('div'); div.className='person-card';
-            if(p.hof) div.classList.add('hof');
-            const imgSrc = p.image || p.img || '';
-            const img=imgSrc?`<img src="${imgSrc}" style="object-position:${p.focusX}% ${p.focusY}%">`:'<div class="thumb-placeholder">NO IMG</div>';
-            const crown=p.hof?'<div class="card-crown">👑</div>':'';
-            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div><div class="count">${p.count||0} 回</div></div>`;
-            div.onclick=()=>openDetail(p.id);
-            let timer;
-            div.addEventListener('touchstart',()=>{timer=setTimeout(()=>{timer=null;openEditPersonModal(p);},600);});
-            div.addEventListener('touchend',()=>{if(timer)clearTimeout(timer);});
-            con.appendChild(div);
+        if(list.length===0){con.innerHTML="<div style='color:#555;'>No Data</div>";return;}
+
+        // スケルトン先行表示
+        for(let i=0; i<Math.min(list.length,4); i++) {
+            const sk = document.createElement('div'); sk.className='skeleton-card';
+            sk.innerHTML='<div class="skeleton skeleton-thumb"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div>';
+            con.appendChild(sk);
+        }
+
+        requestAnimationFrame(() => {
+            con.innerHTML = "";
+            list.forEach(p=>{
+                const div=document.createElement('div'); div.className='person-card';
+                if(p.hof) div.classList.add('hof');
+                const imgSrc = p.image || p.img || '';
+                // 遅延ロード
+                const img = imgSrc
+                    ? `<img data-src="${imgSrc}" class="gallery-thumb" style="width:100%;height:100%;object-fit:cover;object-position:${p.focusX}% ${p.focusY}%" loading="lazy">`
+                    : '<div class="thumb-placeholder">NO IMG</div>';
+                const crown=p.hof?'<div class="card-crown">👑</div>':'';
+                const starsEl = p.rating > 0 ? `<div class="rating-stars-sm">${'<span class="on">★</span>'.repeat(p.rating)}</div>` : '';
+                div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="name">${p.name}</div>${starsEl}<div class="count">${p.count||0} SELECTIONS</div></div>`;
+                div.onclick=()=>openDetail(p.id);
+
+                // 長押し：クイック評価
+                let timer;
+                div.addEventListener('touchstart', e => {
+                    timer = setTimeout(() => { timer=null; showQuickRateMenu(e, p); }, 600);
+                });
+                div.addEventListener('touchend', () => { if(timer) clearTimeout(timer); });
+                con.appendChild(div);
+            });
+            // 遅延ロード発火
+            lazyLoadImages(con);
         });
+    }
+
+    let _quickRateTarget = null;
+    function showQuickRateMenu(e, p) {
+        _quickRateTarget = p;
+        const menu = document.getElementById('quick-rate-menu');
+        const touch = e.touches[0];
+        menu.style.left = Math.min(touch.clientX, window.innerWidth - 180) + 'px';
+        menu.style.top = Math.max(touch.clientY - 80, 80) + 'px';
+        menu.style.display = 'block';
+        renderQuickStars(p.rating || 0);
+        setTimeout(() => document.addEventListener('touchstart', closeQuickRateMenu, {once:true}), 100);
+    }
+    function renderQuickStars(rating) {
+        const stars = document.getElementById('quick-rate-stars').children;
+        for(let i=0; i<5; i++) stars[i].className = i < rating ? 'on' : '';
+    }
+    function setQuickRate(r) {
+        if(!_quickRateTarget) return;
+        const p = allPeopleCache.find(x => x.id === _quickRateTarget.id);
+        if(!p) return;
+        db.transaction(["people"],"readwrite").objectStore("people").get(p.id).onsuccess = e => {
+            const rec = e.target.result; if(!rec) return;
+            rec.rating = r;
+            db.transaction(["people"],"readwrite").objectStore("people").put(rec).onsuccess = () => {
+                p.rating = r; renderQuickStars(r);
+                setTimeout(closeQuickRateMenu, 400);
+                filterHomeList();
+            };
+        };
+    }
+    function closeQuickRateMenu() {
+        document.getElementById('quick-rate-menu').style.display = 'none';
+        _quickRateTarget = null;
+    }
+
+    function lazyLoadImages(container) {
+        const imgs = container.querySelectorAll('img[data-src]');
+        if('IntersectionObserver' in window) {
+            const obs = new IntersectionObserver((entries) => {
+                entries.forEach(en => { if(en.isIntersecting) { en.target.src = en.target.dataset.src; obs.unobserve(en.target); } });
+            }, {rootMargin:'200px'});
+            imgs.forEach(img => obs.observe(img));
+        } else {
+            imgs.forEach(img => img.src = img.dataset.src);
+        }
     }
     function renderWorkListForHome(list){
         const con=document.getElementById('work-list-home'); con.innerHTML="";
@@ -612,7 +826,7 @@
             const img=w.image?`<img src="${w.image}" style="width:100%;height:100%;object-fit:cover;object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
             const crown=w.hof?'<div class="card-crown">👑</div>':'';
             let stars="";if(w.rating>0){stars='<div class="rating-stars-sm">';for(let i=0;i<w.rating;i++)stars+='<span class="on">★</span>';stars+='</div>';}
-            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count||0}回</div></div>`;
+            div.innerHTML=`<div class="thumb-area">${img}${crown}</div><div class="info-area"><div class="work-card-title">${w.title}</div>${stars}<div class="count">${w.count||0} SELECTIONS</div></div>`;
             div.onclick=()=>openWorkDetail(w);
             con.appendChild(div);
         });
@@ -629,7 +843,7 @@
             p = normalizePerson(p); 
             
             document.getElementById('detail-name').innerText=p.name;
-            document.getElementById('detail-stats').innerText=`選択回数: ${p.count||0}`;
+            document.getElementById('detail-stats').innerText=`Selection: ${p.count||0}`;
             
             const prof = p.profile || p.prof || "";
             const bday = p.birthday || p.birth || "";
@@ -640,8 +854,8 @@
             if(imgSrc){img.src=imgSrc;img.style.objectPosition=`${p.focusX}% ${p.focusY}%`;}else{img.src="";img.style.backgroundColor="#111";}
             
             let sp=""; 
-            if(p.hof) sp+=`<span class="detail-spec-item" style="border-color:#d4af37;color:#d4af37;">👑 殿堂入り</span>`;
-            if(p.cup) sp+=`<span class="detail-spec-item">${p.cup} カップ</span>`;
+            if(p.hof) sp+=`<span class="detail-spec-item" style="border-color:#d4af37;color:#d4af37;">👑 HOF</span>`;
+            if(p.cup) sp+=`<span class="detail-spec-item">${p.cup} cup</span>`;
             if(bday){ try { const a=getAge(bday); sp+=`<span class="detail-spec-item">${a}歳</span>`; } catch(e){} }
             document.getElementById('detail-specs').innerHTML=sp;
             
@@ -661,7 +875,7 @@
                 let thumb=w.image?`<img src="${w.image}" class="work-thumb" style="object-position:${w.focusX||50}% ${w.focusY||50}%">`:'<div class="work-thumb"></div>';
                 let crown=w.hof?'👑':'';
                 let stars="";if(w.rating>0){for(let i=0;i<w.rating;i++)stars+='<span style="color:#d4af37;font-size:10px;">★</span>';}
-                div.innerHTML=`${thumb}<div class="work-info"><div class="work-title">${crown}${w.title}</div><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}回</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
+                div.innerHTML=`${thumb}<div class="work-info"><div class="work-title">${crown}${w.title}</div><div class="work-tags">${(w.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div><div class="work-count">${stars} ▶ ${w.count||0}</div></div><div class="play-btn" onclick="useWork(${w.id});event.stopPropagation();">▶</div>`;
                 div.onclick=()=>openWorkDetail(w);
                 con.appendChild(div);
             });
@@ -677,7 +891,7 @@
     // === Work Detail & Play ===
     function openWorkDetail(w){
         document.getElementById('wd-title').innerText=w.title;
-        document.getElementById('wd-meta').innerText=`選択回数: ${w.count||0}`;
+        document.getElementById('wd-meta').innerText=`Selection: ${w.count||0}`;
         const img=document.getElementById('wd-img'); const ni=document.getElementById('wd-no-img');
         if(w.image){img.src=w.image;img.style.objectPosition=`${w.focusX||50}% ${w.focusY||50}%`;img.style.display='block';ni.style.display='none';}
         else{img.style.display='none';ni.style.display='block';}
@@ -694,7 +908,7 @@
         
         const del=document.getElementById('wd-delete-btn');
         del.onclick = ()=>{
-            if(confirm("この作品を削除しますか？")){
+            if(confirm("Delete this work?")){
                 db.transaction(["works"],"readwrite").objectStore("works").delete(w.id).oncomplete=()=>{
                     closeWorkDetail();
                     if(document.getElementById('detail-screen').style.display === 'flex') loadDetailWorks();
@@ -708,58 +922,18 @@
     function closeWorkDetail(){ document.getElementById('work-detail-screen').style.display='none'; }
     function useWork(wid){
         if(!currentPersonId){
-            db.transaction(["works"],"readonly").objectStore("works").get(wid).onsuccess=e=>{ if(e.target.result){ currentPersonId=e.target.result.personId; openPlayLogModal(wid, e.target.result.title); } };
-        } else {
-            const w = allWorksCache.find(x=>x.id===wid);
-            openPlayLogModal(wid, w ? w.title : '作品');
-        }
+            db.transaction(["works"],"readonly").objectStore("works").get(wid).onsuccess=e=>{ if(e.target.result){ currentPersonId=e.target.result.personId; execPlay(wid); } };
+        } else execPlay(wid);
     }
-    function buildChoiceChips(containerId, key){
-        const container = document.getElementById(containerId); container.innerHTML='';
-        PLAY_OPTIONS[key].forEach(val=>{
-            const chip = document.createElement('div');
-            chip.className = 'choice-chip' + (playDraft[key]===val ? ' selected' : '');
-            chip.innerText = val === '' ? '未入力' : (key==='satisfaction' ? `★${val}` : val);
-            chip.onclick = ()=>{
-                playDraft[key]=val;
-                buildChoiceChips(containerId,key);
-                updatePlaySummary();
-            };
-            container.appendChild(chip);
-        });
-    }
-    function updatePlaySummary(){
-        const txt = `どんな時: ${playDraft.situation} / 気分: ${playDraft.mood} / 種別: ${playDraft.type} / 期待度: ${playDraft.expectation} / 満足度: ${playDraft.satisfaction ? '★'+playDraft.satisfaction : '未入力'}`;
-        document.getElementById('play-summary-text').innerText = txt;
-    }
-    function openPlayLogModal(wid, title){
-        currentPlayWorkId = wid;
-        try {
-            const saved = JSON.parse(localStorage.getItem('playDraftPrefs') || '{}');
-            playDraft = Object.assign({situation:'寝る前', mood:'落ち着きたい', type:'見返し', expectation:'普通', satisfaction:''}, saved);
-        } catch(e){}
-        document.getElementById('play-log-work-name').innerText = title;
-        buildChoiceChips('play-situation-chips','situation');
-        buildChoiceChips('play-mood-chips','mood');
-        buildChoiceChips('play-type-chips','type');
-        buildChoiceChips('play-expectation-chips','expectation');
-        buildChoiceChips('play-satisfaction-chips','satisfaction');
-        updatePlaySummary();
-        document.getElementById('play-log-modal').style.display='flex';
-    }
-    function savePlayLog(){
-        if(!currentPlayWorkId) return;
-        localStorage.setItem('playDraftPrefs', JSON.stringify(playDraft));
+    function execPlay(wid){
         const tx=db.transaction(["people","works","logs"],"readwrite");
-        tx.objectStore("works").get(currentPlayWorkId).onsuccess=e=>{const w=e.target.result; if(w){w.count=(w.count||0)+1;tx.objectStore("works").put(w);}};
+        tx.objectStore("works").get(wid).onsuccess=e=>{const w=e.target.result; if(w){w.count=(w.count||0)+1;tx.objectStore("works").put(w);}};
         tx.objectStore("people").get(currentPersonId).onsuccess=e=>{const p=e.target.result; if(p){p.count=(p.count||0)+1;p.lastUsed=new Date();tx.objectStore("people").put(p);}};
-        tx.objectStore("logs").add({personId:currentPersonId, workId:currentPlayWorkId, timestamp:new Date(), situation:playDraft.situation, mood:playDraft.mood, selectionType:playDraft.type, expectation:playDraft.expectation, satisfaction:playDraft.satisfaction||''});
+        tx.objectStore("logs").add({personId:currentPersonId, workId:wid, timestamp:new Date()});
         tx.oncomplete=()=>{
-            closeModal('play-log-modal');
             document.getElementById('toast').classList.add('show'); setTimeout(()=>document.getElementById('toast').classList.remove('show'),2000);
+            window.markHomeDirty();
             if(document.getElementById('detail-screen').style.display==='flex') loadDetailWorks();
-            if(document.getElementById('analysis-screen').style.display==='block') renderAnalysis();
-            loadHomeData();
         };
     }
     function randomPick(){
@@ -775,11 +949,11 @@
             allFoldersCache = e.target.result; 
             let list=allFoldersCache.filter(f=>f.name.toLowerCase().includes(q));
             const con=document.getElementById('gallery-folder-list'); con.innerHTML="";
-            if(list.length===0){con.innerHTML="<div style='color:#555;'>フォルダなし</div>";return;}
+            if(list.length===0){con.innerHTML="<div style='color:#555;'>No Folders</div>";return;}
             list.forEach(f=>{
                 const div=document.createElement('div'); div.className='folder-card'; 
                 const img=f.image?`<img src="${f.image}" style="width:100%;height:100%;object-fit:cover;object-position:${f.focusX||50}% ${f.focusY||50}%">`:'<div class="thumb-placeholder">NO IMG</div>';
-                div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 開く</div></div><div class="card-menu-btn" onclick="event.stopPropagation();prepareEditFolder(${f.id})">︙</div>`;
+                div.innerHTML=`<div class="thumb-area">${img}</div><div class="info-area"><div class="name">${f.name}</div><div class="count">📂 OPEN</div></div><div class="card-menu-btn" onclick="event.stopPropagation();prepareEditFolder(${f.id})">︙</div>`;
                 div.onclick=()=>openFolder(f.id, f.name);
                 con.appendChild(div);
             });
@@ -806,7 +980,7 @@
         idx.getAll(currentFolderId).onsuccess=e=>{
             const imgs=e.target.result;
             currentGalleryImages=imgs;
-            if(imgs.length===0)grid.innerHTML="<div style='grid-column:span 2;text-align:center;color:#555;'>画像なしs</div>";
+            if(imgs.length===0)grid.innerHTML="<div style='grid-column:span 2;text-align:center;color:#555;'>No Images</div>";
             imgs.forEach((img,i)=>{
                 const el=document.createElement('div'); el.className='gallery-item';
                 const chk = isGallerySelectMode && selectedGalleryImages.has(img.id) ? ' selected' : '';
@@ -943,16 +1117,16 @@
         });
     }
 
-    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('new-person-cup').value=""; document.getElementById('new-person-birthday').value=""; document.getElementById('new-person-profile').value=""; document.getElementById('new-person-tags').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('preview-img').style.objectPosition='50% 50%'; currentFocus={x:50,y:50}; moveFocusMarker(50,50,'focus-point'); document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); loadTagSuggestions('person'); }
-    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hof; toggleHOFIcon('person-hof-icon', !!p.hof); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block'; currentFocus={x:p.focusX||50,y:p.focusY||50}; document.getElementById('preview-img').style.objectPosition=`${currentFocus.x}% ${currentFocus.y}%`; moveFocusMarker(currentFocus.x,currentFocus.y,'focus-point');} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
-    function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('work-preview-img').style.objectPosition='50% 50%'; workCurrentFocus={x:50,y:50}; moveFocusMarker(50,50,'work-focus-point'); document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
-    function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hof; toggleHOFIcon('work-hof-icon', !!w.hof); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block'; workCurrentFocus={x:w.focusX||50,y:w.focusY||50}; document.getElementById('work-preview-img').style.objectPosition=`${workCurrentFocus.x}% ${workCurrentFocus.y}%`; moveFocusMarker(workCurrentFocus.x,workCurrentFocus.y,'work-focus-point');} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
+    function clearForm(){ document.getElementById('edit-person-id').value=""; document.getElementById('new-person-name').value=""; document.getElementById('preview-img').style.display='none'; document.getElementById('delete-person-btn').style.display='none'; toggleHOFIcon('person-hof-icon', false); loadTagSuggestions('person'); }
+    function fillForm(p){ document.getElementById('edit-person-id').value=p.id; document.getElementById('new-person-name').value=p.name; document.getElementById('new-person-cup').value=p.cup||""; document.getElementById('new-person-birthday').value=p.birthday||""; document.getElementById('new-person-profile').value=p.profile||""; document.getElementById('new-person-tags').value=p.tags?p.tags.join(" "):""; document.getElementById('new-person-hof').checked=!!p.hof; toggleHOFIcon('person-hof-icon', !!p.hof); if(p.image){document.getElementById('preview-img').src=p.image;document.getElementById('preview-img').style.display='block';} else {document.getElementById('preview-img').style.display='none';} document.getElementById('delete-person-btn').style.display='block'; loadTagSuggestions('person'); }
+    function clearFormWork(){ document.getElementById('edit-work-id').value=""; document.getElementById('new-work-title').value=""; document.getElementById('new-work-url').value=""; document.getElementById('new-work-tags').value=""; document.getElementById('new-work-hof').checked=false; toggleHOFIcon('work-hof-icon', false); setRating(0); document.getElementById('work-preview-img').style.display='none'; document.getElementById('delete-work-btn').style.display='none'; loadTagSuggestions('work'); }
+    function fillFormWork(w){ document.getElementById('edit-work-id').value=w.id; document.getElementById('new-work-title').value=w.title; document.getElementById('new-work-url').value=w.url||""; document.getElementById('new-work-tags').value=w.tags?w.tags.join(" "):""; document.getElementById('new-work-hof').checked=!!w.hof; toggleHOFIcon('work-hof-icon', !!w.hof); setRating(w.rating||0); if(w.image){document.getElementById('work-preview-img').src=w.image;document.getElementById('work-preview-img').style.display='block';} else {document.getElementById('work-preview-img').style.display='none';} document.getElementById('delete-work-btn').style.display='block'; loadTagSuggestions('work'); }
     function toggleHOFIcon(id, isOn) { const el = document.getElementById(id); if(isOn) el.style.color = 'gold'; else el.style.color = '#ccc'; }
     function openAddImageModal(){ document.getElementById('add-image-modal').style.display='flex'; document.getElementById('gallery-preview-count').innerText=""; }
     function previewGalleryImages(input){ if(input.files.length) document.getElementById('gallery-preview-count').innerText=`${input.files.length} images selected`; }
 
     function savePerson(){
-        const name = document.getElementById('new-person-name').value.trim(); if(!name)return alert('名前を入力してください');
+        const name = document.getElementById('new-person-name').value; if(!name)return alert("Name req");
         const id = document.getElementById('edit-person-id').value;
         const tx=db.transaction(["people"],"readwrite"); const s=tx.objectStore("people");
         const data = { 
@@ -963,13 +1137,13 @@
             profile:document.getElementById('new-person-profile').value, 
             tags:document.getElementById('new-person-tags').value.split(" ").filter(t=>t) 
         };
-        const img = document.getElementById('preview-img'); if(img.style.display==='block' && img.src) { data.image=img.src; data.focusX=currentFocus.x; data.focusY=currentFocus.y; }
+        const img = document.getElementById('preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=currentFocus.x; data.focusY=currentFocus.y; }
         
         if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
-        tx.oncomplete=()=>{ closeModal('add-person-modal'); loadHomeData(); };
+        tx.oncomplete=()=>{ closeModal('add-person-modal'); window.markHomeDirty(); loadHomeData(true); };
     }
-    function deletePerson(){ if(confirm("削除しますか？")){ const id=parseInt(document.getElementById('edit-person-id').value); db.transaction(["people"],"readwrite").objectStore("people").delete(id).oncomplete=()=>{closeModal('add-person-modal');loadHomeData();} } }
+    function deletePerson(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-person-id').value); db.transaction(["people"],"readwrite").objectStore("people").delete(id).oncomplete=()=>{closeModal('add-person-modal');loadHomeData();} } }
     
     function saveWork(){
         const title = document.getElementById('new-work-title').value; if(!title)return;
@@ -985,43 +1159,35 @@
             rating:currentRating, 
             tags:document.getElementById('new-work-tags').value.split(" ").filter(t=>t) 
         };
-        const img = document.getElementById('work-preview-img'); if(img.style.display==='block' && img.src) { data.image=img.src; data.focusX=workCurrentFocus.x; data.focusY=workCurrentFocus.y; }
+        const img = document.getElementById('work-preview-img'); if(img.style.display==='block' && img.src.startsWith('data:')) { data.image=img.src; data.focusX=workCurrentFocus.x; data.focusY=workCurrentFocus.y; }
         
         if(id) s.get(parseInt(id)).onsuccess=e=>{ Object.assign(e.target.result, data); s.put(e.target.result); };
         else { data.count=0; s.add(data); }
         
         tx.oncomplete=()=>{ 
-            closeModal('add-work-modal'); 
+            closeModal('add-work-modal');
+            window.markHomeDirty();
             if(document.getElementById('work-detail-screen').style.display !== 'none') {
                 closeWorkDetail();
             }
-            if(homeMode==='works') loadHomeData(); else loadDetailWorks(); 
+            if(homeMode==='works') loadHomeData(true); else loadDetailWorks(); 
         };
     }
-    function deleteWork(){ if(confirm("削除しますか？")){ const id=parseInt(document.getElementById('edit-work-id').value); db.transaction(["works"],"readwrite").objectStore("works").delete(id).oncomplete=()=>{closeModal('add-work-modal');loadDetailWorks();} } }
+    function deleteWork(){ if(confirm("Delete?")){ const id=parseInt(document.getElementById('edit-work-id').value); db.transaction(["works"],"readwrite").objectStore("works").delete(id).oncomplete=()=>{closeModal('add-work-modal');loadDetailWorks();} } }
     
     function pasteUrl(){ navigator.clipboard.readText().then(t=>{document.getElementById('new-work-url').value=t;}); }
 
-    function previewImage(inp, imgId, focusId){ if(inp.files[0]){ const r=new FileReader(); r.onload=e=>{const img=document.getElementById(imgId); img.src=e.target.result; img.style.display='block'; img.style.objectPosition='50% 50%'; if(imgId==='work-preview-img') workCurrentFocus={x:50,y:50}; else if(imgId==='folder-preview-img') folderCurrentFocus={x:50,y:50}; else currentFocus={x:50,y:50}; if(focusId) moveFocusMarker(50,50,focusId); bindPreviewDrag(imgId, focusId);}; r.readAsDataURL(inp.files[0]); } }
+    function previewImage(inp, imgId, focusId){ if(inp.files[0]){ const r=new FileReader(); r.onload=e=>{document.getElementById(imgId).src=e.target.result; document.getElementById(imgId).style.display='block'; if(focusId)setFocus({clientX:0,clientY:0,target:document.getElementById(imgId)}, imgId, focusId)}; r.readAsDataURL(inp.files[0]); } }
     function setFocus(e, imgId, focusId){
-        const target = document.getElementById(imgId);
-        const rect = target.getBoundingClientRect();
-        let x = ((e.clientX - rect.left)/rect.width)*100; let y = ((e.clientY - rect.top)/rect.height)*100;
-        if(isNaN(x)||isNaN(y)){ x=50; y=50; }
-        x=Math.max(0,Math.min(100,x)); y=Math.max(0,Math.min(100,y));
+        const img = document.getElementById(imgId); const rect = img.getBoundingClientRect();
+        let x = 50, y = 50;
+        if(e.target === img || e.target.parentNode.className === 'preview-container') {
+             x = ((e.clientX - rect.left)/rect.width)*100; y = ((e.clientY - rect.top)/rect.height)*100;
+        }
+        if(x<0)x=0; if(x>100)x=100; if(y<0)y=0; if(y>100)y=100;
         if(imgId==='work-preview-img') workCurrentFocus={x,y}; else if(imgId==='folder-preview-img') folderCurrentFocus={x,y}; else currentFocus={x,y};
-        target.style.objectPosition=`${x}% ${y}%`;
         const pt = document.getElementById(focusId);
         if(pt) { pt.style.left=x+"%"; pt.style.top=y+"%"; pt.style.display='block'; }
-    }
-    function bindPreviewDrag(imgId, focusId){
-        const img = document.getElementById(imgId); if(!img || img.dataset.dragBound==='1') return; img.dataset.dragBound='1';
-        let dragging=false;
-        const move=(clientX, clientY)=>{ if(!dragging) return; setFocus({clientX, clientY}, imgId, focusId); };
-        img.addEventListener('pointerdown', (e)=>{ dragging=true; img.setPointerCapture && img.setPointerCapture(e.pointerId); move(e.clientX,e.clientY); });
-        img.addEventListener('pointermove', (e)=>move(e.clientX,e.clientY));
-        const end=()=>{ dragging=false; };
-        img.addEventListener('pointerup', end); img.addEventListener('pointercancel', end); img.addEventListener('click', (e)=>setFocus(e, imgId, focusId));
     }
     function getAge(b) { const d = new Date(b); const n = new Date(); let a = n.getFullYear() - d.getFullYear(); if(n.getMonth()<d.getMonth()||(n.getMonth()===d.getMonth()&&n.getDate()<d.getDate())) a--; return a; }
     function moveFocusMarker(x,y,id) { const pt=document.getElementById(id); if(pt){ pt.style.left=x+"%"; pt.style.top=y+"%"; pt.style.display='block'; } }
@@ -1048,22 +1214,44 @@
         if(type === 'person') allPeopleCache.forEach(p => { if(p.tags) p.tags.forEach(t => tags.add(t)); });
         else allWorksCache.forEach(w => { if(w.tags) w.tags.forEach(t => tags.add(t)); });
         const inputId = type === 'person' ? 'new-person-tags' : 'new-work-tags';
-        Array.from(tags).sort().forEach(tag => {
-            const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
-            chip.onclick = () => { const input = document.getElementById(inputId); let val = input.value.trim(); if(!val.includes(tag)) { input.value = val + (val ? " " : "") + tag; } };
-            container.appendChild(chip);
-        });
+        const input = document.getElementById(inputId);
+
+        const render = (filterStr) => {
+            container.innerHTML = "";
+            const last = filterStr.split(' ').pop().toLowerCase();
+            Array.from(tags).sort().forEach(tag => {
+                if(last && !tag.toLowerCase().includes(last)) return;
+                const chip = document.createElement('div'); chip.className = 'tag-s-chip'; chip.innerText = tag;
+                chip.onclick = () => {
+                    let val = input.value.trim();
+                    const parts = val.split(' ').filter(t=>t);
+                    if(!parts.includes(tag)) parts.push(tag);
+                    input.value = parts.join(' ') + ' ';
+                    render(input.value);
+                };
+                container.appendChild(chip);
+            });
+        };
+
+        render(input.value);
+        input.oninput = () => render(input.value);
     }
 
     function exportData() { const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readonly"); const data = {}; let pReq = tx.objectStore("people").getAll(); let wReq = tx.objectStore("works").getAll(); let lReq = tx.objectStore("logs").getAll(); let iReq = tx.objectStore("images").getAll(); let fReq = tx.objectStore("folders").getAll(); pReq.onsuccess = (e) => data.people = e.target.result; wReq.onsuccess = (e) => data.works = e.target.result; lReq.onsuccess = (e) => data.logs = e.target.result; iReq.onsuccess = (e) => data.images = e.target.result; fReq.onsuccess = (e) => data.folders = e.target.result; tx.oncomplete = () => { const json = JSON.stringify(data); const blob = new Blob([json], {type: "application/json"}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `museum_backup_${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url); }; }
     function importData(input) { const file = input.files[0]; if(!file) return; if(!confirm("Overwrite?")) return; const reader = new FileReader(); reader.onload = function(e) { try { const data = JSON.parse(e.target.result); const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("images").clear(); tx.objectStore("folders").clear(); if(data.people) data.people.forEach(i => tx.objectStore("people").add(i)); if(data.works) data.works.forEach(i => tx.objectStore("works").add(i)); if(data.logs) data.logs.forEach(i => tx.objectStore("logs").add(i)); if(data.images) data.images.forEach(i => tx.objectStore("images").add(i)); if(data.folders) data.folders.forEach(i => tx.objectStore("folders").add(i)); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); }; } catch(err) { alert("Error"); } }; reader.readAsText(file); }
     function resetAllData() { if(confirm("Delete All?")) { const tx = db.transaction(["people", "works", "logs", "images", "folders"], "readwrite"); tx.objectStore("people").clear(); tx.objectStore("works").clear(); tx.objectStore("logs").clear(); tx.objectStore("images").clear(); tx.objectStore("folders").clear(); tx.oncomplete = () => { alert("Done"); closeModal('settings-modal'); loadHomeData(); } } }
 
+    let calMonthOffset = 0;
+    function shiftCalMonth(dir) {
+        calMonthOffset += dir;
+        renderAnalysis();
+    }
+
     function renderAnalysis(){
         const tx=db.transaction(["logs","people","works"],"readonly");
         Promise.all([
             new Promise(r=>tx.objectStore("logs").getAll().onsuccess=e=>r(e.target.result)),
-            new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result.map(normalizePerson))),
+            new Promise(r=>tx.objectStore("people").getAll().onsuccess=e=>r(e.target.result)),
             new Promise(r=>tx.objectStore("works").getAll().onsuccess=e=>r(e.target.result))
         ]).then(res=>{
             const logs=res[0]; const people=res[1]; const works=res[2];
@@ -1074,71 +1262,81 @@
                 list.innerHTML+=`<div class="rank-item"><div class="rank-num">#${i+1}</div><div class="rank-name">${x.name}</div><div class="rank-count">${x.count||0}</div></div>`;
             });
             const pieCon=document.getElementById('pie-rated'); pieCon.innerHTML="";
-            const moodMap={}; logs.forEach(l=>{ if(l.mood) moodMap[l.mood]=(moodMap[l.mood]||0)+1; });
-            const moodEntries=Object.entries(moodMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
-            if(moodEntries.length>0){
+            let highTags={}; let hTotal=0;
+            works.forEach(w=>{if(w.tags)w.tags.forEach(t=>{highTags[t]=(highTags[t]||0)+1;hTotal++;})});
+            if(hTotal>0){
+                const sorted=Object.entries(highTags).sort((a,b)=>b[1]-a[1]).slice(0,5);
                 let grad="", deg=0, leg='<div class="pie-legend">';
                 const cols=['#d4af37','#b89630','#8a7024','#5e4d1a','#333'];
-                const total = moodEntries.reduce((s,[,v])=>s+v,0);
-                moodEntries.forEach((item,i)=>{ const d=(item[1]/total)*360; const c=cols[i]||'#333'; grad+=`${c} ${deg}deg ${deg+d}deg, `; deg+=d; leg+=`<div class="legend-item"><div class="legend-color" style="background:${c}"></div>${item[0]}</div>`; });
+                sorted.forEach((item,i)=>{
+                    const d=(item[1]/hTotal)*360; const c=cols[i]||'#333';
+                    grad+=`${c} ${deg}deg ${deg+d}deg, `; deg+=d;
+                    leg+=`<div class="legend-item"><div class="legend-color" style="background:${c}"></div>${item[0]}</div>`;
+                });
                 if(deg<360)grad+=`#111 ${deg}deg 360deg`; else grad=grad.slice(0,-2);
                 const ch=document.createElement('div'); ch.className='pie-chart'; ch.style.background=`conic-gradient(${grad})`;
-                ch.innerHTML=`<div class="pie-hole"><div style="font-size:10px;color:#888;">気分</div><div style="font-size:14px;color:#d4af37;">${total}</div></div>`;
+                ch.innerHTML=`<div class="pie-hole"><div style="font-size:10px;color:#888;">TOTAL</div><div style="font-size:14px;color:#d4af37;">${hTotal}</div></div>`;
                 pieCon.appendChild(ch); pieCon.insertAdjacentHTML('beforeend', leg+'</div>');
-            } else pieCon.innerHTML="<div style='color:#555;font-size:10px;'>データなし</div>";
-            const now=new Date();
-            document.getElementById('cal-month-label').innerText = `${now.getFullYear()}年 ${now.getMonth()+1}月`;
+            } else pieCon.innerHTML="<div style='color:#555;font-size:10px;'>No Data</div>";
             const grid=document.getElementById('calendar-grid'); grid.innerHTML="";
-            ['日','月','火','水','木','金','土'].forEach(d=>{ const h=document.createElement('div'); h.className='cal-dow'; h.innerText=d; grid.appendChild(h); });
-            const monthLogs = logs.filter(l=>{ const d=new Date(l.timestamp); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear(); });
-            const activeDays={}; monthLogs.forEach(l=>{ const d=new Date(l.timestamp).getDate(); activeDays[d]=(activeDays[d]||0)+1; });
-            const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-            const firstDay=new Date(now.getFullYear(),now.getMonth(),1).getDay();
+            // 曜日ヘッダー
+            ['S','M','T','W','T','F','S'].forEach(d=>{ const h=document.createElement('div'); h.className='cal-dow'; h.innerText=d; grid.appendChild(h); });
+            const now=new Date();
+            const calBase=new Date(now.getFullYear(), now.getMonth()+calMonthOffset, 1);
+            const calY=calBase.getFullYear(); const calM=calBase.getMonth();
+            const isCurrentMonth=(calY===now.getFullYear()&&calM===now.getMonth());
+            document.getElementById('cal-month-label').innerText=`${calY}年${calM+1}月`;
+            const activeDays=new Set(logs.filter(l=>{const d=new Date(l.timestamp);return d.getFullYear()===calY&&d.getMonth()===calM;}).map(l=>new Date(l.timestamp).getDate()));
+            const daysInMonth=new Date(calY,calM+1,0).getDate();
+            const firstDay=new Date(calY,calM,1).getDay();
             for(let i=0;i<firstDay;i++) grid.appendChild(document.createElement('div'));
             for(let d=1;d<=daysInMonth;d++){
-                const c=document.createElement('div'); c.className='cal-day'; c.innerHTML = activeDays[d] ? `<div>${d}<div style="font-size:9px;color:#d4af37;">${activeDays[d]}</div></div>` : d;
-                if(activeDays[d]) c.classList.add('active'); if(d===now.getDate()) c.classList.add('today');
-                c.onclick=()=>renderDayLogs(now.getFullYear(), now.getMonth(), d, logs, people, works);
+                const c=document.createElement('div'); c.className='cal-day'; c.innerText=d;
+                if(activeDays.has(d))c.classList.add('active'); if(isCurrentMonth&&d===now.getDate())c.classList.add('today');
                 grid.appendChild(c);
             }
-            renderDayLogs(now.getFullYear(), now.getMonth(), now.getDate(), logs, people, works);
+            // Monthly trend (past 12 months)
+            const mBars=document.getElementById('monthly-bars'); mBars.innerHTML="";
+            const monthlyCounts={}; 
+            logs.forEach(l=>{ const d=new Date(l.timestamp); const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; monthlyCounts[key]=(monthlyCounts[key]||0)+1; });
+            const months=[]; for(let i=11;i>=0;i--){ const d=new Date(now.getFullYear(),now.getMonth()-i,1); months.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`,label:String(d.getMonth()+1)+'M',isCurrent:i===0}); }
+            const maxM=Math.max(1,...months.map(m=>monthlyCounts[m.key]||0));
+            months.forEach(m=>{ const cnt=monthlyCounts[m.key]||0; const pct=Math.max(4,(cnt/maxM)*100); const wrap=document.createElement('div'); wrap.className='monthly-bar-wrap'; wrap.innerHTML=`<div class="monthly-bar-val">${cnt||''}</div><div class="monthly-bar${m.isCurrent?' current':''}" style="height:${pct}%"></div><div class="monthly-bar-label">${m.label}</div>`; mBars.appendChild(wrap); });
+             // Gobusata
             const gList=document.getElementById('gobusata-list'); gList.innerHTML="";
             const old=new Date(); old.setDate(old.getDate()-30);
             const gobu=people.filter(p=>!p.lastUsed || new Date(p.lastUsed)<old);
             if(gobu.length>0){
                 document.getElementById('gobusata-area').style.display='block';
-                gobu.forEach(p=>{ const img = p.image || ''; gList.innerHTML+=`<div class="gobusata-item" onclick="openDetail(${p.id})"><img src="${img}" class="gobusata-img" style="${img?'':'background:#333'}"><div class="gobusata-name">${p.name}</div></div>`; });
+                gobu.forEach(p=>{
+                    const img = p.image || p.img || "";
+                     gList.innerHTML+=`<div class="gobusata-item" onclick="openDetail(${p.id})"><img src="${img}" class="gobusata-img" style="${img?'':'background:#333'}"><div class="gobusata-name">${p.name}</div></div>`;
+                });
             } else document.getElementById('gobusata-area').style.display='none';
-            const thisMonth=now.getMonth(); const thisYear=now.getFullYear();
+            // Champion (選択月の利用数1位)
+            const thisMonth=calM; const thisYear=calY;
             const monthlyPersonCounts={};
             logs.filter(l=>{ const d=new Date(l.timestamp); return d.getMonth()===thisMonth&&d.getFullYear()===thisYear; }).forEach(l=>{ if(l.personId) monthlyPersonCounts[l.personId]=(monthlyPersonCounts[l.personId]||0)+1; });
             const topEntry=Object.entries(monthlyPersonCounts).sort((a,b)=>b[1]-a[1])[0];
             const championPerson = topEntry ? people.find(p=>p.id===parseInt(topEntry[0])) : (people.length>0?people.sort((a,b)=>(b.count||0)-(a.count||0))[0]:null);
             if(championPerson){
                 const c=championPerson; const area=document.getElementById('champion-area');
-                const imgSrc = c.image || '';
+                const imgSrc = c.image || c.img || '';
                 const score = topEntry ? topEntry[1] : (c.count||0);
-                area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">今月いちばん選んだ女優</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${imgSrc}" class="champion-img" style="${imgSrc?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${score} 回</div></div>`;
+                area.innerHTML=`<div class="champion-box" onclick="openDetail(${c.id})"><div class="champion-title">QUEEN OF THE MONTH</div><div class="champion-img-container"><div class="champion-bg-flower"></div><div class="champion-crown">👑</div><img src="${imgSrc}" class="champion-img" style="${imgSrc?'':'background:#333'};object-position:${c.focusX||50}% ${c.focusY||50}%"></div><div class="champion-name">${c.name}</div><div class="champion-score">${score} Selections</div></div>`;
                 area.style.display='block';
             }
+            // Tags
             const wList=document.getElementById('tag-ranking'); wList.innerHTML="";
-            const situationMap={}; logs.forEach(l=>{ if(l.situation) situationMap[l.situation]=(situationMap[l.situation]||0)+1; });
-            const wSorted=Object.entries(situationMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+            const wTagMap={}; works.forEach(w=>{if(w.tags)w.tags.forEach(t=>wTagMap[t]=(wTagMap[t]||0)+(w.count||1));}); 
+            const wSorted=Object.entries(wTagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
             if(wSorted.length>0){const max=wSorted[0][1]; wSorted.forEach(t=>{const per=(t[1]/max)*100; wList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
+            
             const tList=document.getElementById('person-tag-ranking'); tList.innerHTML="";
             const pTagMap={}; people.forEach(p=>{const tgs=p.tags||[]; tgs.forEach(t=>pTagMap[t]=(pTagMap[t]||0)+1);});
             const pSorted=Object.entries(pTagMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
             if(pSorted.length>0){const max=pSorted[0][1]; pSorted.forEach(t=>{const per=(t[1]/max)*100; tList.innerHTML+=`<div class="tag-bar"><div class="tag-label">${t[0]}</div><div class="tag-track"><div class="tag-fill" style="width:${per}%"></div></div><div class="tag-val">${t[1]}</div></div>`;});}
         });
-    }
-    function renderDayLogs(year, month, day, logs, people, works){
-        const box = document.getElementById('calendar-day-log');
-        const dayLogs = logs.filter(l=>{ const d=new Date(l.timestamp); return d.getFullYear()===year && d.getMonth()===month && d.getDate()===day; }).sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
-        const title = `${month+1}月${day}日に選んだ作品`;
-        if(dayLogs.length===0){ box.innerHTML = `<div class="day-log-title">${title}</div><div class="day-log-empty">この日の記録はありません。</div>`; return; }
-        const peopleMap = Object.fromEntries(people.map(p=>[p.id,p]));
-        const worksMap = Object.fromEntries(works.map(w=>[w.id,w]));
-        box.innerHTML = `<div class="day-log-title">${title}</div>` + dayLogs.map(l=>{ const w = worksMap[l.workId]; const p = peopleMap[l.personId]; const time = new Date(l.timestamp).toLocaleTimeString('ja-JP',{hour:'2-digit', minute:'2-digit'}); return `<div class="day-log-item"><div class="day-log-top"><div>${w ? w.title : '作品不明'}</div><div>${time}</div></div><div style="font-size:11px; color:#bbb; margin-bottom:6px;">${p ? p.name : ''}</div><div class="day-log-meta"><span>どんな時: ${l.situation || '未入力'}</span><span>気分: ${l.mood || '未入力'}</span><span>種別: ${l.selectionType || '未入力'}</span>${l.expectation ? `<span>期待度: ${l.expectation}</span>`:''}${l.satisfaction ? `<span>満足度: ★${l.satisfaction}</span>`:''}</div></div>`; }).join('');
     }
 </script>
 </body>
